@@ -1,0 +1,1522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Odiseas - Odisea Challenge</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.3/echarts.min.js"></script>
+    <link href="enhanced-styles.css" rel="stylesheet">
+    <link href="odisea-styles.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
+        
+        :root {
+            --primary: #0D4F4C;
+            --secondary: #E07A5F;
+            --accent: #F2CC8F;
+            --neutral: #F7F3E9;
+            --text-dark: #2C3E50;
+            --text-light: #7F8C8D;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--neutral) 0%, #ddd7c7 100%);
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+        
+        .font-display {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .glass-nav {
+            backdrop-filter: blur(20px);
+            background: rgba(0, 204, 255, 0.9);
+            border-bottom: 1px solid rgba(13, 79, 76, 0.1);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .dashboard-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            border-radius: 16px;
+            border: 1px solid rgba(13, 79, 76, 0.1);
+            box-shadow: 0 10px 30px rgba(13, 79, 76, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .dashboard-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 40px rgba(13, 79, 76, 0.15);
+        }
+        
+        .booking-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            border: 1px solid rgba(13, 79, 76, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .booking-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(13, 79, 76, 0.1);
+        }
+        
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .status-confirmed {
+            background: #10B981;
+            color: white;
+        }
+        
+        .status-pending {
+            background: #F59E0B;
+            color: white;
+        }
+        
+        .status-completed {
+            background: #6B7280;
+            color: white;
+        }
+        
+        .status-cancelled {
+            background: #EF4444;
+            color: white;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(224, 122, 95, 0.3);
+        }
+        
+        .btn-secondary {
+            background: rgba(13, 79, 76, 0.1);
+            color: var(--primary);
+            border: 1px solid var(--primary);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .countdown-timer {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+        }
+        
+        .progress-bar {
+            background: #E5E7EB;
+            border-radius: 10px;
+            overflow: hidden;
+            height: 8px;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+        
+        .tab-button {
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .tab-button.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .tab-button:not(.active) {
+            background: rgba(13, 79, 76, 0.1);
+            color: var(--primary);
+        }
+        
+        .tab-button:not(.active):hover {
+            border-color: var(--primary);
+        }
+        
+        .document-card {
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(13, 79, 76, 0.1);
+            border-radius: 12px;
+            padding: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .document-card:hover {
+            background: rgba(255, 255, 255, 0.95);
+            transform: translateY(-2px);
+        }
+        
+        .rating-stars {
+            color: #FCD34D;
+        }
+        
+        .animate-fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .chart-container {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(15px);
+            border-radius: 16px;
+            border: 1px solid rgba(13, 79, 76, 0.1);
+        }
+        
+        .departure-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .departure-card:hover {
+            transform: translateY(-4px);
+        }
+        
+        .departure-card.selected {
+            box-shadow: 0 0 0 4px var(--primary);
+            transform: translateY(-4px);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="glass-nav fixed top-0 left-0 right-0 z-50 py-4">
+        <div class="container mx-auto px-6 flex items-center justify-between">
+            <div class="font-display text-2xl font-bold gradient-text">Odisea Challenge</div>
+            <div class="hidden md:flex space-x-8">
+                <a href="index.html" class="text-gray-700 hover:text-primary transition-colors">Home</a>
+                <a href="destinations.html" class="text-gray-700 hover:text-primary transition-colors">Destinos</a>
+                <a href="salidas.html" class="text-gray-700 hover:text-primary transition-colors">Salidas</a>
+                <a href="bookings.html" class="text-primary font-semibold">Reservación</a>
+                <a href="#about" class="text-gray-700 hover:text-primary transition-colors">Nosotros</a>
+            </div>
+            <div class="flex items-center space-x-4">
+                <button class="btn-secondary px-4 py-2 rounded-full font-medium" onclick="startGame()">Juego</button>
+                <button class="btn-primary px-6 py-2 rounded-full font-medium">Iniciar Sesión</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header Section -->
+    <section class="pt-32 pb-12 bg-gradient-to-b from-neutral to-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h1 class="font-display text-5xl md:text-6xl font-bold mb-6 gradient-text">Mis Odiseas</h1>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    Gestiona tus reservas, sigue tus aventuras y participa en el juego interactivo para ganar viajes gratuitos.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard Overview -->
+    <section class="py-12">
+        <div class="container mx-auto px-6">
+            <!-- Stats Cards -->
+            <div class="grid md:grid-cols-4 gap-6 mb-12">
+                <div class="dashboard-card p-6 text-center">
+                    <div class="text-3xl font-bold gradient-text mb-2" id="total-bookings">0</div>
+                    <div class="text-gray-600">Total de Odiseas</div>
+                </div>
+                <div class="dashboard-card p-6 text-center">
+                    <div class="text-3xl font-bold gradient-text mb-2" id="upcoming-trips">0</div>
+                    <div class="text-gray-600">Próximas Odiseas</div>
+                </div>
+                <div class="dashboard-card p-6 text-center">
+                    <div class="text-3xl font-bold gradient-text mb-2" id="games-won">0</div>
+                    <div class="text-gray-600">Juegos Ganados</div>
+                </div>
+                <div class="dashboard-card p-6 text-center">
+                    <div class="text-3xl font-bold gradient-text mb-2" id="total-saved">$0</div>
+                    <div class="text-gray-600">Total Ahorrado</div>
+                </div>
+            </div>
+
+            <!-- Experience Cards Section -->
+            <section class="py-12 bg-gradient-to-b from-white to-neutral">
+                <div class="container mx-auto px-6">
+                    <div class="text-center mb-12">
+                        <h2 class="font-display text-4xl font-bold gradient-text mb-4">Nuestras Experiencias Odisea</h2>
+                        <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                            Descubre las 4 experiencias únicas que tenemos para ti en la CDMX. Cada una es una aventura inolvidable.
+                        </p>
+                    </div>
+
+                    <!-- Experience Cards Grid -->
+                    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                        <!-- Acuario Inbursa Card -->
+                        <div class="destination-card bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                            <div class="relative">
+                                <img src="resources/destination-acuario.jpg" alt="Acuario Inbursa" class="w-full h-48 object-cover">
+                            </div>
+                            <div class="p-6">
+                                <h3 class="font-display text-xl font-bold mb-2">Acuario Inbursa</h3>
+                                <p class="text-gray-600 text-sm mb-4">El acuario más grande de México con más de 5,000 especies marinas</p>
+                                <div class="flex items-center justify-between mb-4">
+                                    <div class="flex items-center text-sm text-gray-500">
+                                        <span class="mr-2">⭐ 4.8</span>
+                                        <span>CDMX - Polanco</span>
+                                    </div>
+                                </div>
+                                <div class="flex flex-wrap gap-2 mb-4">
+                                    <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Tiburónes</span>
+                                    <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Túnel submarino</span>
+                                </div>
+                                <button class="w-full btn-secondary py-3 rounded-lg font-medium" onclick="visitSite('https://www.acuarioinbursa.com.mx/')">
+                                    Visitar Sitio
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Acuario Interactivo Card -->
+                        <div class="destination-card bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                            <div class="relative">
+                                <img src="resources/background-interactivo.jpg" alt="Acuario Interactivo" class="w-full h-48 object-cover">
+                            </div>
+                            <div class="p-6">
+                                <h3 class="font-display text-xl font-bold mb-2">Acuario Interactivo</h3>
+                                <p class="text-gray-600 text-sm mb-4">Experiencia interactiva con tocar rayas y alimentar tiburones</p>
+                                <div class="flex items-center justify-between mb-4">
+                                    <div class="flex items-center text-sm text-gray-500">
+                                        <span class="mr-2">⭐ 4.7</span>
+                                        <span>CDMX - Polanco</span>
+                                    </div>
+                                </div>
+                                <div class="flex flex-wrap gap-2 mb-4">
+                                    <span class="bg-orange-100 text-orange-800 text-xs px-2 py-1 rounded">Toca mantarrayas</span>
+                                    <span class="bg-orange-100 text-orange-800 text-xs px-2 py-1 rounded">Experiencia VR</span>
+                                </div>
+                                <button class="w-full btn-secondary py-3 rounded-lg font-medium" onclick="visitSite('#')">
+                                    Visitar Sitio
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Museo Soumaya Card -->
+                        <div class="destination-card bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                            <div class="relative">
+                                <img src="resources/hero-main.jpg" alt="Museo Soumaya" class="w-full h-48 object-cover">
+                            </div>
+                            <div class="p-6">
+                                <h3 class="font-display text-xl font-bold mb-2">Museo Soumaya</h3>
+                                <p class="text-gray-600 text-sm mb-4">Museo cultural con la colección privada más importante de arte europeo y mexicano</p>
+                                <div class="flex items-center justify-between mb-4">
+                                    <div class="flex items-center text-sm text-gray-500">
+                                        <span class="mr-2">⭐ 4.9</span>
+                                        <span>CDMX - Polanco</span>
+                                    </div>
+                                </div>
+                                <div class="flex flex-wrap gap-2 mb-4">
+                                    <span class="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded">Arte europeo</span>
+                                    <span class="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded">Esculturas</span>
+                                </div>
+                                <button class="w-full btn-secondary py-3 rounded-lg font-medium" onclick="visitSite('https://www.museosoumaya.org/')">
+                                    Visitar Sitio
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Odisea México Card -->
+                        <div class="destination-card bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                            <div class="relative">
+                                <img src="resources/destination-odisea.jpg" alt="Odisea México" class="w-full h-48 object-cover">
+                            </div>
+                            <div class="p-6">
+                                <h3 class="font-display text-xl font-bold mb-2">Odisea México</h3>
+                                <p class="text-gray-600 text-sm mb-4">Experiencia inmersiva única que combina cultura, historia y diversión interactiva</p>
+                                <div class="flex items-center justify-between mb-4">
+                                    <div class="flex items-center text-sm text-gray-500">
+                                        <span class="mr-2">⭐ 5.0</span>
+                                        <span>CDMX - Polanco</span>
+                                    </div>
+                                </div>
+                                <div class="flex flex-wrap gap-2 mb-4">
+                                    <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">Juego interactivo</span>
+                                    <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">Premios</span>
+                                </div>
+                                <button class="w-full btn-secondary py-3 rounded-lg font-medium" onclick="visitSite('#')">
+                                    Visitar Sitio
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Salidas Desde Section -->
+            <section class="py-16 bg-gradient-to-b from-neutral to-white">
+                <div class="container mx-auto px-6">
+                    <div class="text-center mb-12">
+                        <h2 class="font-display text-4xl font-bold gradient-text mb-4">Salidas Desde</h2>
+                        <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                            Todos nuestros viajes salen exclusivamente desde estas ciudades. Selecciona tu punto de salida más cercano:
+                        </p>
+                    </div>
+
+                    <!-- Departure Points Grid -->
+                    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                        <!-- Dolores Hidalgo -->
+                        <div class="departure-card bg-white rounded-2xl p-6 shadow-lg border-l-4 border-blue-500 hover:shadow-xl transition-all duration-300">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="font-display text-lg font-bold text-gray-800">Dolores Hidalgo</h3>
+                                <div class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-bold">
+                                    Guanajuato
+                                </div>
+                            </div>
+                            <div class="text-center mb-4">
+                                <div class="text-3xl font-bold gradient-text mb-2">$2,600</div>
+                                <p class="text-gray-600 text-sm">Por persona</p>
+                            </div>
+                            <div class="space-y-2 text-sm text-gray-600">
+                                <div class="flex items-center">
+                                    <span class="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>
+                                    <span>Salida: 2:00 AM</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <span class="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+                                    <span>Llegada: 1:00 PM Aprox.</span>
+                                </div>
+                            </div>
+                            <button class="w-full mt-4 bg-blue-500 text-white py-2 rounded-lg font-medium hover:bg-blue-600 transition-colors" onclick="selectDeparture('dolores-hidalgo', 2600)">
+                                Seleccionar Salida
+                            </button>
+                        </div>
+
+                        <!-- San Miguel de Allende -->
+                        <div class="departure-card bg-white rounded-2xl p-6 shadow-lg border-l-4 border-orange-500 hover:shadow-xl transition-all duration-300">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="font-display text-lg font-bold text-gray-800">San Miguel de Allende</h3>
+                                <div class="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm font-bold">
+                                    Guanajuato
+                                </div>
+                            </div>
+                            <div class="text-center mb-4">
+                                <div class="text-3xl font-bold gradient-text mb-2">$2,400</div>
+                                <p class="text-gray-600 text-sm">Por persona</p>
+                            </div>
+                            <div class="space-y-2 text-sm text-gray-600">
+                                <div class="flex items-center">
+                                    <span class="w-2 h-2 bg-orange-500 rounded-full mr-2"></span>
+                                    <span>Salida: 3:00 AM</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <span class="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+                                    <span>Llegada: 12:00 PM Aprox.</span>
+                                </div>
+                            </div>
+                            <button class="w-full mt-4 bg-orange-500 text-white py-2 rounded-lg font-medium hover:bg-orange-600 transition-colors" onclick="selectDeparture('san-miguel-allende', 2400)">
+                                Seleccionar Salida
+                            </button>
+                        </div>
+
+                        <!-- Guanajuato Capital -->
+                        <div class="departure-card bg-white rounded-2xl p-6 shadow-lg border-l-4 border-purple-500 hover:shadow-xl transition-all duration-300">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="font-display text-lg font-bold text-gray-800">Guanajuato</h3>
+                                <div class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-bold">
+                                    Guanajuato
+                                </div>
+                            </div>
+                            <div class="text-center mb-4">
+                                <div class="text-3xl font-bold gradient-text mb-2">$2,900</div>
+                                <p class="text-gray-600 text-sm">Por persona</p>
+                            </div>
+                            <div class="space-y-2 text-sm text-gray-600">
+                                <div class="flex items-center">
+                                    <span class="w-2 h-2 bg-purple-500 rounded-full mr-2"></span>
+                                    <span>Salida: 1:00 AM</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <span class="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+                                    <span>Llegada: 2:00 PM Aprox.</span>
+                                </div>
+                            </div>
+                            <button class="w-full mt-4 bg-purple-500 text-white py-2 rounded-lg font-medium hover:bg-purple-600 transition-colors" onclick="selectDeparture('guanajuato-capital', 2900)">
+                                Seleccionar Salida
+                            </button>
+                        </div>
+
+                        <!-- Puebla -->
+                        <div class="departure-card bg-white rounded-2xl p-6 shadow-lg border-l-4 border-red-500 hover:shadow-xl transition-all duration-300">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="font-display text-lg font-bold text-gray-800">Puebla</h3>
+                                <div class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-bold">
+                                    Puebla
+                                </div>
+                            </div>
+                            <div class="text-center mb-4">
+                                <div class="text-3xl font-bold gradient-text mb-2">$1,600</div>
+                                <p class="text-gray-600 text-sm">Por persona</p>
+                            </div>
+                            <div class="space-y-2 text-sm text-gray-600">
+                                <div class="flex items-center">
+                                    <span class="w-2 h-2 bg-red-500 rounded-full mr-2"></span>
+                                    <span>Salida: 6:00 AM</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <span class="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+                                    <span>Llegada: 9:00 AM Aprox.</span>
+                                </div>
+                            </div>
+                            <button class="w-full mt-4 bg-red-500 text-white py-2 rounded-lg font-medium hover:bg-red-600 transition-colors" onclick="selectDeparture('puebla', 1600)">
+                                Seleccionar Salida
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Proximamente Section -->
+                    <div class="bg-gradient-to-r from-gray-100 to-gray-200 rounded-2xl p-8 text-center">
+                        <h3 class="font-display text-2xl font-bold mb-4 text-gray-700">Próximamente Más Salidas</h3>
+                        <div class="grid md:grid-cols-4 gap-4 text-gray-600">
+                            <div class="bg-white rounded-lg p-4">
+                                <div class="font-semibold text-lg mb-2">Querétaro</div>
+                                <div class="text-sm">Muy pronto</div>
+                            </div>
+                            <div class="bg-white rounded-lg p-4">
+                                <div class="font-semibold text-lg mb-2">Cuernavaca</div>
+                                <div class="text-sm">Muy pronto</div>
+                            </div>
+                            <div class="bg-white rounded-lg p-4">
+                                <div class="font-semibold text-lg mb-2">Pachuca</div>
+                                <div class="text-sm">Muy pronto</div>
+                            </div>
+                            <div class="bg-white rounded-lg p-4">
+                                <div class="font-semibold text-lg mb-2">Toluca</div>
+                                <div class="text-sm">Muy pronto</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Booking Form Section -->
+            <section id="booking-form" class="py-16 bg-white">
+                <div class="container mx-auto px-6">
+                    <div class="max-w-4xl mx-auto">
+                        <div class="text-center mb-12">
+                            <h2 class="font-display text-4xl font-bold gradient-text mb-4">Completa tu Reserva</h2>
+                            <p class="text-xl text-gray-600">
+                                Selecciona tu experiencia y punto de salida para completar tu odisea
+                            </p>
+                        </div>
+
+                        <div class="booking-widget p-8 max-w-4xl mx-auto">
+                            <form class="grid md:grid-cols-2 gap-6" id="final-booking-form">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Odiseas Extraordinarias desde</label>
+                                    <select id="experience-select" class="form-input w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-primary focus:outline-none">
+                                        <option value="">Selecciona una experiencia</option>
+                                        <option value="acuario-inbursa" data-price="2800">Dolores Hidalgo - $2,800</option>
+                                        <option value="acuario-interactivo" data-price="2,400">San Miguel dee Allende - $2,400</option>
+                                        <option value="museo-soumaya" data-price="2,900">Guanajuato - $2,900</option>
+                                        <option value="odisea-mexico" data-price="1,600">Puebla - $1,600</option>
+                                    </select>
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Punto de Salida</label>
+                                    <select id="departure-select" class="form-input w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-primary focus:outline-none">
+                                        <option value="">Selecciona punto de salida</option>
+                                        <option value="dolores-hidalgo" data-price="2600">Dolores Hidalgo, Gto. - $2,600</option>
+                                        <option value="san-miguel-allende" data-price="2400">San Miguel de Allende, Gto. - $2,400</option>
+                                        <option value="guanajuato-capital" data-price="2900">Guanajuato, Gto. - $2,900</option>
+                                        <option value="puebla" data-price="1600">Puebla - $1,600</option>
+                                    </select>
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Fecha de Viaje</label>
+                                    <input type="date" id="travel-date" class="form-input w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-primary focus:outline-none" required>
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Número de Viajeros</label>
+                                    <select id="travelers-count" class="form-input w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-primary focus:outline-none">
+                                        <option value="1">1 persona</option>
+                                        <option value="2">2 personas</option>
+                                        <option value="3">3 personas</option>
+                                        <option value="4">4 personas</option>
+                                        <option value="5">5 personas</option>
+                                        <option value="6">6+ personas</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="md:col-span-2">
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Información Adicional</label>
+                                    <textarea id="additional-info" class="form-input w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-primary focus:outline-none h-24" placeholder="¿Alguna solicitud especial o información adicional?"></textarea>
+                                </div>
+                                
+                                <div class="md:col-span-2">
+                                    <div class="bg-gray-50 rounded-lg p-6 mb-6">
+                                        <h4 class="font-semibold mb-4">Resumen de tu Odisea</h4>
+                                        <div class="grid md:grid-cols-2 gap-4 text-sm">
+                                            <div>Experiencia: <span id="summary-experience-select" class="font-medium">-</span></div>
+                                            <div>Punto de Salida: <span id="summary-departure-select" class="font-medium">-</span></div>
+                                            <div>Fecha: <span id="summary-travel-date" class="font-medium">-</span></div>
+                                            <div>Viajeros: <span id="summary-travelers-count" class="font-medium">-</span></div>
+                                        </div>
+                                        <div class="border-t mt-4 pt-4">
+                                            <div class="flex justify-between items-center text-lg font-bold">
+                                                <span>Total Estimado:</span>
+                                                <span id="total-price" class="gradient-text">$0</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="md:col-span-2 text-center">
+                                    <button type="submit" class="btn-primary px-12 py-4 rounded-lg font-bold text-lg">
+                                        Confirmar Reserva
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Main Content -->
+            <div class="flex flex-col lg:flex-row gap-10">
+                <!-- Sidebar -->
+                <div class="lg:w-1/4">
+                    <div class="dashboard-card p-6 sticky top-32">
+                        <h3 class="font-display text-xl font-semibold mb-6">Descarga La App</h3>
+                        <div class="space-y-3">
+                            <button class="w-full btn-primary py-3 rounded-lg font-medium" onclick="showBookingForm()">
+                                Nuevo Juego
+                            </button>
+                                <button class="w-full btn-secondary py-3 rounded-lg font-medium" onclick="manageProfile()">
+                                Gestionar Juego
+                            </button>
+                        </div>
+
+                        <!-- Travel Stats Chart -->
+                        <div class="mt-8">
+                            <h4 class="font-semibold mb-4">QR</h4>
+                            <div class="chart-container p-4">
+                                <div id="travel-chart" style="height: 200px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Content Area -->
+                <div class="lg:w-3/4">
+                    <!-- Tabs -->
+                    <div class="flex flex-wrap gap-2 mb-8">
+                        <button class="tab-button active" data-tab="upcoming" onclick="switchTab('upcoming')">
+                            Próximas Odiseas
+                        </button>
+                        <button class="tab-button" data-tab="completed" onclick="switchTab('completed')">
+                            Odiseas Pasadas
+                        </button>
+                        <button class="tab-button" data-tab="documents" onclick="switchTab('documents')">
+                            Documentos
+                        </button>
+                    </div>
+
+                    <!-- Tab Content -->
+                    <div id="tab-content">
+                        <!-- Content will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Form Modal -->
+    <div id="booking-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 hidden">
+        <div class="dashboard-card max-w-2xl w-full max-h-screen overflow-y-auto">
+            <div class="p-8">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="font-display text-3xl font-bold">Reservar Nueva Odisea</h2>
+                    <button onclick="closeBookingForm()" class="text-gray-500 hover:text-gray-700 text-2xl">✕</button>
+                </div>
+                
+                <form id="new-booking-form" class="space-y-6">
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Destino</label>
+                            <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-primary focus:outline-none" required>
+                                <option value="">Select destination</option>
+                                <option value="acuario">Acuario Inbursa</option>
+                                <option value="swiss">Swiss Alps Adventure</option>
+                                <option value="kyoto">Kyoto Cultural Journey</option>
+                                <option value="bali">Bali Wellness Retreat</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Viajeros</label>
+                            <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-primary focus:outline-none" required>
+                                <option value="">Número de viajeros</option>
+                                <option value="1">1 Viajero</option>
+                                <option value="2">2 Viajeros</option>
+                                <option value="3">3 Viajeros</option>
+                                <option value="4">4+ Viajeros</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Fecha de Salida</label>
+                            <input type="date" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-primary focus:outline-none" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Fecha de Regreso</label>
+                            <input type="date" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-primary focus:outline-none" required>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Solicitudes Especiales</label>
+                        <textarea class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-primary focus:outline-none" rows="3" placeholder="Alguna solicitud especial o preferencia..."></textarea>
+                    </div>
+                    
+                    <div class="flex gap-4">
+                        <button type="submit" class="btn-primary flex-1 py-3 rounded-lg font-semibold">
+                            Buscar Paquetes
+                        </button>
+                        <button type="button" onclick="closeBookingForm()" class="btn-secondary px-6 py-3 rounded-lg font-semibold">
+                            Cancelar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12 mt-20">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <div class="font-display text-2xl font-bold mb-4 gradient-text">Odisea Challenge</div>
+                    <p class="text-gray-400 leading-relaxed">
+                        Premium travel experiences for discerning adventurers. Discover the world with confidence.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Destinos CDMX</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">Acuario Inbursa</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Acuario Interactivo</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Museo Antropología</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Six Flags</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Tipos de Viaje</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">Acuarios</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Interactivo</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Museo</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Parque Temático</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Support</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">Help Center</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Contact Us</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2025 Odisea Challenge. Todos los derechos reservados. Creado con pasión para odiseas extraordinarias.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Sample booking data
+        const bookingData = {
+            upcoming: [
+                {
+                    id: 1,
+                    destination: "Acuario Inbursa",
+                    location: "Indian Ocean",
+                    checkin: "2025-12-15",
+                    checkout: "2025-12-22",
+                    travelers: 2,
+                    total: 6598,
+                    status: "confirmed",
+                    image: "https://kimi-web-img.moonshot.cn/img/3.bp.blogspot.com/ae8649303cb4112d49e8440336491a81d1fdc452.jpg",
+                    confirmation: "WL-2025-001",
+                    countdown: "18 days",
+                    progress: 85
+                },
+                {
+                    id: 2,
+                    destination: "Swiss Alps Adventure",
+                    location: "Switzerland",
+                    checkin: "2026-01-10",
+                    checkout: "2026-01-15",
+                    travelers: 4,
+                    total: 11596,
+                    status: "confirmed",
+                    image: "https://kimi-web-img.moonshot.cn/img/res.cloudinary.com/7d6b9dcf58fe4fc9614ca39ef9ee00b5649a1bb8",
+                    confirmation: "WL-2025-002",
+                    countdown: "44 days",
+                    progress: 45
+                }
+            ],
+            completed: [
+                {
+                    id: 3,
+                    destination: "Kyoto Cultural Journey",
+                    location: "Japan",
+                    checkin: "2025-10-01",
+                    checkout: "2025-10-07",
+                    travelers: 2,
+                    total: 5198,
+                    status: "completed",
+                    image: "https://kimi-web-img.moonshot.cn/img/cdn.pixabay.com/1ed32c832f00269526ba8a227c529fb72166a6a9.jpg",
+                    confirmation: "WL-2025-003",
+                    rating: 5,
+                    review: "Absolutely magical experience! The cultural immersion was incredible."
+                },
+                {
+                    id: 4,
+                    destination: "Bali Wellness Retreat",
+                    location: "Indonesia",
+                    checkin: "2025-08-15",
+                    checkout: "2025-08-23",
+                    travelers: 1,
+                    total: 1899,
+                    status: "completed",
+                    image: "https://kimi-web-img.moonshot.cn/img/www.luxurytravelmagazine.com/c7e2f0840a3d6772282e25cefba51d1e9a8b271d.jpg",
+                    confirmation: "WL-2025-004",
+                    rating: 4,
+                    review: "Perfect for relaxation and rejuvenation. The yoga sessions were amazing!"
+                }
+            ],
+            wishlist: [
+                {
+                    id: 5,
+                    destination: "Patagonia Expedition",
+                    location: "Chile",
+                    price: 3999,
+                    image: "https://kimi-web-img.moonshot.cn/img/mtsobek.imgix.net/309b5ef0bd30bc8138fdefef2450b7e2e92afab3.jpg",
+                    addedDate: "2025-11-15"
+                },
+                {
+                    id: 6,
+                    destination: "Moroccan Heritage Tour",
+                    location: "Morocco",
+                    price: 2299,
+                    image: "https://kimi-web-img.moonshot.cn/img/www.tataneu.com/45513796722c6b4b16e102215b7fa6ded6fe6a20.jpg",
+                    addedDate: "2025-11-10"
+                }
+            ],
+            documents: [
+                {
+                    id: 1,
+                    type: "Itinerary",
+                    booking: "Acuario Inbursa",
+                    date: "2025-12-10",
+                    size: "2.4 MB",
+                    status: "Ready"
+                },
+                {
+                    id: 2,
+                    type: "Voucher",
+                    booking: "Swiss Alps Adventure",
+                    date: "2025-12-05",
+                    size: "1.8 MB",
+                    status: "Ready"
+                },
+                {
+                    id: 3,
+                    type: "Receipt",
+                    booking: "Kyoto Cultural Journey",
+                    date: "2025-10-01",
+                    size: "856 KB",
+                    status: "Ready"
+                }
+            ]
+        };
+
+        let currentTab = 'upcoming';
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeDashboard();
+            initializeChart();
+            displayTabContent();
+            
+            // Initialize booking form
+            document.getElementById('new-booking-form').addEventListener('submit', handleNewBooking);
+        });
+
+        // Visit site function
+        function visitSite(url) {
+            if (url && url !== '#') {
+                window.open(url, '_blank');
+            } else {
+                showNotification('Sitio web no disponible temporalmente', 'info');
+            }
+        }
+
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeDashboard();
+            initializeBookingForm();
+            initializeTravelChart();
+            updateDashboardStats();
+            
+            // Auto-select departure if coming from selection
+            const selectedDeparture = localStorage.getItem('selectedDeparture');
+            if (selectedDeparture) {
+                const departureData = JSON.parse(selectedDeparture);
+                const departureOption = document.querySelector(`#departure-select option[data-price="${departureData.price}"]`);
+                if (departureOption) {
+                    departureOption.selected = true;
+                    document.getElementById('departure-select').dispatchEvent(new Event('change'));
+                }
+            }
+        }); stats
+        function initializeDashboard() {
+            const totalBookings = bookingData.upcoming.length + bookingData.completed.length;
+            const upcomingTrips = bookingData.upcoming.length;
+            const countriesVisited = new Set(bookingData.completed.map(trip => trip.location)).size;
+            const totalSpent = [...bookingData.upcoming, ...bookingData.completed].reduce((sum, trip) => sum + trip.total, 0);
+
+            // Animate counters
+            animateCounter('total-bookings', totalBookings);
+            animateCounter('upcoming-trips', upcomingTrips);
+            animateCounter('countries-visited', countriesVisited);
+            animateCounter('total-spent', totalSpent, '$');
+        }
+
+        // Animate counter
+        function animateCounter(elementId, target, prefix = '') {
+            const element = document.getElementById(elementId);
+            let current = 0;
+            const increment = target / 50;
+            
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                }
+                element.textContent = prefix + Math.floor(current).toLocaleString();
+            }, 30);
+        }
+
+        // Initialize travel chart
+        function initializeChart() {
+            const chartDom = document.getElementById('travel-chart');
+            const myChart = echarts.init(chartDom);
+            
+            const option = {
+                tooltip: {
+                    trigger: 'item'
+                },
+                series: [
+                    {
+                        name: 'Travel Types',
+                        type: 'pie',
+                        radius: '70%',
+                        data: [
+                            { value: 3, name: 'Luxury' },
+                            { value: 2, name: 'Adventure' },
+                            { value: 1, name: 'Cultural' },
+                            { value: 1, name: 'Wellness' }
+                        ],
+                        emphasis: {
+                            itemStyle: {
+                                shadowBlur: 10,
+                                shadowOffsetX: 0,
+                                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                            }
+                        },
+                        color: ['#0D4F4C', '#E07A5F', '#F2CC8F', '#7F8C8D']
+                    }
+                ]
+            };
+            
+            myChart.setOption(option);
+        }
+
+        // Switch tab
+        function switchTab(tabName) {
+            currentTab = tabName;
+            
+            // Update tab buttons
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+            
+            // Display content
+            displayTabContent();
+        }
+
+        // Display tab content
+        function displayTabContent() {
+            const content = document.getElementById('tab-content');
+            
+            switch (currentTab) {
+                case 'upcoming':
+                    content.innerHTML = createUpcomingContent();
+                    break;
+                case 'completed':
+                    content.innerHTML = createCompletedContent();
+                    break;
+                case 'wishlist':
+                    content.innerHTML = createWishlistContent();
+                    break;
+                case 'documents':
+                    content.innerHTML = createDocumentsContent();
+                    break;
+            }
+            
+            // Animate content
+            anime({
+                targets: '#tab-content > *',
+                translateY: [30, 0],
+                opacity: [0, 1],
+                duration: 600,
+                delay: anime.stagger(100),
+                easing: 'easeOutExpo'
+            });
+        }
+
+        // Create upcoming content
+        function createUpcomingContent() {
+            if (bookingData.upcoming.length === 0) {
+                return `
+                    <div class="text-center py-12">
+                        <div class="text-6xl mb-4">🌴</div>
+                        <h3 class="text-2xl font-semibold mb-2">No upcoming trips</h3>
+                        <p class="text-gray-600 mb-6">Ready for your next adventure?</p>
+                        <button class="btn-primary px-8 py-3 rounded-lg font-semibold" onclick="showBookingForm()">
+                            Book a Trip
+                        </button>
+                    </div>
+                `;
+            }
+            
+            return `
+                <div class="space-y-6">
+                    ${bookingData.upcoming.map(trip => createUpcomingCard(trip)).join('')}
+                </div>
+            `;
+        }
+
+        // Create upcoming card
+        function createUpcomingCard(trip) {
+            return `
+                <div class="booking-card p-6 animate-fade-in">
+                    <div class="flex flex-col lg:flex-row gap-6">
+                        <div class="lg:w-1/3">
+                            <img src="${trip.image}" alt="${trip.destination}" class="w-full h-48 lg:h-32 object-cover rounded-lg">
+                        </div>
+                        <div class="lg:w-2/3">
+                            <div class="flex items-start justify-between mb-4">
+                                <div>
+                                    <h3 class="font-display text-2xl font-semibold mb-2">${trip.destination}</h3>
+                                    <p class="text-gray-600 mb-2">${trip.location}</p>
+                                    <div class="flex items-center space-x-4 text-sm text-gray-600">
+                                        <span>${formatDate(trip.checkin)} - ${formatDate(trip.checkout)}</span>
+                                        <span>•</span>
+                                        <span>${trip.travelers} ${trip.travelers === 1 ? 'Traveler' : 'Travelers'}</span>
+                                        <span>•</span>
+                                        <span class="status-badge status-${trip.status}">${trip.status}</span>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-2xl font-bold text-primary mb-1">$${trip.total.toLocaleString()}</div>
+                                    <div class="text-sm text-gray-600">Confirmation: ${trip.confirmation}</div>
+                                </div>
+                            </div>
+                            
+                            <div class="countdown-timer mb-4">
+                                <div class="text-sm opacity-90 mb-1">Trip starts in</div>
+                                <div class="text-2xl font-bold">${trip.countdown}</div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <div class="flex justify-between text-sm text-gray-600 mb-1">
+                                    <span>Preparation Progress</span>
+                                    <span>${trip.progress}%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: ${trip.progress}%"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex flex-wrap gap-3">
+                                <button class="btn-primary px-4 py-2 rounded-lg font-medium" onclick="viewTripDetails(${trip.id})">
+                                    View Details
+                                </button>
+                                <button class="btn-secondary px-4 py-2 rounded-lg font-medium" onclick="manageBooking(${trip.id})">
+                                    Manage Booking
+                                </button>
+                                <button class="btn-secondary px-4 py-2 rounded-lg font-medium" onclick="contactSupport(${trip.id})">
+                                    Contact Support
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Create completed content
+        function createCompletedContent() {
+            if (bookingData.completed.length === 0) {
+                return `
+                    <div class="text-center py-12">
+                        <div class="text-6xl mb-4">✈️</div>
+                        <h3 class="text-2xl font-semibold mb-2">No completed trips yet</h3>
+                        <p class="text-gray-600">Your travel memories will appear here</p>
+                    </div>
+                `;
+            }
+            
+            return `
+                <div class="space-y-6">
+                    ${bookingData.completed.map(trip => createCompletedCard(trip)).join('')}
+                </div>
+            `;
+        }
+
+        // Create completed card
+        function createCompletedCard(trip) {
+            const stars = '⭐'.repeat(trip.rating);
+            
+            return `
+                <div class="booking-card p-6 animate-fade-in">
+                    <div class="flex flex-col lg:flex-row gap-6">
+                        <div class="lg:w-1/3">
+                            <img src="${trip.image}" alt="${trip.destination}" class="w-full h-48 lg:h-32 object-cover rounded-lg">
+                        </div>
+                        <div class="lg:w-2/3">
+                            <div class="flex items-start justify-between mb-4">
+                                <div>
+                                    <h3 class="font-display text-2xl font-semibold mb-2">${trip.destination}</h3>
+                                    <p class="text-gray-600 mb-2">${trip.location}</p>
+                                    <div class="flex items-center space-x-4 text-sm text-gray-600 mb-2">
+                                        <span>${formatDate(trip.checkin)} - ${formatDate(trip.checkout)}</span>
+                                        <span>•</span>
+                                        <span>${trip.travelers} ${trip.travelers === 1 ? 'Traveler' : 'Travelers'}</span>
+                                        <span>•</span>
+                                        <span class="status-badge status-${trip.status}">${trip.status}</span>
+                                    </div>
+                                    <div class="rating-stars text-lg mb-2">${stars}</div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-2xl font-bold text-primary mb-1">$${trip.total.toLocaleString()}</div>
+                                    <div class="text-sm text-gray-600">Confirmation: ${trip.confirmation}</div>
+                                </div>
+                            </div>
+                            
+                            ${trip.review ? `
+                                <div class="bg-gray-50 rounded-lg p-4 mb-4">
+                                    <p class="text-gray-700 italic">"${trip.review}"</p>
+                                </div>
+                            ` : ''}
+                            
+                            <div class="flex flex-wrap gap-3">
+                                <button class="btn-primary px-4 py-2 rounded-lg font-medium" onclick="viewTripDetails(${trip.id})">
+                                    View Memories
+                                </button>
+                                <button class="btn-secondary px-4 py-2 rounded-lg font-medium" onclick="bookAgain(${trip.id})">
+                                    Book Again
+                                </button>
+                                <button class="btn-secondary px-4 py-2 rounded-lg font-medium" onclick="shareExperience(${trip.id})">
+                                    Share Experience
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Create wishlist content
+        function createWishlistContent() {
+            const wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+            const wishlistItems = wishlist.map(id => {
+                // Mock data for wishlist items
+                return {
+                    id: id,
+                    destination: "Dream Destination",
+                    location: "Exotic Location",
+                    price: 2999,
+                    image: "https://kimi-web-img.moonshot.cn/img/media.cnn.com/a9b4e7d9f3bc654707304d3be8faf635cbf93d08.jpg",
+                    addedDate: "2025-11-20"
+                };
+            }).concat(bookingData.wishlist);
+            
+            if (wishlistItems.length === 0) {
+                return `
+                    <div class="text-center py-12">
+                        <div class="text-6xl mb-4">💭</div>
+                        <h3 class="text-2xl font-semibold mb-2">Your wishlist is empty</h3>
+                        <p class="text-gray-600 mb-6">Save your dream destinations for later</p>
+                        <a href="destinations.html" class="btn-primary px-8 py-3 rounded-lg font-semibold inline-block">
+                            Explore Destinations
+                        </a>
+                    </div>
+                `;
+            }
+            
+            return `
+                <div class="grid md:grid-cols-2 gap-6">
+                    ${wishlistItems.map(item => createWishlistCard(item)).join('')}
+                </div>
+            `;
+        }
+
+        // Create wishlist card
+        function createWishlistCard(item) {
+            return `
+                <div class="booking-card p-6 animate-fade-in">
+                    <img src="${item.image}" alt="${item.destination}" class="w-full h-48 object-cover rounded-lg mb-4">
+                    <h3 class="font-display text-xl font-semibold mb-2">${item.destination}</h3>
+                    <p class="text-gray-600 mb-2">${item.location}</p>
+                    <div class="text-2xl font-bold text-primary mb-4">$${item.price.toLocaleString()}</div>
+                    <div class="flex gap-3">
+                        <button class="btn-primary flex-1 py-2 rounded-lg font-medium" onclick="bookFromWishlist(${item.id})">
+                            Book Now
+                        </button>
+                        <button class="btn-secondary px-4 py-2 rounded-lg font-medium" onclick="removeFromWishlist(${item.id})">
+                            Remove
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Create documents content
+        function createDocumentsContent() {
+            if (bookingData.documents.length === 0) {
+                return `
+                    <div class="text-center py-12">
+                        <div class="text-6xl mb-4">📄</div>
+                        <h3 class="text-2xl font-semibold mb-2">No documents available</h3>
+                        <p class="text-gray-600">Your travel documents will appear here</p>
+                    </div>
+                `;
+            }
+            
+            return `
+                <div class="grid md:grid-cols-2 gap-6">
+                    ${bookingData.documents.map(doc => createDocumentCard(doc)).join('')}
+                </div>
+            `;
+        }
+
+        // Create document card
+        function createDocumentCard(doc) {
+            const icon = getDocumentIcon(doc.type);
+            
+            return `
+                <div class="document-card animate-fade-in">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center">
+                            <div class="text-3xl mr-4">${icon}</div>
+                            <div>
+                                <h4 class="font-semibold">${doc.type}</h4>
+                                <p class="text-sm text-gray-600">${doc.booking}</p>
+                            </div>
+                        </div>
+                        <span class="text-xs text-gray-500">${doc.size}</span>
+                    </div>
+                    <div class="flex justify-between items-center text-sm text-gray-600 mb-4">
+                        <span>Generated: ${formatDate(doc.date)}</span>
+                        <span class="status-badge status-confirmed">${doc.status}</span>
+                    </div>
+                    <div class="flex gap-3">
+                        <button class="btn-primary flex-1 py-2 rounded-lg font-medium" onclick="downloadDocument(${doc.id})">
+                            Download
+                        </button>
+                        <button class="btn-secondary px-4 py-2 rounded-lg font-medium" onclick="emailDocument(${doc.id})">
+                            Email
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Get document icon
+        function getDocumentIcon(type) {
+            switch (type.toLowerCase()) {
+                case 'itinerary':
+                    return '📅';
+                case 'voucher':
+                    return '🎫';
+                case 'receipt':
+                    return '🧾';
+                case 'invoice':
+                    return '📄';
+                default:
+                    return '📋';
+            }
+        }
+
+        // Format date
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+            });
+        }
+
+        // Show booking form
+        function showBookingForm() {
+            const modal = document.getElementById('booking-modal');
+            modal.classList.remove('hidden');
+            
+            anime({
+                targets: modal,
+                opacity: [0, 1],
+                duration: 300,
+                easing: 'easeOutExpo'
+            });
+        }
+
+        // Close booking form
+        function closeBookingForm() {
+            const modal = document.getElementById('booking-modal');
+            anime({
+                targets: modal,
+                opacity: 0,
+                duration: 200,
+                complete: () => modal.classList.add('hidden')
+            });
+        }
+
+        // Handle new booking
+        function handleNewBooking(e) {
+            e.preventDefault();
+            showNotification('Searching for available packages...', 'info');
+            
+            setTimeout(() => {
+                closeBookingForm();
+                window.location.href = 'destinations.html';
+            }, 1500);
+        }
+
+        // Trip actions
+        function viewTripDetails(tripId) {
+            showNotification('Loading trip details...', 'info');
+        }
+
+        function manageBooking(tripId) {
+            showNotification('Opening booking management...', 'info');
+        }
+
+        function contactSupport(tripId) {
+            showNotification('Connecting to support team...', 'info');
+        }
+
+        function bookAgain(tripId) {
+            showNotification('Searching for similar packages...', 'info');
+            setTimeout(() => {
+                window.location.href = 'destinations.html';
+            }, 1000);
+        }
+
+        function shareExperience(tripId) {
+            showNotification('Opening review form...', 'info');
+        }
+
+        function bookFromWishlist(itemId) {
+            showNotification('Redirecting to booking...', 'info');
+            setTimeout(() => {
+                window.location.href = `destinations.html?destination=${itemId}`;
+            }, 1000);
+        }
+
+        function removeFromWishlist(itemId) {
+            const wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+            const updatedWishlist = wishlist.filter(id => id !== itemId);
+            localStorage.setItem('wishlist', JSON.stringify(updatedWishlist));
+            
+            showNotification('Removed from wishlist', 'success');
+            displayTabContent();
+        }
+
+        function downloadDocument(docId) {
+            showNotification('Preparing download...', 'info');
+        }
+
+        function emailDocument(docId) {
+            showNotification('Sending document to email...', 'info');
+        }
+
+        function downloadReport() {
+            showNotification('Generating travel report...', 'info');
+        }
+
+        function manageProfile() {
+            showNotification('Opening profile settings...', 'info');
+        }
+
+        // Initialize booking form
+        function initializeBookingForm() {
+            const experienceSelect = document.getElementById('experience-select');
+            const departureSelect = document.getElementById('departure-select');
+            const travelDate = document.getElementById('travel-date');
+            const travelersCount = document.getElementById('travelers-count');
+            
+            // Set minimum date to today
+            const today = new Date().toISOString().split('T')[0];
+            travelDate.min = today;
+            
+            // Auto-populate from localStorage if available
+            const selectedDeparture = localStorage.getItem('selectedDeparture');
+            if (selectedDeparture) {
+                const departureData = JSON.parse(selectedDeparture);
+                const departureOption = Array.from(departureSelect.options).find(option => 
+                    option.value && option.text.includes(departureData.city)
+                );
+                if (departureOption) {
+                    departureOption.selected = true;
+                }
+            }
+            
+            // Update summary on change
+            function updateSummary() {
+                const experience = experienceSelect.options[experienceSelect.selectedIndex];
+                const departure = departureSelect.options[departureSelect.selectedIndex];
+                const travelers = travelersCount.value;
+                
+                document.getElementById('summary-experience').textContent = 
+                    experience.value ? experience.text.split(' - ')[0] : '-';
+                document.getElementById('summary-departure').textContent = 
+                    departure.value ? departure.text.split(' - ')[0] : '-';
+                document.getElementById('summary-date').textContent = 
+                    travelDate.value || '-';
+                document.getElementById('summary-travelers').textContent = 
+                    travelers + ' persona' + (travelers > 1 ? 's' : '');
+                
+                // Calculate total price
+                let total = 0;
+                if (experience.value) {
+                    total += parseInt(experience.dataset.price || 0);
+                }
+                if (departure.value) {
+                    total += parseInt(departure.dataset.price || 0);
+                }
+                total *= parseInt(travelers);
+                
+                document.getElementById('total-price').textContent = '$' + total.toLocaleString();
+            }
+            
+            // Add event listeners
+            experienceSelect.addEventListener('change', updateSummary);
+            departureSelect.addEventListener('change', updateSummary);
+            travelDate.addEventListener('change', updateSummary);
+            travelersCount.addEventListener('change', updateSummary);
+            
+            // Form submission
+            document.getElementById('final-booking-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                if (!experienceSelect.value || !departureSelect.value || !travelDate.value) {
+                    showNotification('Por favor completa todos los campos requeridos', 'error');
+                    return;
+                }
+                
+                showNotification('¡Reserva confirmada con éxito! Te contactaremos pronto.', 'success');
+                
+                // Reset form after successful submission
+                setTimeout(() => {
+                    this.reset();
+                    updateSummary();
+                }, 2000);
+            });
+            
+            // Initial update
+            updateSummary();
+        }
+
+        // Select departure point function
+        function selectDeparture(city, price) {
+            const cities = {
+                'dolores-hidalgo': 'Dolores Hidalgo, Guanajuato',
+                'san-miguel-allende': 'San Miguel de Allende, Guanajuato',
+                'guanajuato-capital': 'Guanajuato, Guanajuato',
+                'puebla': 'Puebla'
+            };
+
+            const cityName = cities[city];
+            
+            // Store selected departure point
+            localStorage.setItem('selectedDeparture', JSON.stringify({
+                city: cityName,
+                price: price,
+                timestamp: Date.now()
+            }));
+            
+            // Show notification and redirect
+            showNotification(`Has seleccionado salir desde ${cityName} por $${price}. Redirigiendo a reservación...`, 'success');
+            
+            // Redirect to booking page after a short delay
+            setTimeout(() => {
+                window.location.href = 'bookings.html#booking-form';
+            }, 1500);
+        }
+
+        // Book experience function
+        function bookExperience(experienceType) {
+            const experiences = {
+                'acuario-inbursa': {
+                    name: 'Acuario Inbursa',
+                    price: 2800,
+                    location: 'CDMX - Polanco'
+                },
+                'acuario-interactivo': {
+         

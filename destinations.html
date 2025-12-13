@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Destinos - Odisea Challenge</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <link href="enhanced-styles.css" rel="stylesheet">
+    <link href="odisea-styles.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
+        
+        :root {
+            --primary: #110d4f;
+            --secondary: #f16a44;
+            --accent: #51ff00;
+            --neutral: #F7F3E9;
+            --text-dark: #2C3E50;
+            --text-light: #7F8C8D;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--neutral) 0%, #E8E4D9 100%);
+            color: var(--text-dark);
+        }
+        
+        .font-display {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .glass-nav {
+            backdrop-filter: blur(20px);
+            background: rgba(168, 127, 24, 0.9);
+            border-bottom: 1px solid rgba(13, 79, 76, 0.1);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .destination-card {
+            background: rgba(207, 208, 209, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(23, 27, 241, 0.637);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .destination-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 30px 60px rgba(121, 85, 219, 0.651);
+        }
+        
+        .destination-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(224, 122, 95, 0.1), transparent);
+            transition: left 0.6s ease;
+            z-index: 1;
+        }
+        
+        .destination-card:hover::before {
+            left: 100%;
+        }
+        
+        .destination-card > * {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: rgb(255, 255, 255);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(32, 32, 32, 0.3);
+        }
+        
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        
+        .btn-primary:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+        
+        .btn-secondary {
+            background: var(--secondary);
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(224, 122, 95, 0.3);
+        }
+        
+        .filter-btn {
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .filter-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .animate-fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .magnetic-cursor {
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .magnetic-cursor:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="glass-nav fixed top-0 left-0 right-0 z-50 py-4">
+        <div class="container mx-auto px-6 flex items-center justify-between">
+            <div class="font-display text-2xl font-bold gradient-text">Odisea Challenge</div>
+            <div class="hidden md:flex space-x-8">
+                <a href="index.html" class="text-gray-700 hover:text-primary transition-colors">Home</a>
+                <a href="destinations.html" class="text-primary font-semibold">Destinos</a>
+                <a href="salidas.html" class="text-gray-700 hover:text-primary transition-colors">Salidas</a>
+                <a href="bookings.html" class="text-gray-700 hover:text-primary transition-colors">Reservación</a>
+                <a href="#about" class="text-gray-700 hover:text-primary transition-colors">Nosotros</a>
+            </div>
+            <div class="flex items-center space-x-4">
+                <button class="btn-secondary px-4 py-2 rounded-full font-medium" onclick="startGame()">Juego</button>
+                <button class="btn-primary px-6 py-2 rounded-full font-medium">Iniciar Sesión</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header Section -->
+    <section class="pt-32 pb-16 bg-gradient-to-b from-neutral to-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h1 class="font-display text-5xl md:text-6xl font-bold mb-6 gradient-text">Nuestros Destinos</h1>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    Descubre nuestros 4 destinos exclusivos en la CDMX. Cada odisea incluye transporte, comida, entradas y un juego interactivo donde puedes ganar para que tu odisea tenga coste 0.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Destinations Grid -->
+    <section class="py-16">
+        <div class="container mx-auto px-6">
+            <!-- Filter Buttons -->
+            <div class="flex flex-wrap justify-center gap-4 mb-12">
+                <button class="filter-btn active px-6 py-3 rounded-full font-medium" data-filter="all">
+                    Todos los Destinos
+                </button>
+                <button class="filter-btn px-6 py-3 rounded-full font-medium" data-filter="acuario">
+                    Acuarios
+                </button>
+                <button class="filter-btn px-6 py-3 rounded-full font-medium" data-filter="museo">
+                    Museos
+                </button>
+                <button class="filter-btn px-6 py-3 rounded-full font-medium" data-filter="experiencia">
+                    Experiencias
+                </button>
+            </div>
+
+            <!-- Destinations Grid -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8" id="destinations-grid">
+                <!-- Acuario Inbursa -->
+                <div class="destination-card rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 animate-fade-in">
+                    <div class="relative overflow-hidden">
+                        <img src="resources/destination-acuario.jpg" alt="Acuario Inbursa" class="w-full h-48 object-cover transition-transform duration-500 hover:scale-110">
+                        <div class="absolute top-4 left-4 bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-bold transition-all duration-300 hover:scale-105">
+                            Acuario
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-display text-xl font-bold mb-2">Acuario Inbursa</h3>
+                        <p class="text-gray-600 text-sm mb-4">El acuario más grande de México con más de 5,000 especies marinas</p>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center text-sm text-gray-500">
+                                <span class="mr-2">⭐ 4.8</span>
+                                <span>CDMX - Polanco</span>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Acuario Temático</span>
+                            <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Túnel submarino</span>
+                        </div>
+                        <button class="w-full btn-primary py-3 rounded-lg font-medium" onclick="viewDestination('acuario-inbursa')">
+                            Ver Detalles
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Acuario Interactivo -->
+                <div class="destination-card rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 animate-fade-in" style="animation-delay: 0.1s;">
+                    <div class="relative overflow-hidden">
+                        <img src="resources/background-interactivo.jpg" alt="Acuario Interactivo" class="w-full h-48 object-cover transition-transform duration-500 hover:scale-110">
+                        <div class="absolute top-4 left-4 bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-bold transition-all duration-300 hover:scale-105">
+                            Interactivo
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-display text-xl font-bold mb-2">Acuario Interactivo</h3>
+                        <p class="text-gray-600 text-sm mb-4">Experiencia interactiva para toda la familias con tocar rayas y alimentar tiburones</p>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center text-sm text-gray-500">
+                                <span class="mr-2">⭐ 4.7</span>
+                                <span>CDMX - Polanco</span>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="bg-orange-100 text-orange-800 text-xs px-2 py-1 rounded">Toca mantarrayas</span>
+                            <span class="bg-orange-100 text-orange-800 text-xs px-2 py-1 rounded">Experiencia VR</span>
+                        </div>
+                        <button class="w-full btn-primary py-3 rounded-lg font-medium" onclick="viewDestination('acuario-interactivo')">
+                            Ver Detalles
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Museo Soumaya -->
+                <div class="destination-card rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 animate-fade-in" style="animation-delay: 0.2s;">
+                    <div class="relative overflow-hidden">
+                        <img src="resources/hero-main.jpg" alt="Museo Soumaya" class="w-full h-48 object-cover transition-transform duration-500 hover:scale-110">
+                        <div class="absolute top-4 left-4 bg-purple-500 text-white px-3 py-1 rounded-full text-sm font-bold transition-all duration-300 hover:scale-105">
+                            Museo
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-display text-xl font-bold mb-2">Museo Soumaya</h3>
+                        <p class="text-gray-600 text-sm mb-4">Museo cultural con la colección privada más importante de arte europeo y mexicano</p>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center text-sm text-gray-500">
+                                <span class="mr-2">⭐ 4.9</span>
+                                <span>CDMX - Polanco</span>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded">Arte europeo</span>
+                            <span class="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded">Esculturas</span>
+                        </div>
+                        <button class="w-full btn-primary py-3 rounded-lg font-medium" onclick="viewDestination('museo-soumaya')">
+                            Ver Detalles
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Odisea México -->
+                <div class="destination-card rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 animate-fade-in" style="animation-delay: 0.3s;">
+                    <div class="relative overflow-hidden">
+                        <img src="resources/destination-odisea.jpg" alt="Odisea México" class="w-full h-48 object-cover transition-transform duration-500 hover:scale-110">
+                        <div class="absolute top-4 left-4 bg-green-500 text-white px-3 py-1 rounded-full text-sm font-bold transition-all duration-300 hover:scale-105">
+                            Experiencia
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-display text-xl font-bold mb-2">Odisea México</h3>
+                        <p class="text-gray-600 text-sm mb-4">Experiencia inmersiva única que combina cultura, historia y diversión interactiva</p>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center text-sm text-gray-500">
+                                <span class="mr-2">⭐ 4.8</span>
+                                <span>CDMX - Polanco</span>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">Juego interactivo</span>
+                            <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">Premios</span>
+                        </div>
+                        <button class="w-full btn-primary py-3 rounded-lg font-medium" onclick="viewDestination('odisea-mexico')">
+                            Ver Detalles
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="py-20 bg-gradient-to-r from-primary to-secondary text-white">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="font-display text-4xl font-bold mb-6">¿Listo para tu Odisea?</h2>
+            <p class="text-xl mb-8 max-w-2xl mx-auto opacity-90">
+                Selecciona tu punto de salida y comienza la aventura de tu vida en la CDMX.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="salidas.html" class="bg-white text-primary px-8 py-4 rounded-full font-bold hover:bg-gray-100 transition-colors">
+                    Ver Puntos de Salida
+                </a>
+                <a href="bookings.html" class="border-2 border-white text-white px-8 py-4 rounded-full font-bold hover:bg-white hover:text-primary transition-colors">
+                    Hacer Reserva
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-16">
+        <div class="container mx-auto px-6">
+            <div class="text-center">
+                <div class="font-display text-3xl font-bold gradient-text mb-4">Odisea Challenge</div>
+                <p class="text-gray-400 mb-8 max-w-2xl mx-auto">
+                    Creamos experiencias inolvidables. 
+                    Cada viaje es una odisea llena de aventura, cultura y diversión.
+                </p>
+                <div class="border-t border-gray-800 pt-8">
+                    <p class="text-gray-400">
+                        © 2025 Odisea Challenge. Todos los derechos reservados. 
+                        Creado con pasión para Odiseas Extraordinarias.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Filter functionality
+        function initializeFilters() {
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const filter = this.dataset.filter;
+                    filterDestinations(filter);
+                });
+            });
+        }
+
+        function filterDestinations(filter) {
+            const cards = document.querySelectorAll('.destination-card');
+            
+            cards.forEach(card => {
+                const typeElement = card.querySelector('.absolute.top-4.left-4');
+                const type = typeElement ? typeElement.textContent.toLowerCase() : '';
+                
+                if (filter === 'all' || 
+                    (filter === 'acuario' && type.includes('acuario')) ||
+                    (filter === 'interactivo' && type.includes('interactivo')) ||
+                    (filter === 'museo' && type.includes('museo')) ||
+                    (filter === 'experiencia' && type.includes('experiencia'))) {
+                    card.style.display = 'block';
+                    anime({
+                        targets: card,
+                        opacity: [0, 1],
+                        translateY: [20, 0],
+                        duration: 400,
+                        easing: 'easeOutExpo'
+                    });
+                } else {
+                    anime({
+                        targets: card,
+                        opacity: 0,
+                        translateY: -20,
+                        duration: 200,
+                        complete: () => {
+                            card.style.display = 'none';
+                        }
+                    });
+                }
+            });
+        }
+
+        // View destination details
+        function viewDestination(destinationId) {
+            alert('Próximamente: Detalles completos de ' + destinationId);
+        }
+
+        // Start game function
+        function startGame() {
+            alert('¡El juego de Odisea Challenge está por comenzar!');
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeFilters();
+            
+            // Animate elements on scroll
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            // Observe all destination cards
+            document.querySelectorAll('.destination-card').forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'all 0.6s ease-out';
+                observer.observe(card);
+            });
+        });
+    </script>
+</body>
+</html>

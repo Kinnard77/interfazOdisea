@@ -1,0 +1,275 @@
+/* Enhanced Interactive Effects for Wanderlust */
+
+/* Magnetic Cursor Effects */
+.magnetic-cursor {
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.magnetic-cursor::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: radial-gradient(circle, rgba(224, 122, 95, 0.3) 0%, transparent 70%);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.5s ease;
+    z-index: -1;
+}
+
+.magnetic-cursor:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+.magnetic-cursor:hover {
+    transform: scale(1.05);
+    color: white !important;
+}
+
+/* Typing Effect */
+.typing-effect {
+    border-right: 2px solid var(--secondary);
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0%, 50% { border-color: transparent; }
+    51%, 100% { border-color: var(--secondary); }
+}
+
+/* Color Cycling Animation */
+.color-cycle {
+    animation: colorCycle 3s ease-in-out infinite;
+}
+
+@keyframes colorCycle {
+    0% { filter: hue-rotate(0deg); }
+    25% { filter: hue-rotate(90deg); }
+    50% { filter: hue-rotate(180deg); }
+    75% { filter: hue-rotate(270deg); }
+    100% { filter: hue-rotate(360deg); }
+}
+
+/* Parallax Background */
+.parallax-bg {
+    will-change: transform;
+    transition: transform 0.1s ease-out;
+}
+
+/* Touch Feedback for Mobile */
+.touch-feedback {
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+.touch-feedback:active {
+    transform: scale(0.95);
+    transition: transform 0.1s ease;
+}
+
+/* Advanced Floating Animation */
+.float-animation {
+    animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { 
+        transform: translateY(0px) rotate(0deg);
+    }
+    25% { 
+        transform: translateY(-10px) rotate(1deg);
+    }
+    50% { 
+        transform: translateY(-5px) rotate(0deg);
+    }
+    75% { 
+        transform: translateY(-15px) rotate(-1deg);
+    }
+}
+
+/* Enhanced Glow Pulse */
+.glow-pulse {
+    animation: glowPulse 2s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+    0%, 100% { 
+        box-shadow: 0 0 20px rgba(224, 122, 95, 0.3);
+        filter: brightness(1);
+    }
+    50% { 
+        box-shadow: 0 0 40px rgba(224, 122, 95, 0.6);
+        filter: brightness(1.1);
+    }
+}
+
+/* Real-time Search Enhancements */
+.search-suggestion-item {
+    transition: all 0.2s ease;
+    border-left: 3px solid transparent;
+    padding: 12px 16px;
+    cursor: pointer;
+}
+
+.search-suggestion-item:hover {
+    border-left-color: var(--secondary);
+    background: rgba(224, 122, 95, 0.05);
+    transform: translateX(4px);
+}
+
+.search-suggestion-item:last-child {
+    border-bottom: none;
+}
+
+/* Interactive Chart Effects */
+.chart-hover-effect {
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.chart-hover-effect:hover {
+    transform: scale(1.02);
+    box-shadow: 0 10px 30px rgba(13, 79, 76, 0.1);
+}
+
+/* Advanced Hover Effects */
+.advanced-hover {
+    position: relative;
+    overflow: hidden;
+}
+
+.advanced-hover::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.advanced-hover:hover::after {
+    left: 100%;
+}
+
+/* Stagger Animation Delays */
+.stagger-1 { animation-delay: 0.1s; }
+.stagger-2 { animation-delay: 0.2s; }
+.stagger-3 { animation-delay: 0.3s; }
+.stagger-4 { animation-delay: 0.4s; }
+.stagger-5 { animation-delay: 0.5s; }
+
+/* Mobile Touch Optimizations */
+@media (max-width: 768px) {
+    .hero-bg {
+        background-attachment: scroll;
+    }
+    
+    .booking-widget {
+        margin: 0 1rem;
+        padding: 1.5rem;
+    }
+    
+    .destination-card {
+        margin: 0 0.5rem;
+    }
+    
+    .magnetic-cursor:hover {
+        transform: none;
+    }
+    
+    .magnetic-cursor::before {
+        display: none;
+    }
+    
+    /* Disable hover effects on mobile */
+    .hover-lift:hover {
+        transform: none;
+        box-shadow: none;
+    }
+    
+    /* Optimize animations for mobile */
+    .float-animation {
+        animation-duration: 4s;
+    }
+    
+    .glow-pulse {
+        animation-duration: 3s;
+    }
+}
+
+/* High-resolution display optimizations */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .hero-bg {
+        background-size: cover;
+        background-position: center;
+    }
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    .animate-float,
+    .float-animation,
+    .glow-pulse,
+    .color-cycle,
+    .typing-effect {
+        animation: none;
+    }
+    
+    .magnetic-cursor:hover {
+        transform: none;
+    }
+    
+    .magnetic-cursor::before {
+        display: none;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --neutral: #1a1a1a;
+        --text-dark: #f0f0f0;
+        --text-light: #a0a0a0;
+    }
+    
+    body {
+        background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+    }
+    
+    .glass-nav {
+        background: rgba(26, 26, 26, 0.9);
+    }
+    
+    .floating-card,
+    .dashboard-card,
+    .booking-card {
+        background: rgba(42, 42, 42, 0.95);
+        border-color: rgba(224, 122, 95, 0.2);
+    }
+}
+
+/* Print styles */
+@media print {
+    .chat-widget,
+    .animate-float,
+    .float-animation,
+    .glow-pulse {
+        display: none;
+    }
+    
+    body {
+        background: white;
+        color: black;
+    }
+}

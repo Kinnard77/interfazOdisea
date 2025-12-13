@@ -1,0 +1,439 @@
+/* ===== ODISEA CHALLENGE - ESTILOS PERSONALIZADOS ===== */
+
+/* Variables de Odisea Challenge */
+:root {
+    --odisea-primary: #0D4F4C;
+    --odisea-secondary: #E07A5F;
+    --odisea-accent: #F2CC8F;
+    --odisea-neutral: #F7F3E9;
+    --odisea-dark: #2C3E50;
+    --odisea-light: #7F8C8D;
+    --odisea-success: #27AE60;
+    --odisea-warning: #F39C12;
+    --odisea-danger: #E74C3C;
+}
+
+/* ===== ESTILOS DE PERSONAJES/AVATARES ===== */
+
+.avatar-explorador {
+    filter: drop-shadow(0 10px 30px rgba(13, 79, 76, 0.4));
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+}
+
+.avatar-explorador::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    background: linear-gradient(45deg, var(--odisea-primary), var(--odisea-secondary));
+    border-radius: 50%;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.avatar-explorador:hover::before {
+    opacity: 0.3;
+}
+
+.avatar-explorador:hover {
+    transform: scale(1.1) rotate(5deg);
+    filter: drop-shadow(0 15px 40px rgba(13, 79, 76, 0.6));
+}
+
+.avatar-aventurero {
+    filter: drop-shadow(0 10px 30px rgba(224, 122, 95, 0.4));
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+}
+
+.avatar-aventurero::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    background: linear-gradient(45deg, var(--odisea-secondary), var(--odisea-accent));
+    border-radius: 50%;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.avatar-aventurero:hover::before {
+    opacity: 0.3;
+}
+
+.avatar-aventurero:hover {
+    transform: scale(1.1) rotate(-5deg);
+    filter: drop-shadow(0 15px 40px rgba(224, 122, 95, 0.6));
+}
+
+.avatar-sabio {
+    filter: drop-shadow(0 10px 30px rgba(142, 68, 173, 0.4));
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+}
+
+.avatar-sabio::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    background: linear-gradient(45deg, #8E44AD, #3498DB);
+    border-radius: 50%;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.avatar-sabio:hover::before {
+    opacity: 0.3;
+}
+
+.avatar-sabio:hover {
+    transform: scale(1.1) rotate(3deg);
+    filter: drop-shadow(0 15px 40px rgba(142, 68, 173, 0.6));
+}
+
+.avatar-valiente {
+    filter: drop-shadow(0 10px 30px rgba(39, 174, 96, 0.4));
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+}
+
+.avatar-valiente::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    background: linear-gradient(45deg, var(--odisea-success), #2ECC71);
+    border-radius: 50%;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.avatar-valiente:hover::before {
+    opacity: 0.3;
+}
+
+.avatar-valiente:hover {
+    transform: scale(1.1) rotate(-3deg);
+    filter: drop-shadow(0 15px 40px rgba(39, 174, 96, 0.6));
+}
+
+/* ===== ANIMACIONES DE FLOTACIÓN MEJORADAS ===== */
+
+.floating {
+    animation: floatEnhanced 6s ease-in-out infinite;
+}
+
+.floating-delay {
+    animation: floatEnhanced 6s ease-in-out infinite;
+    animation-delay: 1.5s;
+}
+
+.floating-slow {
+    animation: floatEnhanced 8s ease-in-out infinite;
+}
+
+.floating-fast {
+    animation: floatEnhanced 4s ease-in-out infinite;
+}
+
+@keyframes floatEnhanced {
+    0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+    }
+    25% {
+        transform: translateY(-15px) rotate(2deg);
+    }
+    50% {
+        transform: translateY(-25px) rotate(0deg);
+    }
+    75% {
+        transform: translateY(-10px) rotate(-2deg);
+    }
+}
+
+/* ===== ELEMENTOS DEL JUEGO INTERACTIVO ===== */
+
+.game-progress-ring {
+    width: 120px;
+    height: 120px;
+    position: relative;
+}
+
+.game-progress-ring svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+}
+
+.game-progress-ring circle {
+    fill: none;
+    stroke-width: 8;
+    stroke-linecap: round;
+}
+
+.game-progress-ring .bg {
+    stroke: rgba(255, 255, 255, 0.2);
+}
+
+.game-progress-ring .progress {
+    stroke: var(--odisea-secondary);
+    stroke-dasharray: 314;
+    stroke-dashoffset: 314;
+    transition: stroke-dashoffset 0.5s ease;
+}
+
+.game-badge {
+    background: linear-gradient(135deg, var(--odisea-secondary), var(--odisea-accent));
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 1.2rem;
+    box-shadow: 0 10px 25px rgba(224, 122, 95, 0.4);
+    transition: all 0.3s ease;
+}
+
+.game-badge:hover {
+    transform: scale(1.1) rotate(10deg);
+    box-shadow: 0 15px 35px rgba(224, 122, 95, 0.6);
+}
+
+/* ===== EFECTOS DE FONDO MEJORADOS ===== */
+
+.hero-bg {
+    background: linear-gradient(rgba(13, 79, 76, 0.4), rgba(13, 79, 76, 0.4)), url('resources/background-abstract.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-bg::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 30% 70%, rgba(224, 122, 95, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 70% 30%, rgba(242, 204, 143, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+/* ===== TARJETAS DE DESTINO ODISEA ===== */
+
+.odisea-destination-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 24px;
+    border: 1px solid rgba(13, 79, 76, 0.1);
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+}
+
+.odisea-destination-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, transparent 0%, rgba(13, 79, 76, 0.05) 100%);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.odisea-destination-card:hover::before {
+    opacity: 1;
+}
+
+.odisea-destination-card:hover {
+    transform: translateY(-15px) scale(1.03);
+    box-shadow: 0 40px 80px rgba(13, 79, 76, 0.25);
+}
+
+.odisea-destination-card .price-tag {
+    background: linear-gradient(135deg, var(--odisea-primary), var(--odisea-secondary));
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    box-shadow: 0 5px 15px rgba(13, 79, 76, 0.3);
+}
+
+/* ===== SISTEMA DE PUNTOS Y RECOMPENSAS ===== */
+
+.odisea-points-display {
+    background: linear-gradient(135deg, var(--odisea-accent), var(--odisea-secondary));
+    color: var(--odisea-dark);
+    padding: 20px;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(242, 204, 143, 0.4);
+    position: relative;
+    overflow: hidden;
+}
+
+.odisea-points-display::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transform: rotate(45deg);
+    animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+    100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+}
+
+/* ===== BOTONES ESPECIALES ODISEA ===== */
+
+.btn-odisea-primary {
+    background: linear-gradient(135deg, var(--odisea-primary), var(--odisea-secondary));
+    color: white;
+    border: none;
+    padding: 16px 32px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(13, 79, 76, 0.3);
+}
+
+.btn-odisea-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.btn-odisea-primary:hover::before {
+    left: 100%;
+}
+
+.btn-odisea-primary:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 15px 35px rgba(13, 79, 76, 0.4);
+}
+
+/* ===== EFECTOS DE TEXTO ODISEA ===== */
+
+.text-odisea-gradient {
+    background: linear-gradient(135deg, var(--odisea-primary), var(--odisea-secondary), var(--odisea-accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradientShift 3s ease-in-out infinite;
+}
+
+@keyframes gradientShift {
+    0%, 100% { filter: hue-rotate(0deg); }
+    50% { filter: hue-rotate(30deg); }
+}
+
+/* ===== RESPONSIVE PARA MÓVIL ===== */
+
+@media (max-width: 768px) {
+    .avatar-explorador,
+    .avatar-aventurero,
+    .avatar-sabio,
+    .avatar-valiente {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .avatar-explorador img,
+    .avatar-aventurero img,
+    .avatar-sabio img,
+    .avatar-valiente img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+    .floating,
+    .floating-delay,
+    .floating-slow,
+    .floating-fast {
+        animation-duration: 4s;
+    }
+}
+
+/* ===== MODO OSCURO ===== */
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --odisea-neutral: #1A1A1A;
+        --odisea-dark: #F7F3E9;
+        --odisea-light: #BDC3C7;
+    }
+    
+    .odisea-destination-card {
+        background: rgba(30, 30, 30, 0.95);
+        border-color: rgba(224, 122, 95, 0.2);
+    }
+    
+    .hero-bg {
+        background: linear-gradient(rgba(13, 79, 76, 0.6), rgba(13, 79, 76, 0.6)), url('resources/background-abstract.jpg');
+    }
+}
+
+/* ===== REDUCCIÓN DE MOVIMIENTO ===== */
+
+@media (prefers-reduced-motion: reduce) {
+    .floating,
+    .floating-delay,
+    .floating-slow,
+    .floating-fast,
+    .animate-float {
+        animation: none;
+    }
+    
+    .avatar-explorador:hover,
+    .avatar-aventurero:hover,
+    .avatar-sabio:hover,
+    .avatar-valiente:hover {
+        transform: none;
+    }
+    
+    .btn-odisea-primary:hover {
+        transform: none;
+    }
+}

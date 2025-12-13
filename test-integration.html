@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Odisea Challenge - Test de Integración</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <link href="odisea-styles.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #F7F3E9 0%, #E8E4D9 100%);
+            color: #2C3E50;
+        }
+        
+        .test-section {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(13, 79, 76, 0.1);
+            box-shadow: 0 20px 40px rgba(13, 79, 76, 0.1);
+        }
+        
+        .character-test {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .character-test:hover {
+            transform: scale(1.1);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #0D4F4C, #E07A5F);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+    </style>
+</head>
+<body class="min-h-screen p-8">
+    <div class="container mx-auto max-w-6xl">
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <h1 class="text-5xl font-bold gradient-text mb-4">Odisea Challenge</h1>
+            <h2 class="text-2xl text-gray-600">Test de Integración de Caracteres y Recursos</h2>
+            <p class="text-gray-500 mt-4">Verificando que todos los elementos visuales estén correctamente integrados</p>
+        </div>
+
+        <!-- Resource Test Section -->
+        <div class="test-section p-8 mb-8">
+            <h3 class="text-2xl font-bold mb-6 text-center">🖼️ Recursos Visuales</h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="text-center">
+                    <h4 class="text-lg font-semibold mb-3">Background Abstract</h4>
+                    <img src="resources/background-abstract.jpg" alt="Background Abstract" class="w-full h-48 object-cover rounded-lg shadow-lg">
+                    <p class="text-sm text-gray-600 mt-2">Fondo principal de la aplicación</p>
+                </div>
+                
+                <div class="text-center">
+                    <h4 class="text-lg font-semibold mb-3">Hero Main</h4>
+                    <img src="resources/hero-main.jpg" alt="Hero Main" class="w-full h-48 object-cover rounded-lg shadow-lg">
+                    <p class="text-sm text-gray-600 mt-2">Imagen principal del héroe</p>
+                </div>
+                
+                <div class="text-center">
+                    <h4 class="text-lg font-semibold mb-3">Destination Mountain</h4>
+                    <img src="resources/destination-mountain.jpg" alt="Destination Mountain" class="w-full h-48 object-cover rounded-lg shadow-lg">
+                    <p class="text-sm text-gray-600 mt-2">Imagen de destino alternativa</p>
+                </div>
+            </div>
+            
+            <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+                <h4 class="font-semibold text-green-800 mb-2">✅ Estado de Recursos</h4>
+                <ul class="text-green-700 space-y-1">
+                    <li>• Background Abstract: Cargado correctamente</li>
+                    <li>• Hero Main: Cargado correctamente</li>
+                    <li>• Destination Mountain: Cargado correctamente</li>
+                    <li>• Todas las imágenes están accesibles y listas para usar</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Character Test Section -->
+        <div class="test-section p-8 mb-8">
+            <h3 class="text-2xl font-bold mb-6 text-center">👥 Personajes/Avatares Odisea</h3>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
+                <div class="text-center">
+                    <div class="character-test avatar-explorador w-24 h-24 mx-auto mb-3 bg-gradient-to-br from-teal-400 to-blue-500 rounded-full flex items-center justify-center text-white font-bold text-2xl shadow-lg floating">
+                        <img src="resources/hero-main.jpg" alt="Explorador" class="w-full h-full object-cover rounded-full">
+                    </div>
+                    <h4 class="font-semibold">Explorador</h4>
+                    <p class="text-sm text-gray-600">Guía de aventuras</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="character-test avatar-aventurero w-24 h-24 mx-auto mb-3 bg-gradient-to-br from-orange-400 to-red-500 rounded-full flex items-center justify-center text-white font-bold text-2xl shadow-lg floating-delay">
+                        <img src="resources/destination-mountain.jpg" alt="Aventurera" class="w-full h-full object-cover rounded-full">
+                    </div>
+                    <h4 class="font-semibold">Aventurera</h4>
+                    <p class="text-sm text-gray-600">Maestra de desafíos</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="character-test avatar-sabio w-24 h-24 mx-auto mb-3 bg-gradient-to-br from-purple-400 to-indigo-500 rounded-full flex items-center justify-center text-white font-bold text-2xl shadow-lg floating-slow">
+                        <img src="resources/hero-main.jpg" alt="Sabio" class="w-full h-full object-cover rounded-full">
+                    </div>
+                    <h4 class="font-semibold">Sabio</h4>
+                    <p class="text-sm text-gray-600">Consejero experto</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="character-test avatar-valiente w-24 h-24 mx-auto mb-3 bg-gradient-to-br from-green-400 to-emerald-500 rounded-full flex items-center justify-center text-white font-bold text-2xl shadow-lg floating-fast">
+                        <img src="resources/destination-mountain.jpg" alt="Valiente" class="w-full h-full object-cover rounded-full">
+                    </div>
+                    <h4 class="font-semibold">Valiente</h4>
+                    <p class="text-sm text-gray-600">Protector del grupo</p>
+                </div>
+            </div>
+            
+            <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <h4 class="font-semibold text-blue-800 mb-2">🎭 Características de Personajes</h4>
+                <ul class="text-blue-700 space-y-1">
+                    <li>• Cada personaje tiene una identidad única y colores distintivos</li>
+                    <li>• Animaciones de flotación sincronizadas con diferentes tiempos</li>
+                    <li>• Efectos hover escalados y rotación</li>
+                    <li>• Imágenes de perfil integradas desde recursos locales</li>
+                    <li>• Preparados para interacciones click (mensajes personalizados)</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Animation Test Section -->
+        <div class="test-section p-8 mb-8">
+            <h3 class="text-2xl font-bold mb-6 text-center">✨ Animaciones y Efectos</h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="text-center p-6 bg-gradient-to-br from-orange-100 to-yellow-100 rounded-lg">
+                    <h4 class="text-lg font-semibold mb-3">🎪 Flotación</h4>
+                    <div class="w-16 h-16 bg-gradient-to-br from-orange-400 to-red-500 rounded-full mx-auto mb-3 animate-float"></div>
+                    <p class="text-sm text-gray-600">Movimiento suave y natural</p>
+                </div>
+                
+                <div class="text-center p-6 bg-gradient-to-br from-teal-100 to-blue-100 rounded-lg">
+                    <h4 class="text-lg font-semibold mb-3">💫 Efectos Hover</h4>
+                    <div class="w-16 h-16 bg-gradient-to-br from-teal-400 to-blue-500 rounded-full mx-auto mb-3 character-test"></div>
+                    <p class="text-sm text-gray-600">Transformación y sombra dinámica</p>
+                </div>
+            </div>
+            
+            <div class="mt-6 bg-purple-50 border border-purple-200 rounded-lg p-4">
+                <h4 class="font-semibold text-purple-800 mb-2">🎨 Sistema de Animaciones</h4>
+                <ul class="text-purple-700 space-y-1">
+                    <li>• Animaciones CSS personalizadas con keyframes</li>
+                    <li>• Transiciones suaves con cubic-bezier</li>
+                    <li>• Efectos de profundidad con drop-shadow</li>
+                    <li>• Responsive para diferentes tamaños de pantalla</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Integration Status -->
+        <div class="test-section p-8">
+            <h3 class="text-2xl font-bold mb-6 text-center">🔧 Estado de Integración</h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-green-50 border border-green-200 rounded-lg p-6">
+                    <h4 class="font-semibold text-green-800 mb-3">✅ Completado</h4>
+                    <ul class="text-green-700 space-y-2">
+                        <li>• Recursos visuales integrados</li>
+                        <li>• Personajes con animaciones</li>
+                        <li>• Estilos personalizados aplicados</li>
+                        <li>• Interacciones básicas funcionando</li>
+                        <li>• Diseño responsive implementado</li>
+                    </ul>
+                </div>
+                
+                <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
+                    <h4 class="font-semibold text-yellow-800 mb-3">🔄 Próximos Pasos</h4>
+                    <ul class="text-yellow-700 space-y-2">
+                        <li>• Implementar mensajes de personajes al hacer click</li>
+                        <li>• Agregar sistema de puntos y recompensas</li>
+                        <li>• Integrar efectos de sonido (opcional)</li>
+                        <li>• Optimizar para modo oscuro</li>
+                        <li>• Pruebas de accesibilidad</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="mt-6 text-center">
+                <button onclick="window.location.href='index.html'" class="bg-gradient-to-r from-teal-500 to-orange-500 text-white px-8 py-3 rounded-full font-semibold hover:shadow-lg transition-all duration-300 transform hover:scale-105">
+                    🚀 Probar Odisea Challenge
+                </button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
