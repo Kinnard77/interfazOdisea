@@ -4,111 +4,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reservar | Odisea Challenge</title>
+    <title>Finaliza tu reserva | Odisea</title>
     <script src="https://sdk.mercadopago.com/js/v2"></script>
+    <style>
+        body {
+            font-family: sans-serif;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: auto;
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:disabled {
+            background-color: #ccc;
+        }
+    </style>
 </head>
 
 <body>
 
-    <h1>Finaliza tu reserva</h1>
+    <div class="container">
+        <h2>Finaliza tu reserva</h2>
+        <p>ID de viaje: <small id="display-trip-id" style="color: blue;">Cargando...</small></p>
 
-    <p>ID del viaje seleccionado: <strong id="display-trip-id">Cargando...</strong></p>
+        <form id="form-reserva">
+            <input type="text" id="nombre" placeholder="Nombre completo" required>
+            <input type="email" id="email" placeholder="Correo electrónico" required>
+            <input type="number" id="cantidad" value="1" min="1" required>
+            <button type="submit" id="btn-confirmar">Confirmar datos y pagar</button>
+        </form>
+    </div>
 
-    <form id="form-reserva">
-        <input type="text" id="nombre" placeholder="Nombre completo" required><br><br>
-        <input type="email" id="email" placeholder="Correo electrónico" required><br><br>
-        <input type="number" id="cantidad" value="1" min="1" required><br><br>
+    <script>
+        // 1. Capturar ID de la URL
+        const urlParams = new URLSearchParams(window.location.search);
+        let tripId = urlParams.get('trip_id');
 
-        <button type="submit" id="btn-confirmar">Confirmar datos y pagar</button>
-    </form>
+        // Fallback por si la URL está vacía (para que no se vea feo)
+        if (!tripId) {
+            tripId = "e7d86957-95c2-4a34-9a7d-85b1666ef4bd"; // Tu ID de prueba real
+        }
+        document.getElementById('display-trip-id').innerText = tripId;
 
-    <div id="wallet_container"></div>
+        // 2. Lógica del Botón
+        document.getElementById('form-reserva').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('btn-confirmar');
+            const originalText = btn.innerText;
 
-    // 1. Capturar ID de la URL
-    const urlParams = new URLSearchParams(window.location.search);
-    let tripId = urlParams.get('trip_id');
+            btn.innerText = "Procesando...";
+            btn.disabled = true;
 
-    // Fallback para pruebas si no hay ID en la URL
-    if (!tripId) {
-    console.warn("No trip_id in URL, using fallback test ID.");
-    tripId = "000040c2-e65a-4399-abb2-114469dbd691"; // ID válido de prueba
-    alert("Modo Prueba: Usando ID de viaje por defecto (" + tripId + ")");
-    }
+            try {
+                // PASO A: Crear reserva en tu API
+                const resReserva = await fetch('https://api.odiseachallenge.com/reservations', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        trip_id: tripId,
+                        full_name: document.getElementById('nombre').value,
+                        email: document.getElementById('email').value,
+                        qty: parseInt(document.getElementById('cantidad').value)
+                    })
+                });
 
-    if (tripId) {
-    document.getElementById('display-trip-id').innerText = tripId;
-    }
+                const reserva = await resReserva.json();
+                if (!resReserva.ok) throw new Error(reserva.message || "Error en reserva");
 
-    // 2. Escuchar el clic del botón
-    document.getElementById('form-reserva').addEventListener('submit', async (e) => {
-    e.preventDefault(); // Evita que la página se recargue
+                // PASO B: Crear preferencia de Mercado Pago
+                const resPref = await fetch('https://api.odiseachallenge.com/create-preference', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        reservation_token: reserva.reservation_token,
+                        title: "Tour Odisea Challenge",
+                        price: 1 // Prueba de 1 peso real
+                    })
+                });
 
-    const btn = document.getElementById('btn-confirmar');
-    const originalText = btn.innerText;
-    btn.innerText = "Procesando...";
-    btn.disabled = true;
+                const preferencia = await resPref.json();
+                if (!resPref.ok) throw new Error(preferencia.message || "Error en pago");
 
-    try {
-    console.log("Iniciando reserva para trip_id:", tripId);
+                // PASO C: Redirigir al pago real
+                if (preferencia.init_point) {
+                    window.location.href = preferencia.init_point;
+                }
 
-    // PASO A: Crear la reserva en Railway
-    const resReserva = await fetch('https://api.odiseachallenge.com/reservations', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-    trip_id: tripId,
-    full_name: document.getElementById('nombre').value,
-    email: document.getElementById('email').value,
-    qty: parseInt(document.getElementById('cantidad').value)
-    })
-    });
-
-    if (!resReserva.ok) {
-    const errorData = await resReserva.json();
-    throw new Error(errorData.message || `Error en reserva: ${resReserva.status}`);
-    }
-
-    const reserva = await resReserva.json();
-    console.log("Reserva creada:", reserva);
-
-    if (reserva.status !== 'ok' || !reserva.reservation_token) {
-    throw new Error(reserva.message || "No se recibió token de reserva");
-    }
-
-    // PASO B: Crear la preferencia de Mercado Pago
-    const resPref = await fetch('https://api.odiseachallenge.com/create-preference', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-    reservation_token: reserva.reservation_token,
-    title: "Tour Odisea Challenge",
-    price: 1 // Prueba de 1 peso real
-    })
-    });
-
-    if (!resPref.ok) {
-    const errorData = await resPref.json();
-    throw new Error(errorData.message || `Error en preferencia: ${resPref.status}`);
-    }
-
-    const preferencia = await resPref.json();
-    console.log("Preferencia creada:", preferencia);
-
-    // PASO C: Abrir la pasarela de pago
-    if (preferencia.init_point) {
-    window.location.href = preferencia.init_point;
-    } else {
-    throw new Error("No se recibió init_point de Mercado Pago");
-    }
-
-    } catch (error) {
-    console.error("Error en el proceso:", error);
-    alert("Hubo un error: " + error.message);
-    btn.innerText = originalText;
-    btn.disabled = false;
-    }
-    });
+            } catch (error) {
+                console.error("Error:", error);
+                alert("Hubo un error: " + error.message);
+                btn.innerText = originalText;
+                btn.disabled = false;
+            }
+        });
     </script>
+
 </body>
 
 </html>
