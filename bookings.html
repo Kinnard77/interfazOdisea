@@ -38,10 +38,13 @@
             e.preventDefault(); // Evita que la página se recargue
 
             const btn = document.getElementById('btn-confirmar');
+            const originalText = btn.innerText;
             btn.innerText = "Procesando...";
             btn.disabled = true;
 
             try {
+                console.log("Iniciando reserva para trip_id:", tripId);
+
                 // PASO A: Crear la reserva en Railway
                 const resReserva = await fetch('https://api.odiseachallenge.com/reservations', {
                     method: 'POST',
@@ -53,7 +56,18 @@
                         qty: parseInt(document.getElementById('cantidad').value)
                     })
                 });
+
+                if (!resReserva.ok) {
+                    const errorData = await resReserva.json();
+                    throw new Error(errorData.message || `Error en reserva: ${resReserva.status}`);
+                }
+
                 const reserva = await resReserva.json();
+                console.log("Reserva creada:", reserva);
+
+                if (reserva.status !== 'ok' || !reserva.reservation_token) {
+                    throw new Error(reserva.message || "No se recibió token de reserva");
+                }
 
                 // PASO B: Crear la preferencia de Mercado Pago
                 const resPref = await fetch('https://api.odiseachallenge.com/create-preference', {
@@ -65,17 +79,26 @@
                         price: 1 // Prueba de 1 peso real
                     })
                 });
+
+                if (!resPref.ok) {
+                    const errorData = await resPref.json();
+                    throw new Error(errorData.message || `Error en preferencia: ${resPref.status}`);
+                }
+
                 const preferencia = await resPref.json();
+                console.log("Preferencia creada:", preferencia);
 
                 // PASO C: Abrir la pasarela de pago
                 if (preferencia.init_point) {
                     window.location.href = preferencia.init_point;
+                } else {
+                    throw new Error("No se recibió init_point de Mercado Pago");
                 }
 
             } catch (error) {
-                console.error("Error:", error);
-                alert("Hubo un error al procesar tu reserva.");
-                btn.innerText = "Confirmar datos y pagar";
+                console.error("Error en el proceso:", error);
+                alert("Hubo un error: " + error.message);
+                btn.innerText = originalText;
                 btn.disabled = false;
             }
         });
