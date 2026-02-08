@@ -25,16 +25,60 @@
     <div id="wallet_container"></div>
 
     <script>
-        // MICROPASO: Capturar el ID de la URL
+        // 1. Capturar ID de la URL
         const urlParams = new URLSearchParams(window.location.search);
         const tripId = urlParams.get('trip_id');
 
         if (tripId) {
             document.getElementById('display-trip-id').innerText = tripId;
-        } else {
-            document.getElementById('display-trip-id').innerText = "No se seleccionó ningún viaje.";
-            document.getElementById('btn-confirmar').disabled = true;
         }
+
+        // 2. Escuchar el clic del botón
+        document.getElementById('form-reserva').addEventListener('submit', async (e) => {
+            e.preventDefault(); // Evita que la página se recargue
+
+            const btn = document.getElementById('btn-confirmar');
+            btn.innerText = "Procesando...";
+            btn.disabled = true;
+
+            try {
+                // PASO A: Crear la reserva en Railway
+                const resReserva = await fetch('https://api.odiseachallenge.com/reservations', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        trip_id: tripId,
+                        full_name: document.getElementById('nombre').value,
+                        email: document.getElementById('email').value,
+                        qty: parseInt(document.getElementById('cantidad').value)
+                    })
+                });
+                const reserva = await resReserva.json();
+
+                // PASO B: Crear la preferencia de Mercado Pago
+                const resPref = await fetch('https://api.odiseachallenge.com/create-preference', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        reservation_token: reserva.reservation_token,
+                        title: "Tour Odisea Challenge",
+                        price: 1 // Prueba de 1 peso real
+                    })
+                });
+                const preferencia = await resPref.json();
+
+                // PASO C: Abrir la pasarela de pago
+                if (preferencia.init_point) {
+                    window.location.href = preferencia.init_point;
+                }
+
+            } catch (error) {
+                console.error("Error:", error);
+                alert("Hubo un error al procesar tu reserva.");
+                btn.innerText = "Confirmar datos y pagar";
+                btn.disabled = false;
+            }
+        });
     </script>
 </body>
 
