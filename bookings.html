@@ -65,7 +65,9 @@
 
         // Fallback por si la URL está vacía (para que no se vea feo)
         if (!tripId) {
-            tripId = "e7d86957-95c2-4a34-9a7d-85b1666ef4bd"; // Tu ID de prueba real
+            // ID verificado desde la base de datos (paso operational fetch_trips.js)
+            tripId = "000040c2-e65a-4399-be9b-367f9a016fe6";
+            console.warn("Using fallback ID:", tripId);
         }
         document.getElementById('display-trip-id').innerText = tripId;
 
