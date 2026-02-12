@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,7 +11,7 @@
     <link href="odisea-styles.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
-        
+
         :root {
             --primary: #fcbc68;
             --secondary: #f1720a;
@@ -19,91 +20,102 @@
             --text-dark: #2C3E50;
             --text-light: #7F8C8D;
         }
-        
+
         body {
             font-family: 'Inter', sans-serif;
             background: linear-gradient(135deg, var(--neutral) 0%, #aaa79f 100%);
             color: var(--text-dark);
         }
-        
+
         .font-display {
             font-family: 'Playfair Display', serif;
         }
-        
+
         .glass-nav {
             backdrop-filter: blur(20px);
             background: rgba(155, 155, 155, 0.9);
             border-bottom: 1px solid rgba(13, 79, 76, 0.1);
         }
-        
+
         .gradient-text {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-        
+
         .departure-card {
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(13, 79, 76, 0.1);
         }
-        
+
         .departure-card:hover {
             transform: translateY(-8px);
             box-shadow: 0 25px 50px rgba(13, 79, 76, 0.15);
         }
-        
+
         .btn-primary {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: rgb(233, 225, 225);
             transition: all 0.3s ease;
         }
-        
+
         .btn-primary:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 25px rgba(224, 122, 95, 0.3);
         }
-        
+
         .btn-secondary {
             background: var(--secondary);
             color: white;
             transition: all 0.3s ease;
         }
-        
+
         .btn-secondary:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 25px rgba(224, 122, 95, 0.3);
         }
-        
+
         .hero-bg {
             background: linear-gradient(rgba(13, 79, 76, 0.4), rgba(13, 79, 76, 0.4)), url('resources/background-abstract.jpg');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
         }
-        
+
         .animate-fade-in {
             animation: fadeIn 0.6s ease-out;
         }
-        
+
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
-        
+
         .coming-soon-card {
             opacity: 0.7;
             background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
         }
     </style>
 </head>
+
 <body>
     <!-- Navigation -->
     <nav class="glass-nav fixed top-0 left-0 right-0 z-50 py-4">
         <div class="container mx-auto px-6 flex items-center justify-between">
-            <div class="font-display text-2xl font-bold gradient-text">Odisea Challenge</div>
+            <div class="flex flex-col">
+                <div class="font-display text-2xl font-bold gradient-text leading-none">Odisea Challenge</div>
+                <div class="text-[10px] text-gray-500 font-medium tracking-wide uppercase">Una Odisea por México</div>
+            </div>
             <div class="hidden md:flex space-x-8">
                 <a href="index.html" class="text-gray-700 hover:text-primary transition-colors">Home</a>
                 <a href="destinations.html" class="text-gray-700 hover:text-primary transition-colors">Destinos</a>
@@ -126,8 +138,9 @@
                 <span class="gradient-text-white">Salidas</span><br>
                 <span class="text-white">Desde Tu Ciudad</span>
             </h1>
-            <p class="text-xl md:text-2xl mb-12 max-w-3xl mx-auto opacity-90 animate-fade-in" style="animation-delay: 0.3s;">
-                Todos nuestros viajes salen exclusivamente desde estas ciudades seleccionadas. 
+            <p class="text-xl md:text-2xl mb-12 max-w-3xl mx-auto opacity-90 animate-fade-in"
+                style="animation-delay: 0.3s;">
+                Todos nuestros viajes salen exclusivamente desde estas ciudades seleccionadas.
                 Encuentra tu punto de salida más cercano y comienza tu odisea.
             </p>
             <div class="animate-fade-in" style="animation-delay: 0.6s;">
@@ -144,7 +157,7 @@
             <div class="text-center mb-16">
                 <h2 class="font-display text-4xl md:text-5xl font-bold gradient-text mb-6">Salidas Activas</h2>
                 <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-                    Actualmente operamos desde estas 4 ciudades. 
+                    Actualmente operamos desde estas 4 ciudades.
                     Cada punto de salida tiene su propio horario y precio específico.
                 </p>
             </div>
@@ -162,12 +175,12 @@
                             Guanajuato
                         </div>
                     </div>
-                    
+
                     <div class="mb-6">
                         <div class="text-4xl font-bold gradient-text mb-2">$2,648</div>
                         <p class="text-gray-600 text-sm">Por persona</p>
                     </div>
-                    
+
                     <div class="space-y-3 mb-8 text-left">
                         <div class="flex items-center text-sm">
                             <span class="w-3 h-3 bg-blue-500 rounded-full mr-3"></span>
@@ -182,8 +195,9 @@
                             <span><strong>Duración:</strong> 11 horas</span>
                         </div>
                     </div>
-                    
-                    <button class="w-full btn-primary py-3 rounded-lg font-semibold" onclick="selectDeparture('dolores-hidalgo', 2600)">
+
+                    <button class="w-full btn-primary py-3 rounded-lg font-semibold"
+                        onclick="selectDeparture('dolores-hidalgo', 2600)">
                         Seleccionar Salida
                     </button>
                 </div>
@@ -195,16 +209,17 @@
                             <span class="text-white text-2xl font-bold">SA</span>
                         </div>
                         <h3 class="font-display text-2xl font-bold mb-2">San Miguel de Allende</h3>
-                        <div class="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm font-bold inline-block">
+                        <div
+                            class="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm font-bold inline-block">
                             Guanajuato
                         </div>
                     </div>
-                    
+
                     <div class="mb-6">
                         <div class="text-4xl font-bold gradient-text mb-2">$2,695</div>
                         <p class="text-gray-600 text-sm">Por persona</p>
                     </div>
-                    
+
                     <div class="space-y-3 mb-8 text-left">
                         <div class="flex items-center text-sm">
                             <span class="w-3 h-3 bg-orange-500 rounded-full mr-3"></span>
@@ -219,8 +234,9 @@
                             <span><strong>Duración:</strong> 9 horas</span>
                         </div>
                     </div>
-                    
-                    <button class="w-full btn-primary py-3 rounded-lg font-semibold" onclick="selectDeparture('san-miguel-allende', 2400)">
+
+                    <button class="w-full btn-primary py-3 rounded-lg font-semibold"
+                        onclick="selectDeparture('san-miguel-allende', 2400)">
                         Seleccionar Salida
                     </button>
                 </div>
@@ -232,16 +248,17 @@
                             <span class="text-white text-2xl font-bold">GT</span>
                         </div>
                         <h3 class="font-display text-2xl font-bold mb-2">Guanajuato</h3>
-                        <div class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-bold inline-block">
+                        <div
+                            class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-bold inline-block">
                             Guanajuato
                         </div>
                     </div>
-                    
+
                     <div class="mb-6">
                         <div class="text-4xl font-bold gradient-text mb-2">$2,695</div>
                         <p class="text-gray-600 text-sm">Por persona</p>
                     </div>
-                    
+
                     <div class="space-y-3 mb-8 text-left">
                         <div class="flex items-center text-sm">
                             <span class="w-3 h-3 bg-purple-500 rounded-full mr-3"></span>
@@ -256,8 +273,9 @@
                             <span><strong>Duración:</strong> 13 horas</span>
                         </div>
                     </div>
-                    
-                    <button class="w-full btn-primary py-3 rounded-lg font-semibold" onclick="selectDeparture('guanajuato-capital', 2900)">
+
+                    <button class="w-full btn-primary py-3 rounded-lg font-semibold"
+                        onclick="selectDeparture('guanajuato-capital', 2900)">
                         Seleccionar Salida
                     </button>
                 </div>
@@ -273,12 +291,12 @@
                             Puebla
                         </div>
                     </div>
-                    
+
                     <div class="mb-6">
                         <div class="text-4xl font-bold gradient-text mb-2">$2,350</div>
                         <p class="text-gray-600 text-sm">Por persona</p>
                     </div>
-                    
+
                     <div class="space-y-3 mb-8 text-left">
                         <div class="flex items-center text-sm">
                             <span class="w-3 h-3 bg-red-500 rounded-full mr-3"></span>
@@ -293,8 +311,9 @@
                             <span><strong>Duración:</strong> 3 horas</span>
                         </div>
                     </div>
-                    
-                    <button class="w-full btn-primary py-3 rounded-lg font-semibold" onclick="selectDeparture('puebla', 1600)">
+
+                    <button class="w-full btn-primary py-3 rounded-lg font-semibold"
+                        onclick="selectDeparture('puebla', 1600)">
                         Seleccionar Salida
                     </button>
                 </div>
@@ -338,7 +357,7 @@
             <div class="text-center mb-16">
                 <h2 class="font-display text-4xl font-bold text-gray-700 mb-6">Próximamente</h2>
                 <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-                    Estamos trabajando para expandir nuestros puntos de salida. 
+                    Estamos trabajando para expandir nuestros puntos de salida.
                     Muy pronto estaremos disponibles en estas ciudades:
                 </p>
             </div>
@@ -353,7 +372,8 @@
                     <div class="bg-gray-200 text-gray-600 px-3 py-1 rounded-full text-sm font-bold inline-block mb-4">
                         Muy Pronto
                     </div>
-                    <p class="text-gray-600 text-sm">Estamos preparando la infraestructura para operar desde esta hermosa ciudad.</p>
+                    <p class="text-gray-600 text-sm">Estamos preparando la infraestructura para operar desde esta
+                        hermosa ciudad.</p>
                 </div>
 
                 <!-- Cuernavaca -->
@@ -365,7 +385,8 @@
                     <div class="bg-gray-200 text-gray-600 px-3 py-1 rounded-full text-sm font-bold inline-block mb-4">
                         Muy Pronto
                     </div>
-                    <p class="text-gray-600 text-sm">La ciudad de la eterna primavera será uno de nuestros próximos puntos de salida.</p>
+                    <p class="text-gray-600 text-sm">La ciudad de la eterna primavera será uno de nuestros próximos
+                        puntos de salida.</p>
                 </div>
 
                 <!-- Pachuca -->
@@ -377,7 +398,8 @@
                     <div class="bg-gray-200 text-gray-600 px-3 py-1 rounded-full text-sm font-bold inline-block mb-4">
                         Muy Pronto
                     </div>
-                    <p class="text-gray-600 text-sm">Desde la capital del futbol mexicano, próximamente con salidas disponibles.</p>
+                    <p class="text-gray-600 text-sm">Desde la capital del futbol mexicano, próximamente con salidas
+                        disponibles.</p>
                 </div>
 
                 <!-- Toluca -->
@@ -389,7 +411,8 @@
                     <div class="bg-gray-200 text-gray-600 px-3 py-1 rounded-full text-sm font-bold inline-block mb-4">
                         Muy Pronto
                     </div>
-                    <p class="text-gray-600 text-sm">La capital mexiquense se sumará próximamente a nuestras rutas de odisea.</p>
+                    <p class="text-gray-600 text-sm">La capital mexiquense se sumará próximamente a nuestras rutas de
+                        odisea.</p>
                 </div>
             </div>
 
@@ -410,10 +433,13 @@
                 Selecciona tu punto de salida más cercano y comienza la aventura de tu vida en la CDMX.
             </p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <button class="bg-white text-primary px-8 py-4 rounded-full font-bold hover:bg-gray-100 transition-colors" onclick="scrollToSalidas()">
+                <button
+                    class="bg-white text-primary px-8 py-4 rounded-full font-bold hover:bg-gray-100 transition-colors"
+                    onclick="scrollToSalidas()">
                     Ver Salidas Disponibles
                 </button>
-                <a href="destinations.html" class="border-2 border-white text-white px-8 py-4 rounded-full font-bold hover:bg-white hover:text-primary transition-colors">
+                <a href="destinations.html"
+                    class="border-2 border-white text-white px-8 py-4 rounded-full font-bold hover:bg-white hover:text-primary transition-colors">
                     Explorar Destinos
                 </a>
             </div>
@@ -426,12 +452,12 @@
             <div class="text-center">
                 <div class="font-display text-3xl font-bold gradient-text mb-4">Odisea Challenge</div>
                 <p class="text-gray-400 mb-8 max-w-2xl mx-auto">
-                    Creamos experiencias inolvidables desde pequeñas ciudades hacia la CDMX. 
+                    Creamos experiencias inolvidables desde pequeñas ciudades hacia la CDMX.
                     Cada viaje es una odisea llena de aventura, cultura y diversión.
                 </p>
                 <div class="border-t border-gray-800 pt-8">
                     <p class="text-gray-400">
-                        © 2025 Odisea Challenge. Todos los derechos reservados. 
+                        © 2025 Odisea Challenge. Todos los derechos reservados.
                         Creado con pasión para Odiseas Extraordinarias.
                     </p>
                 </div>
@@ -442,8 +468,8 @@
     <script>
         // Scroll to salidas section
         function scrollToSalidas() {
-            document.getElementById('salidas-activas').scrollIntoView({ 
-                behavior: 'smooth' 
+            document.getElementById('salidas-activas').scrollIntoView({
+                behavior: 'smooth'
             });
         }
 
@@ -457,17 +483,17 @@
             };
 
             const cityName = cities[city];
-            
+
             // Store selected departure point
             localStorage.setItem('selectedDeparture', JSON.stringify({
                 city: cityName,
                 price: price,
                 timestamp: Date.now()
             }));
-            
+
             // Show notification and redirect
             showNotification(`Has seleccionado salir desde ${cityName}. Redirigiendo a reservación...`, 'success');
-            
+
             // Redirect to booking page after a short delay
             setTimeout(() => {
                 window.location.href = 'bookings.html#booking-form';
@@ -489,7 +515,7 @@
         function showNotification(message, type = 'info') {
             const notification = document.createElement('div');
             notification.className = `fixed top-24 right-6 z-50 px-6 py-4 rounded-lg shadow-lg text-white font-medium`;
-            
+
             switch (type) {
                 case 'success':
                     notification.classList.add('bg-green-500');
@@ -502,10 +528,10 @@
                     notification.classList.add('bg-blue-500');
                     break;
             }
-            
+
             notification.textContent = message;
             document.body.appendChild(notification);
-            
+
             // Animate in
             anime({
                 targets: notification,
@@ -514,7 +540,7 @@
                 duration: 400,
                 easing: 'easeOutExpo'
             });
-            
+
             // Auto remove
             setTimeout(() => {
                 anime({
@@ -528,7 +554,7 @@
         }
 
         // Initialize page
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // Animate elements on scroll
             const observerOptions = {
                 threshold: 0.1,
@@ -554,4 +580,5 @@
         });
     </script>
 </body>
+
 </html>
