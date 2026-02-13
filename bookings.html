@@ -4,149 +4,470 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Finaliza tu reserva | Odisea</title>
+    <title>Finaliza tu Odisea | Reserva Segura</title>
     <script src="https://sdk.mercadopago.com/js/v2"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <link href="odisea-styles.css" rel="stylesheet">
+    <link href="enhanced-styles.css" rel="stylesheet">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
+
         body {
-            font-family: sans-serif;
-            padding: 20px;
-            line-height: 1.6;
+            font-family: 'Inter', sans-serif;
+            background: #F7F3E9;
+            color: #2C3E50;
         }
 
-        .container {
-            max-width: 400px;
-            margin: auto;
-            border: 1px solid #ccc;
-            padding: 20px;
-            border-radius: 8px;
+        .font-display {
+            font-family: 'Playfair Display', serif;
         }
 
-        input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            box-sizing: border-box;
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(13, 79, 76, 0.1);
+            box-shadow: 0 20px 40px rgba(13, 79, 76, 0.05);
         }
 
-        button {
-            width: 100%;
-            padding: 10px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
+        .input-field {
+            background: rgba(247, 243, 233, 0.5);
+            border: 1px solid rgba(13, 79, 76, 0.1);
+            transition: all 0.3s ease;
         }
 
-        button:disabled {
-            background-color: #ccc;
+        .input-field:focus {
+            border-color: #E07A5F;
+            box-shadow: 0 0 0 3px rgba(224, 122, 95, 0.1);
+            outline: none;
+            background: white;
         }
     </style>
 </head>
 
-<body>
+<body class="min-h-screen flex flex-col justify-between relative overflow-x-hidden">
 
-    <div class="container">
-        <h2>Finaliza tu reserva</h2>
-        <p>ID de viaje: <small id="display-trip-id" style="color: blue;">Cargando...</small></p>
-
-        <form id="form-reserva">
-            <input type="text" id="nombre" placeholder="Nombre completo" required>
-            <input type="email" id="email" placeholder="Correo electrónico" required>
-            <input type="number" id="cantidad" value="1" min="1" required>
-            <button type="submit" id="btn-confirmar">Confirmar datos y pagar</button>
-            <div id="wallet_container"></div>
-        </form>
+    <!-- Background Elements -->
+    <div class="fixed inset-0 z-0 pointer-events-none">
+        <div
+            class="absolute top-0 right-0 w-1/3 h-1/3 bg-gradient-to-b from-teal-900/10 to-transparent rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2">
+        </div>
+        <div
+            class="absolute bottom-0 left-0 w-1/2 h-1/2 bg-gradient-to-t from-orange-500/10 to-transparent rounded-full blur-3xl transform -translate-x-1/3 translate-y-1/3">
+        </div>
     </div>
 
+    <!-- Navigation -->
+    <nav class="relative z-50 py-6 px-8 flex justify-between items-center">
+        <a href="index.html" class="flex items-center gap-3 group">
+            <div
+                class="w-10 h-10 rounded-full bg-gradient-to-br from-teal-900 to-teal-700 flex items-center justify-center text-white font-display font-bold text-xl shadow-lg group-hover:scale-110 transition-transform duration-300">
+                O
+            </div>
+            <span class="font-display text-xl font-bold text-teal-900 tracking-tight">Odisea<span
+                    class="text-orange-500">Challenge</span></span>
+        </a>
+        <a href="destinations-enhanced"
+            class="text-sm font-medium text-gray-500 hover:text-teal-900 transition-colors">Cancelar y Volver</a>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="relative z-10 container mx-auto px-6 py-8 md:py-12 flex-grow">
+        <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-start" id="main-grid">
+
+            <!-- Left Column: Booking Form -->
+            <div class="lg:col-span-7 space-y-8 animate-in" style="opacity: 0; transform: translateY(20px);">
+                <header>
+                    <div
+                        class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-100 text-orange-600 text-xs font-bold tracking-wider uppercase mb-4">
+                        Reserva Segura
+                    </div>
+                    <h1 class="font-display text-4xl md:text-5xl font-bold text-gray-900 mb-4 leading-tight">
+                        Completa tu <br><span
+                            class="text-transparent bg-clip-text bg-gradient-to-r from-teal-800 to-teal-600">Aventura</span>
+                    </h1>
+                </header>
+
+                <div class="glass-panel p-8 rounded-3xl">
+                    <form id="booking-form" class="space-y-6">
+
+                        <!-- 1. Trip Selection (Date) -->
+                        <div class="space-y-4 border-b border-gray-200 pb-6">
+                            <h3 class="font-display text-xl font-bold text-teal-900 flex items-center gap-2">
+                                <span
+                                    class="w-6 h-6 rounded-full bg-teal-100 text-teal-700 flex items-center justify-center text-xs">1</span>
+                                Elige tu Fecha
+                            </h3>
+
+                            <div id="trip-loading" class="text-sm text-gray-500 animate-pulse">Buscando salidas
+                                disponibles...</div>
+
+                            <div id="trip-selection-container" class="hidden space-y-4">
+                                <div>
+                                    <label
+                                        class="text-xs font-bold text-gray-400 uppercase tracking-wide">Experiencia</label>
+                                    <div class="text-lg font-bold text-teal-900" id="experience-name">Cargando...</div>
+                                </div>
+
+                                <div>
+                                    <label class="text-xs font-bold text-gray-400 uppercase tracking-wide">Fecha de
+                                        Salida</label>
+                                    <select id="trip-selector"
+                                        class="input-field w-full px-4 py-3 rounded-xl text-gray-800 font-medium cursor-pointer appearance-none bg-white">
+                                        <option value="">Selecciona una fecha...</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div id="no-trips-msg" class="hidden text-red-500 text-sm font-medium">
+                                No encontramos fechas disponibles para esta experiencia por el momento.
+                            </div>
+                        </div>
+
+                        <!-- 2. Personal Data -->
+                        <div class="space-y-4">
+                            <h3 class="font-display text-xl font-bold text-teal-900 flex items-center gap-2">
+                                <span
+                                    class="w-6 h-6 rounded-full bg-teal-100 text-teal-700 flex items-center justify-center text-xs">2</span>
+                                Tus Datos
+                            </h3>
+                            <div class="grid md:grid-cols-2 gap-4">
+                                <div class="space-y-1">
+                                    <label class="text-xs font-bold text-gray-400 uppercase tracking-wide">Nombre
+                                        Completo</label>
+                                    <input type="text" id="full_name"
+                                        class="input-field w-full px-4 py-3 rounded-xl text-gray-800 font-medium placeholder-gray-400"
+                                        required>
+                                </div>
+                                <div class="space-y-1">
+                                    <label
+                                        class="text-xs font-bold text-gray-400 uppercase tracking-wide">Teléfono</label>
+                                    <input type="tel" id="phone"
+                                        class="input-field w-full px-4 py-3 rounded-xl text-gray-800 font-medium placeholder-gray-400"
+                                        required>
+                                </div>
+                            </div>
+                            <div class="space-y-1">
+                                <label class="text-xs font-bold text-gray-400 uppercase tracking-wide">Correo
+                                    Electrónico</label>
+                                <input type="email" id="email"
+                                    class="input-field w-full px-4 py-3 rounded-xl text-gray-800 font-medium placeholder-gray-400"
+                                    required>
+                            </div>
+                        </div>
+
+                        <!-- 3. Passengers -->
+                        <div class="space-y-4 pt-4 border-t border-gray-200">
+                            <h3 class="font-display text-xl font-bold text-teal-900 flex items-center gap-2">
+                                <span
+                                    class="w-6 h-6 rounded-full bg-teal-100 text-teal-700 flex items-center justify-center text-xs">3</span>
+                                Pasajeros
+                            </h3>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="space-y-1">
+                                    <label
+                                        class="text-xs font-bold text-gray-400 uppercase tracking-wide">Adultos</label>
+                                    <div class="relative">
+                                        <button type="button"
+                                            class="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 font-bold"
+                                            onclick="adjustQty('adults', -1)">-</button>
+                                        <input type="number" id="adults" value="1" min="1" max="10"
+                                            class="input-field w-full px-12 py-3 rounded-xl text-center text-gray-800 font-bold"
+                                            readonly>
+                                        <button type="button"
+                                            class="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 font-bold"
+                                            onclick="adjustQty('adults', 1)">+</button>
+                                    </div>
+                                </div>
+                                <div class="space-y-1">
+                                    <label class="text-xs font-bold text-gray-400 uppercase tracking-wide">Niños</label>
+                                    <div class="relative">
+                                        <button type="button"
+                                            class="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 font-bold"
+                                            onclick="adjustQty('children', -1)">-</button>
+                                        <input type="number" id="children" value="0" min="0" max="10"
+                                            class="input-field w-full px-12 py-3 rounded-xl text-center text-gray-800 font-bold"
+                                            readonly>
+                                        <button type="button"
+                                            class="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 font-bold"
+                                            onclick="adjustQty('children', 1)">+</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Error Message -->
+                        <div id="error-container"
+                            class="hidden p-4 bg-red-50 border border-red-200 rounded-xl flex items-start gap-3">
+                            <span class="text-red-500 text-xl">⚠️</span>
+                            <div>
+                                <h4 class="font-bold text-red-800 text-sm">Atención</h4>
+                                <p id="error-message" class="text-sm text-red-600 mt-1"></p>
+                            </div>
+                        </div>
+
+                        <!-- Submit Buttons -->
+                        <div class="pt-4">
+                            <button type="submit" id="btn-validate"
+                                class="w-full bg-gray-900 text-white font-bold py-4 rounded-xl hover:bg-gray-800 transform hover:-translate-y-1 transition-all duration-300 shadow-xl shadow-gray-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none">
+                                Continuar al Pago
+                            </button>
+                            <div id="wallet_container" class="mt-6"></div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Right Column: Summary -->
+            <div class="lg:col-span-5 animate-in"
+                style="opacity: 0; transform: translateY(20px); animation-delay: 0.2s;">
+                <div class="sticky top-24 space-y-6">
+                    <div class="relative rounded-3xl overflow-hidden shadow-2xl h-64 group">
+                        <img src="resources/destination-mountain.jpg" alt="Destination"
+                            class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-gray-900/80 to-transparent"></div>
+                        <div class="absolute bottom-6 left-6 text-white">
+                            <h3 id="summary-destination" class="font-display text-3xl font-bold">Resumen</h3>
+                            <p id="summary-date" class="text-sm text-gray-300 font-medium mt-1">Selecciona una fecha</p>
+                        </div>
+                    </div>
+
+                    <div class="glass-panel p-8 rounded-3xl">
+                        <h3 class="font-display text-xl font-bold text-teal-900 mb-6 border-b border-gray-200 pb-4">
+                            Desglose</h3>
+
+                        <div class="space-y-3 text-gray-600">
+                            <div class="flex justify-between">
+                                <span class="text-sm">Precio Unitario</span>
+                                <span class="font-medium text-sm">$<span id="unit-price">0</span></span>
+                            </div>
+                            <div class="flex justify-between font-medium text-gray-800">
+                                <span>Pasajeros (<span id="summary-total-pax">1</span>)</span>
+                                <span>$<span id="summary-subtotal">0</span></span>
+                            </div>
+                        </div>
+
+                        <div class="mt-6 pt-6 border-t border-dashed border-gray-300">
+                            <div class="flex justify-between items-end">
+                                <span class="font-display text-lg font-bold text-gray-900">Total</span>
+                                <span class="font-display text-4xl font-bold text-orange-500">$<span
+                                        id="summary-total">0</span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- JS Logic -->
     <script>
-        // 1. Inicializar Mercado Pago
-        const mp = new MercadoPago('APP_USR-899dca7c-b3cb-4482-ae18-89b28ca8e4f7', {
-            locale: 'es-MX'
+        const PUBLIC_KEY = 'APP_USR-899dca7c-b3cb-4482-ae18-89b28ca8e4f7'; // Your Key
+        const API_BASE = 'https://api.odiseachallenge.com';
+
+        let allTrips = [];
+        let selectedTrip = null;
+        let mapIdToName = {
+            '1': 'Acuario Inbursa',
+            '2': 'Acuario Interactivo',
+            '3': 'Museo Soumaya',
+            '4': 'Odisea México'
+        };
+
+        let qtyAdults = 1;
+        let qtyChildren = 0;
+        let mp = new MercadoPago(PUBLIC_KEY, { locale: 'es-MX' });
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Animation
+            anime({ targets: '.animate-in', opacity: [0, 1], translateY: [20, 0], delay: anime.stagger(200), easing: 'easeOutExpo' });
+
+            await fetchTrips();
         });
 
-        // 2. Capturar ID de la URL
-        const urlParams = new URLSearchParams(window.location.search);
-        let tripId = urlParams.get('trip_id');
+        async function fetchTrips() {
+            try {
+                const res = await fetch(`${API_BASE}/trips`);
+                if (!res.ok) throw new Error("Error fetching trips");
+                allTrips = await res.json();
 
-        // Fallback por si la URL está vacía
-        if (!tripId) {
-            tripId = "000040c2-e65a-4399-be9b-367f9a016fe6";
-            console.warn("Using fallback ID:", tripId);
+                initSelection();
+            } catch (err) {
+                console.error(err);
+                document.getElementById('trip-loading').innerText = "Error cargando viajes disponibles.";
+                document.getElementById('trip-loading').classList.add('text-red-500');
+            }
         }
-        document.getElementById('display-trip-id').innerText = tripId;
 
-        // 3. Lógica del Botón
-        document.getElementById('form-reserva').addEventListener('submit', async (e) => {
+        function initSelection() {
+            const params = new URLSearchParams(window.location.search);
+            const destParam = params.get('destination') || params.get('trip_id');
+
+            document.getElementById('trip-loading').classList.add('hidden');
+
+            // Determine Filter
+            let filteredTrips = [];
+            let destinationName = "Selecciona una aventura";
+
+            // If param is a mapped ID (1,2,3,4) -> Filter by Name
+            if (mapIdToName[destParam]) {
+                const nameKey = mapIdToName[destParam].toLowerCase();
+                filteredTrips = allTrips.filter(t => t.city.toLowerCase().includes(nameKey)); // Fuzzy match "city" field which holds title
+                destinationName = mapIdToName[destParam];
+            }
+            // If param looks like UUID -> Find specific trip
+            else if (destParam && destParam.length > 20) {
+                filteredTrips = allTrips.filter(t => t.id === destParam);
+                if (filteredTrips.length > 0) destinationName = filteredTrips[0].city;
+            }
+            // Else fallback -> Show all? Or generic list? let's show all active
+            else {
+                filteredTrips = allTrips;
+            }
+
+            if (filteredTrips.length === 0) {
+                document.getElementById('no-trips-msg').classList.remove('hidden');
+                document.getElementById('experience-name').innerText = "Lo sentimos";
+                return;
+            }
+
+            // Populate UI
+            document.getElementById('trip-selection-container').classList.remove('hidden');
+            document.getElementById('experience-name').innerText = destinationName;
+            document.getElementById('summary-destination').innerText = destinationName;
+
+            const selector = document.getElementById('trip-selector');
+            filteredTrips.forEach(t => {
+                const date = new Date(t.departure_at);
+                const dateStr = date.toLocaleDateString('es-MX', { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
+                const option = document.createElement('option');
+                option.value = t.id;
+                option.text = `${dateStr} - $${t.price}`;
+                selector.appendChild(option);
+            });
+
+            // Auto-select first if only one
+            if (filteredTrips.length === 1) {
+                selector.value = filteredTrips[0].id;
+                onTripSelected(filteredTrips[0].id);
+            }
+
+            selector.addEventListener('change', (e) => onTripSelected(e.target.value));
+        }
+
+        function onTripSelected(tripId) {
+            selectedTrip = allTrips.find(t => t.id === tripId);
+            if (!selectedTrip) return;
+
+            // Update UI
+            document.getElementById('unit-price').innerText = Number(selectedTrip.price).toLocaleString();
+            const date = new Date(selectedTrip.departure_at).toLocaleDateString('es-MX', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+            document.getElementById('summary-date').innerText = date;
+
+            calculateTotal();
+        }
+
+        function adjustQty(type, delta) {
+            if (type === 'adults') {
+                const n = qtyAdults + delta;
+                if (n >= 1 && n <= 10) qtyAdults = n;
+                document.getElementById('adults').value = qtyAdults;
+            } else {
+                const n = qtyChildren + delta;
+                if (n >= 0 && n <= 10) qtyChildren = n;
+                document.getElementById('children').value = qtyChildren;
+            }
+            calculateTotal();
+        }
+
+        function calculateTotal() {
+            if (!selectedTrip) return;
+            const totalPax = qtyAdults + qtyChildren;
+            const price = Number(selectedTrip.price);
+            const total = totalPax * price;
+
+            document.getElementById('summary-total-pax').innerText = totalPax;
+            document.getElementById('summary-subtotal').innerText = total.toLocaleString();
+            document.getElementById('summary-total').innerText = total.toLocaleString();
+        }
+
+        function showError(msg) {
+            const container = document.getElementById('error-container');
+            container.classList.remove('hidden');
+            document.getElementById('error-message').innerText = msg;
+            anime({ targets: container, translateX: [10, -10, 5, -5, 0], duration: 400 });
+        }
+
+        document.getElementById('booking-form').addEventListener('submit', async (e) => {
             e.preventDefault();
-            const btn = document.getElementById('btn-confirmar');
-            const originalText = btn.innerText;
+            if (!selectedTrip) {
+                showError("Por favor selecciona una fecha de salida.");
+                return;
+            }
 
-            btn.innerText = "Procesando...";
+            const btn = document.getElementById('btn-validate');
             btn.disabled = true;
+            btn.innerHTML = "Verificando cupos...";
+            document.getElementById('error-container').classList.add('hidden');
+            document.getElementById('wallet_container').innerHTML = '';
 
             try {
-                // PASO A: Crear reserva en API
-                const resReserva = await fetch('https://api.odiseachallenge.com/reservations', {
+                // 1. Create HOLD
+                const totalQty = qtyAdults + qtyChildren;
+                const res = await fetch(`${API_BASE}/reservations`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        trip_id: tripId,
-                        full_name: document.getElementById('nombre').value,
+                        trip_id: selectedTrip.id,
+                        full_name: document.getElementById('full_name').value,
                         email: document.getElementById('email').value,
-                        qty: parseInt(document.getElementById('cantidad').value)
+                        phone: document.getElementById('phone').value,
+                        qty: totalQty
                     })
                 });
 
-                const reserva = await resReserva.json();
-                if (!resReserva.ok) throw new Error(reserva.message || "Error en reserva");
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.message || "Error al reservar cupo.");
 
-                // PASO B: Crear preferencia de Mercado Pago
-                const resPref = await fetch('https://api.odiseachallenge.com/create-preference', {
+                // 2. Create Preference (Using New Endpoint)
+                btn.innerHTML = "Generando pago...";
+                let prefRes = await fetch(`${API_BASE}/create_preference`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        reservation_token: reserva.reservation_token,
-                        title: "Tour Odisea Challenge",
-                        price: 1 // Prueba
-                    })
+                    body: JSON.stringify({ reservation_id: data.reservation_id })
                 });
 
-                const preferencia = await resPref.json();
-                if (!resPref.ok) throw new Error(preferencia.message || "Error en pago");
-
-                // PASO C: Renderizar Wallet Brick
-                // Asegúrate de que el backend devuelva 'id' (preferenceId)
-                if (preferencia.id) {
-                    btn.style.display = 'none'; // Ocultar botón "Confirmar" para evitar doble click
-
-                    await mp.bricks().create("wallet", "wallet_container", {
-                        initialization: {
-                            preferenceId: preferencia.id,
-                        },
-                        customization: {
-                            visual: {
-                                buttonBackground: 'black',
-                                borderRadius: '16px',
-                            },
-                        },
+                // Fallback to old if new fails (404)
+                if (prefRes.status === 404) {
+                    prefRes = await fetch(`${API_BASE}/create-preference`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            reservation_token: data.reservation_token,
+                            price: Number(selectedTrip.price) * totalQty,
+                            title: `Viaje a ${selectedTrip.city}`
+                        })
                     });
-                } else if (preferencia.init_point) {
-                    // Fallback a redirección si no hay ID por alguna razón
-                    window.location.href = preferencia.init_point;
-                } else {
-                    throw new Error("No se recibió preference ID del servidor");
                 }
 
-            } catch (error) {
-                console.error("Error:", error);
-                alert("Hubo un error: " + error.message);
-                btn.innerText = originalText;
+                const prefData = await prefRes.json();
+                if (!prefData.preference_id && !prefData.id) throw new Error("Error iniciando Mercado Pago.");
+
+                // 3. Show Wallet
+                btn.style.display = 'none';
+                await mp.bricks().create("wallet", "wallet_container", {
+                    initialization: { preferenceId: prefData.preference_id || prefData.id },
+                    customization: { visual: { buttonBackground: 'black', borderRadius: '16px' } }
+                });
+
+            } catch (err) {
+                console.error(err);
+                showError(err.message);
                 btn.disabled = false;
+                btn.innerText = "Continuar al Pago";
             }
         });
     </script>
-
 </body>
 
 </html>
