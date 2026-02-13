@@ -303,6 +303,13 @@
             const params = new URLSearchParams(window.location.search);
             const destParam = params.get('destination') || params.get('trip_id');
 
+            // --- REDIRECT IF NO ID ---
+            if (!destParam) {
+                // User requested: "Sin ID no hay reserva... redirígelo de vuelta a salidas"
+                window.location.href = 'salidas.html';
+                return;
+            }
+
             document.getElementById('trip-loading').classList.add('hidden');
 
             // Determine Filter

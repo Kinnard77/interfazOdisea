@@ -554,7 +554,7 @@
         }
 
         // Initialize page
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', async function () {
             // Animate elements on scroll
             const observerOptions = {
                 threshold: 0.1,
@@ -577,7 +577,66 @@
                 card.style.transition = 'all 0.6s ease-out';
                 observer.observe(card);
             });
+
+            // --- DYNAMIC TRIP LINKING ---
+            await linkTripsToButtons();
         });
+
+        async function linkTripsToButtons() {
+            try {
+                const API_BASE = 'https://api.odiseachallenge.com';
+                const res = await fetch(`${API_BASE}/trips`);
+                if (!res.ok) throw new Error('Failed to fetch trips');
+                const trips = await res.json();
+
+                const now = new Date();
+
+                // Map city keys to button selectors or specific logic
+                const cityMap = {
+                    'Dolores Hidalgo': 'button[onclick*="dolores-hidalgo"]',
+                    'San Miguel de Allende': 'button[onclick*="san-miguel-allende"]',
+                    'Guanajuato': 'button[onclick*="guanajuato-capital"]',
+                    'Puebla': 'button[onclick*="puebla"]'
+                };
+
+                // For each city card, find the next upcoming trip
+                for (const [cityName, selector] of Object.entries(cityMap)) {
+                    const btn = document.querySelector(selector);
+                    if (!btn) continue;
+
+                    // Filter trips for this city and future dates
+                    const cityTrips = trips
+                        .filter(t => t.city.includes(cityName) && new Date(t.departure_at) > now)
+                        .sort((a, b) => new Date(a.departure_at) - new Date(b.departure_at));
+
+                    if (cityTrips.length > 0) {
+                        const nextTrip = cityTrips[0];
+                        // Update button to direct link
+                        btn.onclick = (e) => {
+                            e.preventDefault();
+                            // Optional: Store selection for "back" button history or analytics
+                            localStorage.setItem('selectedDeparture', JSON.stringify({
+                                city: nextTrip.city,
+                                price: nextTrip.price,
+                                timestamp: Date.now()
+                            }));
+                            window.location.href = `bookings.html?trip_id=${nextTrip.id}`;
+                        };
+                        btn.innerText = `Reservar Siguiente Salida (${new Date(nextTrip.departure_at).toLocaleDateString('es-MX', { day: 'numeric', month: 'short' })})`;
+                    } else {
+                        btn.disabled = true;
+                        btn.innerText = "Próximamente / Agotado";
+                        btn.classList.add('opacity-50', 'cursor-not-allowed');
+                    }
+                }
+
+            } catch (err) {
+                console.error("Error linking trips:", err);
+                // Fallback: Buttons remain as they are (going to hash #booking-form? no, original code went to bookings.html#booking-form but with no ID)
+                // We might want to alert the user or just let them go to bookings and select there.
+            }
+        }
+
     </script>
 </body>
 
