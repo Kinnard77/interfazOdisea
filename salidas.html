@@ -162,160 +162,13 @@
                 </p>
             </div>
 
-            <!-- Departure Cards Grid -->
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
-                <!-- Dolores Hidalgo -->
-                <div class="departure-card rounded-2xl p-8 text-center animate-fade-in">
-                    <div class="mb-6">
-                        <div class="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <span class="text-white text-2xl font-bold">DH</span>
-                        </div>
-                        <h3 class="font-display text-2xl font-bold mb-2">Dolores Hidalgo</h3>
-                        <div class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-bold inline-block">
-                            Guanajuato
-                        </div>
+            <!-- Output Container for Dynamic Cards -->
+            <div id="departures-container" class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16 min-h-[400px]">
+                <!-- Loading State -->
+                <div class="col-span-full flex flex-col items-center justify-center py-12 text-gray-500">
+                    <div class="w-12 h-12 border-4 border-gray-200 border-t-orange-500 rounded-full animate-spin mb-4">
                     </div>
-
-                    <div class="mb-6">
-                        <div class="text-4xl font-bold gradient-text mb-2">$2,648</div>
-                        <p class="text-gray-600 text-sm">Por persona</p>
-                    </div>
-
-                    <div class="space-y-3 mb-8 text-left">
-                        <div class="flex items-center text-sm">
-                            <span class="w-3 h-3 bg-blue-500 rounded-full mr-3"></span>
-                            <span><strong>Salida:</strong> 2:00 AM</span>
-                        </div>
-                        <div class="flex items-center text-sm">
-                            <span class="w-3 h-3 bg-green-500 rounded-full mr-3"></span>
-                            <span><strong>Llegada:</strong> 1:00 PM Aprox.</span>
-                        </div>
-                        <div class="flex items-center text-sm">
-                            <span class="w-3 h-3 bg-orange-500 rounded-full mr-3"></span>
-                            <span><strong>Duración:</strong> 11 horas</span>
-                        </div>
-                    </div>
-
-                    <button class="w-full btn-primary py-3 rounded-lg font-semibold"
-                        onclick="selectDeparture('dolores-hidalgo', 2600)">
-                        Seleccionar Salida
-                    </button>
-                </div>
-
-                <!-- San Miguel de Allen de -->
-                <div class="departure-card rounded-2xl p-8 text-center animate-fade-in" style="animation-delay: 0.1s;">
-                    <div class="mb-6">
-                        <div class="w-16 h-16 bg-orange-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <span class="text-white text-2xl font-bold">SA</span>
-                        </div>
-                        <h3 class="font-display text-2xl font-bold mb-2">San Miguel de Allende</h3>
-                        <div
-                            class="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm font-bold inline-block">
-                            Guanajuato
-                        </div>
-                    </div>
-
-                    <div class="mb-6">
-                        <div class="text-4xl font-bold gradient-text mb-2">$2,695</div>
-                        <p class="text-gray-600 text-sm">Por persona</p>
-                    </div>
-
-                    <div class="space-y-3 mb-8 text-left">
-                        <div class="flex items-center text-sm">
-                            <span class="w-3 h-3 bg-orange-500 rounded-full mr-3"></span>
-                            <span><strong>Salida:</strong> 3:00 AM</span>
-                        </div>
-                        <div class="flex items-center text-sm">
-                            <span class="w-3 h-3 bg-green-500 rounded-full mr-3"></span>
-                            <span><strong>Llegada:</strong> 12:00 PM Aprox.</span>
-                        </div>
-                        <div class="flex items-center text-sm">
-                            <span class="w-3 h-3 bg-orange-500 rounded-full mr-3"></span>
-                            <span><strong>Duración:</strong> 9 horas</span>
-                        </div>
-                    </div>
-
-                    <button class="w-full btn-primary py-3 rounded-lg font-semibold"
-                        onclick="selectDeparture('san-miguel-allende', 2400)">
-                        Seleccionar Salida
-                    </button>
-                </div>
-
-                <!-- Guanajuato Capital -->
-                <div class="departure-card rounded-2xl p-8 text-center animate-fade-in" style="animation-delay: 0.2s;">
-                    <div class="mb-6">
-                        <div class="w-16 h-16 bg-purple-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <span class="text-white text-2xl font-bold">GT</span>
-                        </div>
-                        <h3 class="font-display text-2xl font-bold mb-2">Guanajuato</h3>
-                        <div
-                            class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-bold inline-block">
-                            Guanajuato
-                        </div>
-                    </div>
-
-                    <div class="mb-6">
-                        <div class="text-4xl font-bold gradient-text mb-2">$2,695</div>
-                        <p class="text-gray-600 text-sm">Por persona</p>
-                    </div>
-
-                    <div class="space-y-3 mb-8 text-left">
-                        <div class="flex items-center text-sm">
-                            <span class="w-3 h-3 bg-purple-500 rounded-full mr-3"></span>
-                            <span><strong>Salida:</strong> 1:00 AM</span>
-                        </div>
-                        <div class="flex items-center text-sm">
-                            <span class="w-3 h-3 bg-green-500 rounded-full mr-3"></span>
-                            <span><strong>Llegada:</strong> 2:00 PM Aprox.</span>
-                        </div>
-                        <div class="flex items-center text-sm">
-                            <span class="w-3 h-3 bg-orange-500 rounded-full mr-3"></span>
-                            <span><strong>Duración:</strong> 13 horas</span>
-                        </div>
-                    </div>
-
-                    <button class="w-full btn-primary py-3 rounded-lg font-semibold"
-                        onclick="selectDeparture('guanajuato-capital', 2900)">
-                        Seleccionar Salida
-                    </button>
-                </div>
-
-                <!-- Puebla -->
-                <div class="departure-card rounded-2xl p-8 text-center animate-fade-in" style="animation-delay: 0.3s;">
-                    <div class="mb-6">
-                        <div class="w-16 h-16 bg-red-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <span class="text-white text-2xl font-bold">PB</span>
-                        </div>
-                        <h3 class="font-display text-2xl font-bold mb-2">Puebla</h3>
-                        <div class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-bold inline-block">
-                            Puebla
-                        </div>
-                    </div>
-
-                    <div class="mb-6">
-                        <div class="text-4xl font-bold gradient-text mb-2">$2,350</div>
-                        <p class="text-gray-600 text-sm">Por persona</p>
-                    </div>
-
-                    <div class="space-y-3 mb-8 text-left">
-                        <div class="flex items-center text-sm">
-                            <span class="w-3 h-3 bg-red-500 rounded-full mr-3"></span>
-                            <span><strong>Salida:</strong> 6:00 AM</span>
-                        </div>
-                        <div class="flex items-center text-sm">
-                            <span class="w-3 h-3 bg-green-500 rounded-full mr-3"></span>
-                            <span><strong>Llegada:</strong> 9:00 AM Aprox.</span>
-                        </div>
-                        <div class="flex items-center text-sm">
-                            <span class="w-3 h-3 bg-orange-500 rounded-full mr-3"></span>
-                            <span><strong>Duración:</strong> 3 horas</span>
-                        </div>
-                    </div>
-
-                    <button class="w-full btn-primary py-3 rounded-lg font-semibold"
-                        onclick="selectDeparture('puebla', 1600)">
-                        Seleccionar Salida
-                    </button>
+                    <p class="animate-pulse">Cargando próximas salidas...</p>
                 </div>
             </div>
 
@@ -579,61 +432,105 @@
             });
 
             // --- DYNAMIC TRIP LINKING ---
-            await linkTripsToButtons();
+            await renderDynamicTrips();
         });
 
-        async function linkTripsToButtons() {
+        async function renderDynamicTrips() {
+            const container = document.getElementById('departures-container');
+
             try {
                 const API_BASE = 'https://api.odiseachallenge.com';
                 const res = await fetch(`${API_BASE}/trips`);
                 if (!res.ok) throw new Error('Failed to fetch trips');
-                const trips = await res.json();
+                let trips = await res.json();
 
+                // Filter active and future trips
                 const now = new Date();
+                trips = trips.filter(t => t.status === 'active' && new Date(t.departure_at) > now);
 
-                // Map city keys to button selectors or specific logic
-                const cityMap = {
-                    'Dolores Hidalgo': 'button[onclick*="dolores-hidalgo"]',
-                    'San Miguel de Allende': 'button[onclick*="san-miguel-allende"]',
-                    'Guanajuato': 'button[onclick*="guanajuato-capital"]',
-                    'Puebla': 'button[onclick*="puebla"]'
+                if (trips.length === 0) {
+                    container.innerHTML = `
+                        <div class="col-span-full text-center py-12">
+                            <h3 class="text-2xl font-bold text-gray-400">No hay salidas programadas por el momento</h3>
+                            <p class="text-gray-500 mt-2">Vuelve pronto para nuevas aventuras</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = '';
+
+                // Helper for colors based on city name hash (consistent colors)
+                const getCityColor = (city) => {
+                    if (city.includes('Dolores')) return { bg: 'bg-blue-500', light: 'bg-blue-100', text: 'text-blue-800' };
+                    if (city.includes('Miguel')) return { bg: 'bg-orange-500', light: 'bg-orange-100', text: 'text-orange-800' };
+                    if (city.includes('Guanajuato')) return { bg: 'bg-purple-500', light: 'bg-purple-100', text: 'text-purple-800' };
+                    if (city.includes('Puebla')) return { bg: 'bg-red-500', light: 'bg-red-100', text: 'text-red-800' };
+                    return { bg: 'bg-teal-600', light: 'bg-teal-100', text: 'text-teal-800' };
                 };
 
-                // For each city card, find the next upcoming trip
-                for (const [cityName, selector] of Object.entries(cityMap)) {
-                    const btn = document.querySelector(selector);
-                    if (!btn) continue;
+                // Render Cards
+                trips.forEach((trip, index) => {
+                    const colors = getCityColor(trip.city);
+                    const date = new Date(trip.departure_at);
+                    const timeStr = date.toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit', hour12: true });
+                    const dateStr = date.toLocaleDateString('es-MX', { weekday: 'long', day: 'numeric', month: 'long' });
+                    const initials = trip.city.substring(0, 2).toUpperCase();
 
-                    // Filter trips for this city and future dates
-                    const cityTrips = trips
-                        .filter(t => t.city.includes(cityName) && new Date(t.departure_at) > now)
-                        .sort((a, b) => new Date(a.departure_at) - new Date(b.departure_at));
+                    const card = document.createElement('div');
+                    card.className = "departure-card rounded-2xl p-8 text-center animate-fade-in";
+                    card.style.animationDelay = `${index * 0.1}s`;
 
-                    if (cityTrips.length > 0) {
-                        const nextTrip = cityTrips[0];
-                        // Update button to direct link
-                        btn.onclick = (e) => {
-                            e.preventDefault();
-                            // Optional: Store selection for "back" button history or analytics
-                            localStorage.setItem('selectedDeparture', JSON.stringify({
-                                city: nextTrip.city,
-                                price: nextTrip.price,
-                                timestamp: Date.now()
-                            }));
-                            window.location.href = `bookings.html?trip_id=${nextTrip.id}`;
-                        };
-                        btn.innerText = `Reservar Siguiente Salida (${new Date(nextTrip.departure_at).toLocaleDateString('es-MX', { day: 'numeric', month: 'short' })})`;
-                    } else {
-                        btn.disabled = true;
-                        btn.innerText = "Próximamente / Agotado";
-                        btn.classList.add('opacity-50', 'cursor-not-allowed');
-                    }
-                }
+                    card.innerHTML = `
+                        <div class="mb-6">
+                            <div class="w-16 h-16 ${colors.bg} rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg shadow-${colors.bg}/30">
+                                <span class="text-white text-2xl font-bold">${initials}</span>
+                            </div>
+                            <h3 class="font-display text-2xl font-bold mb-2 text-gray-800 leading-tight">${trip.city}</h3>
+                            <div class="${colors.light} ${colors.text} px-3 py-1 rounded-full text-xs font-bold inline-block uppercase tracking-wider">
+                                Confirmada
+                            </div>
+                        </div>
+
+                        <div class="mb-6">
+                            <div class="text-4xl font-bold gradient-text mb-2">$${Number(trip.price).toLocaleString()}</div>
+                            <p class="text-gray-500 text-sm font-medium">MXN por persona</p>
+                        </div>
+
+                        <div class="space-y-3 mb-8 text-left bg-gray-50/50 p-4 rounded-xl border border-gray-100">
+                            <div class="flex items-center text-sm">
+                                <span class="w-2 h-2 bg-gray-400 rounded-full mr-3"></span>
+                                <span class="text-gray-600"><strong>Fecha:</strong> ${dateStr}</span>
+                            </div>
+                            <div class="flex items-center text-sm">
+                                <span class="w-2 h-2 bg-orange-500 rounded-full mr-3 animate-pulse"></span>
+                                <span class="text-gray-800 font-medium"><strong>Salida:</strong> ${timeStr}</span>
+                            </div>
+                            <div class="flex items-center text-sm">
+                                <span class="w-2 h-2 bg-teal-500 rounded-full mr-3"></span>
+                                <span class="text-gray-600"><strong>Cupos:</strong> ${trip.capacity} Pasajeros</span>
+                            </div>
+                        </div>
+
+                        <a href="bookings.html?trip_id=${trip.id}" 
+                           class="block w-full btn-primary py-4 rounded-xl font-bold text-center hover:scale-[1.02] transform transition-transform shadow-lg hover:shadow-xl">
+                            Reservar Ahora
+                        </a>
+                    `;
+
+                    container.appendChild(card);
+
+                    // Trigger animation (if needed manually, but CSS class handles it)
+                });
 
             } catch (err) {
                 console.error("Error linking trips:", err);
-                // Fallback: Buttons remain as they are (going to hash #booking-form? no, original code went to bookings.html#booking-form but with no ID)
-                // We might want to alert the user or just let them go to bookings and select there.
+                container.innerHTML = `
+                     <div class="col-span-full text-center py-12">
+                        <p class="text-red-500">Hubo un error cargando las salidas. Por favor intenta de nuevo.</p>
+                        <button onclick="renderDynamicTrips()" class="mt-4 px-4 py-2 bg-gray-200 rounded-lg text-sm font-bold">Reintentar</button>
+                    </div>
+                `;
             }
         }
 
