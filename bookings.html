@@ -55,23 +55,28 @@
             <input type="email" id="email" placeholder="Correo electrónico" required>
             <input type="number" id="cantidad" value="1" min="1" required>
             <button type="submit" id="btn-confirmar">Confirmar datos y pagar</button>
+            <div id="wallet_container"></div>
         </form>
     </div>
 
     <script>
-        // 1. Capturar ID de la URL
+        // 1. Inicializar Mercado Pago
+        const mp = new MercadoPago('TU_PUBLIC_KEY_AQUI', {
+            locale: 'es-MX'
+        });
+
+        // 2. Capturar ID de la URL
         const urlParams = new URLSearchParams(window.location.search);
         let tripId = urlParams.get('trip_id');
 
-        // Fallback por si la URL está vacía (para que no se vea feo)
+        // Fallback por si la URL está vacía
         if (!tripId) {
-            // ID verificado desde la base de datos (paso operational fetch_trips.js)
             tripId = "000040c2-e65a-4399-be9b-367f9a016fe6";
             console.warn("Using fallback ID:", tripId);
         }
         document.getElementById('display-trip-id').innerText = tripId;
 
-        // 2. Lógica del Botón
+        // 3. Lógica del Botón
         document.getElementById('form-reserva').addEventListener('submit', async (e) => {
             e.preventDefault();
             const btn = document.getElementById('btn-confirmar');
@@ -81,7 +86,7 @@
             btn.disabled = true;
 
             try {
-                // PASO A: Crear reserva en tu API
+                // PASO A: Crear reserva en API
                 const resReserva = await fetch('https://api.odiseachallenge.com/reservations', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -103,16 +108,34 @@
                     body: JSON.stringify({
                         reservation_token: reserva.reservation_token,
                         title: "Tour Odisea Challenge",
-                        price: 1 // Prueba de 1 peso real
+                        price: 1 // Prueba
                     })
                 });
 
                 const preferencia = await resPref.json();
                 if (!resPref.ok) throw new Error(preferencia.message || "Error en pago");
 
-                // PASO C: Redirigir al pago real
-                if (preferencia.init_point) {
+                // PASO C: Renderizar Wallet Brick
+                // Asegúrate de que el backend devuelva 'id' (preferenceId)
+                if (preferencia.id) {
+                    btn.style.display = 'none'; // Ocultar botón "Confirmar" para evitar doble click
+
+                    await mp.bricks().create("wallet", "wallet_container", {
+                        initialization: {
+                            preferenceId: preferencia.id,
+                        },
+                        customization: {
+                            visual: {
+                                buttonBackground: 'black',
+                                borderRadius: '16px',
+                            },
+                        },
+                    });
+                } else if (preferencia.init_point) {
+                    // Fallback a redirección si no hay ID por alguna razón
                     window.location.href = preferencia.init_point;
+                } else {
+                    throw new Error("No se recibió preference ID del servidor");
                 }
 
             } catch (error) {
