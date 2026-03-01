@@ -460,14 +460,12 @@
                 const prefData = await prefRes.json();
                 if (!prefData.preference_id && !prefData.id) throw new Error("Error iniciando Mercado Pago.");
 
-                // 3. Redirigir al SANDBOX para compra de prueba (temporal)
+                // 3. Redirigir al checkout de Mercado Pago (producción)
                 btn.innerHTML = "Redirigiendo a Mercado Pago... ✓";
                 btn.style.background = '#00a650';
 
                 setTimeout(() => {
-                    // TEMPORAL: sandbox para validar integración con MP
-                    // Cambiar a prefData.init_point cuando MP active producción
-                    window.location.href = prefData.sandbox_init_point || prefData.init_point;
+                    window.location.href = prefData.init_point || prefData.sandbox_init_point;
                 }, 800);
 
             } catch (err) {
