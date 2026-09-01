@@ -444,9 +444,8 @@
                 if (!res.ok) throw new Error('Failed to fetch trips');
                 let trips = await res.json();
 
-                // Filter active and future trips
-                const now = new Date();
-                trips = trips.filter(t => t.status === 'active' && new Date(t.departure_at) > now);
+                // Filter active trips
+                trips = trips.filter(t => t.status === 'active');
 
                 if (trips.length === 0) {
                     container.innerHTML = `
