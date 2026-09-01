@@ -134,7 +134,7 @@
                             </div>
                             <div class="text-right">
                                 <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">Destino</span>
-                                <div class="font-display text-xl font-bold text-teal-900">Polanco, CDMX</div>
+                                <div class="font-display text-xl font-bold text-teal-900" id="ticket-destination">Polanco, CDMX</div>
                             </div>
                         </div>
 
@@ -216,7 +216,12 @@
 
                 // Populate fields
                 document.getElementById('ticket-passenger').innerText = data.passenger || 'Pasajero Odisea';
-                document.getElementById('ticket-origin').innerText = data.trip?.city || 'Dolores Hidalgo';
+
+                let rawOrigin = data.trip?.origin || data.trip?.city || 'Dolores Hidalgo';
+                if (rawOrigin.toUpperCase() === 'CDMX') rawOrigin = 'Dolores Hidalgo'; // Corrección para viajes donde CDMX es el destino final
+
+                document.getElementById('ticket-origin').innerText = rawOrigin;
+                document.getElementById('ticket-destination').innerText = data.trip?.destination || 'Polanco, CDMX';
                 document.getElementById('ticket-seats').innerText = data.seats || 1;
                 document.getElementById('ticket-token-code').innerText = token.slice(0, 16) + '...';
 
