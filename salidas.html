@@ -252,15 +252,15 @@
                             </div>
                             <div class="pt-2 border-t border-slate-800/80">
                                 <div class="text-[10px] uppercase font-bold text-slate-500 mb-1">📍 Punto Exacto de Encuentro</div>
-                                <div class="font-bold text-slate-200 leading-snug mb-2">El punto exacto de la salida lo aportará la plataforma de lanzamiento llamada Agente Operativo</div>
+                                <div class="font-bold text-slate-200 leading-snug mb-2">Plaza Luciana, Libramiento San Miguel de Allende</div>
                                 <!-- Google Maps Button -->
-                                <a href="https://www.google.com/maps/search/?api=1&query=20.9142,-100.7437" target="_blank" rel="noopener noreferrer" 
+                                <a href="https://www.google.com/maps/search/?api=1&query=Plaza+Luciana+San+Miguel+de+Allende" target="_blank" rel="noopener noreferrer" 
                                    class="inline-flex items-center gap-1.5 text-xs font-bold text-blue-400 hover:text-blue-300 bg-blue-500/10 hover:bg-blue-500/20 px-3 py-1.5 rounded-lg border border-blue-500/30 transition-colors">
                                     <span>🗺️</span> Abrir en Google Maps ➔
                                 </a>
                             </div>
                             <div class="pt-1 border-t border-slate-800/80 text-[11px] text-slate-400">
-                                <strong>Cupo total:</strong> 19 asientos disponibles
+                                <strong>Asientos Disponibles:</strong> 19
                             </div>
                         </div>
                     </div>
@@ -325,15 +325,15 @@
                             </div>
                             <div class="pt-2 border-t border-slate-800/80">
                                 <div class="text-[10px] uppercase font-bold text-slate-500 mb-1">📍 Punto Exacto de Encuentro</div>
-                                <div class="font-bold text-slate-200 leading-snug mb-2">El Mega Comercial, Dolores Hidalgo</div>
+                                <div class="font-bold text-slate-200 leading-snug mb-2">Frente al Auditorio Municipal, Dolores Hidalgo</div>
                                 <!-- Google Maps Button -->
-                                <a href="https://www.google.com/maps/search/?api=1&query=20.89726,-100.75285" target="_blank" rel="noopener noreferrer" 
+                                <a href="https://www.google.com/maps/search/?api=1&query=Frente+al+Auditorio+Municipal+Dolores+Hidalgo" target="_blank" rel="noopener noreferrer" 
                                    class="inline-flex items-center gap-1.5 text-xs font-bold text-blue-400 hover:text-blue-300 bg-blue-500/10 hover:bg-blue-500/20 px-3 py-1.5 rounded-lg border border-blue-500/30 transition-colors">
                                     <span>🗺️</span> Abrir en Google Maps ➔
                                 </a>
                             </div>
                             <div class="pt-1 border-t border-slate-800/80 text-[11px] text-slate-400">
-                                <strong>Cupo total:</strong> 19 asientos disponibles
+                                <strong>Asientos Disponibles:</strong> 19
                             </div>
                         </div>
                     </div>
@@ -608,7 +608,7 @@
                 departure_at: '2026-10-20T00:30:00',
                 capacity: 19,
                 price: 2550,
-                punto_encuentro: 'El punto exacto de la salida lo aportará la plataforma de lanzamiento llamada Agente Operativo',
+                punto_encuentro: 'Plaza Luciana, Libramiento San Miguel de Allende',
                 coordenadas: '20.9142,-100.7437',
                 status: 'active',
                 return_at: '00:30 AM (24 horas después)'
@@ -619,7 +619,7 @@
                 departure_at: '2026-10-15T07:00:00',
                 capacity: 19,
                 price: 1200,
-                punto_encuentro: 'El Mega Comercial, Dolores Hidalgo',
+                punto_encuentro: 'Frente al Auditorio Municipal, Dolores Hidalgo',
                 coordenadas: '20.89726,-100.75285',
                 status: 'active',
                 return_at: '08:30 PM (Mismo día)'
@@ -715,7 +715,7 @@
                                 </a>
                             </div>
                             <div class="pt-1 border-t border-slate-800/80 text-[11px] text-slate-400">
-                                <strong>Cupo total:</strong> ${trip.capacity} asientos disponibles
+                                <strong>Asientos Disponibles:</strong> ${trip.capacity || 19}
                             </div>
                         </div>
                     </div>
