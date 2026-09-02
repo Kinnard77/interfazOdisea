@@ -33,11 +33,17 @@
             box-sizing: border-box;
         }
 
+        html, body {
+            overflow-x: hidden !important;
+            width: 100% !important;
+            max-width: 100vw !important;
+            position: relative;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
             background: linear-gradient(135deg, var(--neutral) 0%, #E8E4D9 100%);
             color: var(--text-dark);
-            overflow-x: hidden;
         }
 
         .font-display {
@@ -347,6 +353,17 @@
 
             .destination-card {
                 margin: 0 0.5rem;
+            }
+
+            .chat-widget {
+                bottom: 16px !important;
+                right: 16px !important;
+            }
+
+            .chat-bubble {
+                width: 48px !important;
+                height: 48px !important;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25) !important;
             }
         }
     </style>
