@@ -481,20 +481,14 @@
                 // Filter active trips
                 trips = trips.filter(t => t.status === 'active');
 
-                // Asegurar la presencia del Viaje de Prueba de San Miguel de Allende
-                const hasSma = trips.some(t => t.city && t.city.includes('San Miguel'));
-                if (!hasSma) {
-                    trips.unshift({
-                        id: 'SAL-SMA-20261020',
-                        city: 'San Miguel de Allende',
-                        departure_at: '2026-10-20T00:30:00',
-                        capacity: 19,
-                        price: 2550,
-                        punto_encuentro: 'El punto exacto de la salida lo aportará la plataforma de lanzamiento llamada Agente Operativo',
-                        coordenadas: '20.9142,-100.7437',
-                        status: 'active',
-                        return_at: '00:30 AM (24 horas después)'
-                    });
+                if (trips.length === 0) {
+                    container.innerHTML = `
+                        <div class="col-span-full text-center py-12">
+                            <h3 class="text-2xl font-bold text-gray-400">No hay salidas programadas por el momento</h3>
+                            <p class="text-gray-500 mt-2">Vuelve pronto para nuevas aventuras</p>
+                        </div>
+                    `;
+                    return;
                 }
 
                 container.innerHTML = '';
