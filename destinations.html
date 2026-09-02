@@ -529,8 +529,14 @@
         }
 
         function viewDestination(destinationId) {
-            const realTripId = "SAL-DOH-20260719";
-            window.location.href = `bookings.html?trip_id=${realTripId}`;
+            const officialUrls = {
+                'acuario-inbursa': 'https://www.acuarioinbursa.com.mx',
+                'acuario-interactivo': 'https://www.acuarioinbursa.com.mx/acuario-interactivo/',
+                'museo-soumaya': 'http://www.museosoumaya.org',
+                'odisea-mexico': 'https://www.odiseachallenge.com'
+            };
+            const targetUrl = officialUrls[destinationId] || 'https://www.acuarioinbursa.com.mx';
+            window.open(targetUrl, '_blank');
         }
 
         document.addEventListener('DOMContentLoaded', function () {
