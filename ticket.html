@@ -3,188 +3,175 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Boleto Digital de Abordaje | Odisea Challenge</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Pase de Abordaje Móvil | Odisea Challenge</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <link href="odisea-styles.css" rel="stylesheet">
     <link href="enhanced-styles.css" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700;800&display=swap');
 
         body {
             font-family: 'Inter', sans-serif;
-            background: #F7F3E9;
-            color: #2C3E50;
+            background: #111827;
+            color: #F9FAFB;
         }
 
         .font-display {
             font-family: 'Playfair Display', serif;
         }
 
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(13, 79, 76, 0.12);
-            box-shadow: 0 20px 40px rgba(13, 79, 76, 0.08);
+        .mobile-pass-card {
+            background: #ffffff;
+            color: #111827;
+            border-radius: 1.75rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
         }
 
-        .ticket-border-dashed {
-            border-left: 2px dashed rgba(13, 79, 76, 0.2);
+        .notch-cut {
+            position: relative;
         }
 
-        @media print {
-            .no-print {
-                display: none !important;
-            }
+        .notch-cut::before,
+        .notch-cut::after {
+            content: '';
+            position: absolute;
+            top: -12px;
+            width: 24px;
+            height: 24px;
+            background-color: #111827;
+            border-radius: 50%;
+        }
 
-            body {
-                background: white !important;
-            }
+        .notch-cut::before {
+            left: -12px;
+        }
 
-            .print-ticket {
-                box-shadow: none !important;
-                border: 1px solid #ccc !important;
-                margin: 0 !important;
-                max-width: 100% !important;
-            }
+        .notch-cut::after {
+            right: -12px;
+        }
+
+        #qrcode img {
+            margin: 0 auto;
+            border-radius: 0.75rem;
         }
     </style>
 </head>
 
-<body class="min-h-screen flex flex-col justify-between relative overflow-x-hidden">
+<body class="min-h-screen flex flex-col justify-between relative overflow-x-hidden bg-slate-950 text-slate-100">
 
-    <!-- Background Decorative Elements -->
-    <div class="fixed inset-0 z-0 pointer-events-none no-print">
-        <div class="absolute top-0 right-0 w-1/3 h-1/3 bg-gradient-to-b from-teal-900/10 to-transparent rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2"></div>
-        <div class="absolute bottom-0 left-0 w-1/2 h-1/2 bg-gradient-to-t from-orange-500/10 to-transparent rounded-full blur-3xl transform -translate-x-1/3 translate-y-1/3"></div>
-    </div>
-
-    <!-- Navigation -->
-    <nav class="relative z-50 py-6 px-8 flex justify-between items-center no-print">
-        <a href="index.html" class="flex items-center gap-3 group">
-            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-teal-900 to-teal-700 flex items-center justify-center text-white font-display font-bold text-xl shadow-lg group-hover:scale-110 transition-transform duration-300">
+    <!-- Top Navigation (Mobile Friendly) -->
+    <header class="py-4 px-6 flex justify-between items-center bg-slate-900/80 backdrop-blur-md border-b border-slate-800">
+        <a href="index.html" class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-teal-500 to-orange-500 flex items-center justify-center text-white font-bold text-sm shadow">
                 O
             </div>
-            <span class="font-display text-xl font-bold text-teal-900 tracking-tight">Odisea<span class="text-orange-500">Challenge</span></span>
+            <span class="font-display text-lg font-bold text-white tracking-tight">Odisea<span class="text-orange-400">Pass</span></span>
         </a>
-        <a href="salidas.html" class="text-sm font-medium text-teal-800 hover:text-teal-900 transition-colors flex items-center gap-1">
-            ← Ver más salidas
+        <a href="salidas.html" class="text-xs font-semibold text-teal-400 hover:text-teal-300 transition-colors">
+            ← Salidas
         </a>
-    </nav>
+    </header>
 
     <!-- Main Content -->
-    <main class="relative z-10 container mx-auto px-4 py-8 md:py-12 flex-grow flex items-center justify-center">
-        <div class="w-full max-w-4xl">
+    <main class="container mx-auto px-4 py-6 flex-grow flex items-center justify-center">
+        <div class="w-full max-w-md">
             
             <!-- Loading State -->
             <div id="ticket-loading" class="text-center py-16 animate-pulse">
-                <div class="w-16 h-16 border-4 border-teal-800 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-                <h2 class="font-display text-2xl font-bold text-teal-900">Validando tu reserva...</h2>
-                <p class="text-gray-500 text-sm mt-1">Obteniendo datos del boleto digital</p>
+                <div class="w-14 h-14 border-4 border-teal-400 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                <h2 class="font-display text-xl font-bold text-white">Generando Pase Móvil...</h2>
+                <p class="text-slate-400 text-xs mt-1">Cargando código QR de abordaje</p>
             </div>
 
             <!-- Error State -->
-            <div id="ticket-error" class="hidden glass-panel p-8 rounded-3xl text-center space-y-4 max-w-lg mx-auto">
-                <div class="w-16 h-16 bg-red-100 text-red-600 rounded-full flex items-center justify-center mx-auto text-2xl font-bold">✕</div>
-                <h2 class="font-display text-2xl font-bold text-gray-900" id="error-title">Boleto No Encontrado</h2>
-                <p class="text-gray-600 text-sm" id="error-desc">No pudimos verificar esta reservación. Es posible que el pago siga pendiente o el enlace sea incorrecto.</p>
-                <a href="salidas.html" class="inline-block bg-teal-900 text-white font-bold px-6 py-3 rounded-xl hover:bg-teal-800 transition-all">Volver a Salidas</a>
+            <div id="ticket-error" class="hidden bg-slate-900 border border-red-500/30 p-8 rounded-3xl text-center space-y-4">
+                <div class="w-14 h-14 bg-red-500/20 text-red-400 rounded-full flex items-center justify-center mx-auto text-2xl font-bold">✕</div>
+                <h2 class="font-display text-xl font-bold text-white" id="error-title">Pase No Encontrado</h2>
+                <p class="text-slate-400 text-xs" id="error-desc">No pudimos verificar este boleto. Es posible que el pago siga pendiente.</p>
+                <a href="salidas.html" class="inline-block bg-teal-600 text-white text-xs font-bold px-5 py-3 rounded-xl hover:bg-teal-500 transition-all">Ver Salidas</a>
             </div>
 
-            <!-- Ticket Card (Visible when loaded) -->
-            <div id="ticket-container" class="hidden glass-panel rounded-3xl overflow-hidden shadow-2xl print-ticket animate-in" style="opacity: 0; transform: translateY(20px);">
+            <!-- Mobile Boarding Pass Card -->
+            <div id="ticket-container" class="hidden mobile-pass-card animate-in" style="opacity: 0; transform: translateY(20px);">
                 
-                <!-- Ticket Header -->
-                <div class="bg-gradient-to-r from-teal-900 via-teal-800 to-teal-900 p-6 md:p-8 text-white flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-teal-700/50">
-                    <div>
-                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-bold tracking-wider uppercase mb-2">
-                            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span> Boleto Confirmado
-                        </div>
-                        <h1 class="font-display text-2xl md:text-3xl font-bold">Pase de Abordaje Oficial</h1>
-                        <p class="text-teal-200 text-xs md:text-sm mt-1">Odisea Challenge • Transporte Ejecutivo de Experiencia</p>
+                <!-- Card Header Banner -->
+                <div class="bg-gradient-to-r from-teal-900 via-teal-800 to-teal-900 p-6 text-white text-center relative">
+                    <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-[11px] font-bold uppercase tracking-wider mb-2">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span> BOLETO CONFIRMADO
                     </div>
-                    <div class="text-left md:text-right no-print">
-                        <button onclick="window.print()" class="bg-orange-500 hover:bg-orange-600 text-white text-xs font-bold px-4 py-2.5 rounded-xl shadow-lg transition-all flex items-center gap-2">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H7a2 2 0 00-2 2v4h10z"></path></svg>
-                            Imprimir / Guardar PDF
-                        </button>
+                    <h1 class="font-display text-2xl font-bold tracking-wide">PASE DE ABORDAJE MÓVIL</h1>
+                    <p class="text-teal-200 text-xs mt-1 font-medium">Odisea Challenge • Transporte Ejecutivo</p>
+                </div>
+
+                <!-- Route Section -->
+                <div class="p-6 bg-slate-50 border-b border-slate-200 text-center">
+                    <div class="flex items-center justify-center gap-3">
+                        <div class="text-left">
+                            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest block">ORIGEN</span>
+                            <div class="font-bold text-lg md:text-xl text-teal-950 leading-tight" id="ticket-origin">Dolores Hidalgo</div>
+                        </div>
+                        <div class="px-2 text-orange-500 flex flex-col items-center">
+                            <span class="text-xs font-black">➔</span>
+                            <span class="text-[9px] font-bold uppercase text-slate-400">Directo</span>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest block">DESTINO</span>
+                            <div class="font-bold text-lg md:text-xl text-teal-950 leading-tight" id="ticket-destination">Polanco, CDMX</div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Ticket Body Grid -->
-                <div class="grid grid-cols-1 lg:grid-cols-12 p-6 md:p-8 gap-8 items-center">
+                <!-- PROMINENT QR CODE SECTION (Mobile Centerpiece) -->
+                <div class="p-6 text-center bg-white">
+                    <span class="text-[11px] font-extrabold text-teal-900 uppercase tracking-wider block mb-3">MUESTRA ESTE QR EN EL ANDÉN</span>
                     
-                    <!-- Details Column (8 cols) -->
-                    <div class="lg:col-span-8 space-y-6">
-                        
-                        <!-- Route Banner -->
-                        <div class="flex items-center justify-between bg-teal-50/60 p-4 rounded-2xl border border-teal-100">
-                            <div>
-                                <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">Origen</span>
-                                <div class="font-display text-xl font-bold text-teal-900" id="ticket-origin">Dolores Hidalgo</div>
-                            </div>
-                            <div class="flex flex-col items-center px-4">
-                                <span class="text-xs font-bold text-orange-500">RUTA DIRECTA</span>
-                                <div class="w-24 h-0.5 bg-orange-400 relative my-1">
-                                    <div class="absolute right-0 -top-1 w-2 h-2 rounded-full bg-orange-500"></div>
-                                </div>
-                                <span class="text-[10px] text-gray-400">Autobús Ejecutivo (20 pax)</span>
-                            </div>
-                            <div class="text-right">
-                                <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">Destino</span>
-                                <div class="font-display text-xl font-bold text-teal-900" id="ticket-destination">Polanco, CDMX</div>
-                            </div>
-                        </div>
-
-                        <!-- Info Grid -->
-                        <div class="grid grid-cols-2 md:grid-cols-3 gap-6 pt-2">
-                            <div>
-                                <span class="text-xs font-bold text-gray-400 uppercase tracking-wider block mb-1">Pasajero Principal</span>
-                                <div class="font-bold text-gray-900 text-base" id="ticket-passenger">-</div>
-                            </div>
-                            <div>
-                                <span class="text-xs font-bold text-gray-400 uppercase tracking-wider block mb-1">Asientos Reservados</span>
-                                <div class="font-bold text-teal-900 text-base flex items-center gap-1.5">
-                                    <span class="w-6 h-6 rounded-full bg-teal-100 text-teal-800 flex items-center justify-center text-xs" id="ticket-seats">1</span>
-                                    <span>Lugar(es) libre(s)</span>
-                                </div>
-                            </div>
-                            <div>
-                                <span class="text-xs font-bold text-gray-400 uppercase tracking-wider block mb-1">Fecha y Hora</span>
-                                <div class="font-bold text-gray-900 text-base" id="ticket-departure">-</div>
-                            </div>
-                        </div>
-
-                        <!-- Instructions Note -->
-                        <div class="p-4 bg-orange-50/70 border border-orange-200/60 rounded-2xl flex items-start gap-3">
-                            <span class="text-orange-500 text-lg">💡</span>
-                            <div class="text-xs text-orange-950 leading-relaxed">
-                                <strong>Indicaciones de abordaje:</strong> Preséntate 15 minutos antes en el punto de encuentro indicado. Este autobús no requiere asientos numerados; la asignación es libre conforme al orden de abordaje.
-                            </div>
-                        </div>
-
+                    <div class="bg-slate-50 p-4 rounded-2xl border-2 border-dashed border-teal-200 inline-block shadow-inner" id="qrcode-wrapper">
+                        <div id="qrcode" class="flex justify-center items-center"></div>
                     </div>
 
-                    <!-- QR Column (4 cols) -->
-                    <div class="lg:col-span-4 lg:ticket-border-dashed lg:pl-8 flex flex-col items-center justify-center text-center space-y-4 pt-6 lg:pt-0 border-t lg:border-t-0 border-gray-200">
-                        <div class="bg-white p-4 rounded-2xl shadow-md border border-gray-100 inline-block" id="qrcode-wrapper">
-                            <div id="qrcode"></div>
+                    <div class="mt-4">
+                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest block">CÓDIGO DE RESERVA</span>
+                        <code class="text-xs font-mono font-bold text-teal-900 bg-teal-50 border border-teal-100 px-3 py-1 rounded-lg mt-1 inline-block select-all" id="ticket-token-code">-</code>
+                    </div>
+                </div>
+
+                <!-- Dashed Notch Separator -->
+                <div class="notch-cut border-t-2 border-dashed border-slate-200 my-1"></div>
+
+                <!-- Details Grid -->
+                <div class="p-6 bg-slate-50 space-y-4">
+                    <div class="grid grid-cols-2 gap-4 text-xs">
+                        <div>
+                            <span class="font-bold text-slate-400 uppercase tracking-wider block mb-0.5">Pasajero</span>
+                            <div class="font-extrabold text-slate-900 text-sm truncate" id="ticket-passenger">-</div>
                         </div>
                         <div>
-                            <span class="text-xs font-bold text-gray-400 uppercase tracking-wider block">Código de Reserva</span>
-                            <code class="text-xs font-mono font-bold text-teal-900 bg-gray-100 px-2.5 py-1 rounded-md mt-1 inline-block select-all" id="ticket-token-code">-</code>
+                            <span class="font-bold text-slate-400 uppercase tracking-wider block mb-0.5">Asientos</span>
+                            <div class="font-extrabold text-teal-900 text-sm" id="ticket-seats">1 Lugar(es)</div>
                         </div>
-                        <p class="text-[11px] text-gray-400 max-w-[200px]">Escanea este código QR en el andén para validar tu acceso.</p>
                     </div>
 
+                    <div class="grid grid-cols-1 gap-1 text-xs pt-2 border-t border-slate-200/80">
+                        <span class="font-bold text-slate-400 uppercase tracking-wider block mb-0.5">Fecha y Hora de Salida</span>
+                        <div class="font-extrabold text-slate-900 text-sm" id="ticket-departure">-</div>
+                    </div>
+
+                    <div class="p-3 bg-orange-50 border border-orange-200/60 rounded-xl text-[11px] text-orange-950 leading-snug">
+                        <strong>💡 Abordaje Libre:</strong> Preséntate 15 minutos antes. Los asientos se asignan conforme al orden de abordaje en el andén.
+                    </div>
                 </div>
 
-                <!-- Footer Bar -->
-                <div class="bg-gray-50 px-6 py-4 border-t border-gray-100 flex flex-col sm:flex-row justify-between items-center gap-2 text-xs text-gray-500">
-                    <div>Soporte Odisea: <a href="https://wa.me/5215500000000" target="_blank" class="text-teal-800 font-bold hover:underline">WhatsApp Oficial</a></div>
-                    <div>www.odiseachallenge.com</div>
+                <!-- Mobile Quick Actions -->
+                <div class="p-4 bg-slate-900 text-center space-y-2">
+                    <button onclick="shareTicket()" class="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-4 rounded-xl text-xs flex items-center justify-center gap-2 shadow-lg transition-all">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path></svg>
+                        Guardar / Compartir Pase Móvil
+                    </button>
+                    <div class="text-[10px] text-slate-400 pt-1">www.odiseachallenge.com</div>
                 </div>
 
             </div>
@@ -195,13 +182,15 @@
     <!-- JS Logic -->
     <script>
         const API_BASE = 'https://api.odiseachallenge.com';
+        let currentTicketToken = '';
 
         document.addEventListener('DOMContentLoaded', async () => {
             const params = new URLSearchParams(window.location.search);
             const token = params.get('token') || params.get('reservation_token');
+            currentTicketToken = token;
 
             if (!token) {
-                showError("Código de Boleto Requerido", "No se proporcionó un token de reservación en el enlace. Por favor verifica tu correo o enlace de compra.");
+                showError("Código Requerido", "No se encontró el token de reservación en el enlace.");
                 return;
             }
 
@@ -210,7 +199,7 @@
                 const data = await res.json();
 
                 if (!res.ok || !data.valid) {
-                    showError("Boleto No Válido o Pendiente", data.message || "El boleto especificado no fue encontrado o la reserva aún no ha sido pagada.");
+                    showError("Boleto Pendiente o Inválido", data.message || "El boleto aún no ha sido pagado.");
                     return;
                 }
 
@@ -218,18 +207,18 @@
                 document.getElementById('ticket-passenger').innerText = data.passenger || 'Pasajero Odisea';
 
                 let rawOrigin = data.trip?.origin || data.trip?.city || 'Dolores Hidalgo';
-                if (rawOrigin.toUpperCase() === 'CDMX') rawOrigin = 'Dolores Hidalgo'; // Corrección para viajes donde CDMX es el destino final
+                if (rawOrigin.toUpperCase() === 'CDMX') rawOrigin = 'Dolores Hidalgo';
 
                 document.getElementById('ticket-origin').innerText = rawOrigin;
                 document.getElementById('ticket-destination').innerText = data.trip?.destination || 'Polanco, CDMX';
-                document.getElementById('ticket-seats').innerText = data.seats || 1;
+                document.getElementById('ticket-seats').innerText = `${data.seats || 1} Lugar(es)`;
                 document.getElementById('ticket-token-code').innerText = token.slice(0, 16) + '...';
 
                 if (data.trip?.departure_at) {
                     const d = new Date(data.trip.departure_at);
                     if (!isNaN(d.getTime())) {
                         document.getElementById('ticket-departure').innerText = d.toLocaleDateString('es-MX', {
-                            weekday: 'short', day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit'
+                            weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit'
                         });
                     } else {
                         document.getElementById('ticket-departure').innerText = data.trip.departure_at;
@@ -238,14 +227,14 @@
                     document.getElementById('ticket-departure').innerText = 'Por confirmar';
                 }
 
-                // Generate QR Code
+                // Generate PROMINENT LARGE QR Code (240x240 for mobile screens)
                 const qrContainer = document.getElementById('qrcode');
                 qrContainer.innerHTML = '';
                 new QRCode(qrContainer, {
                     text: token,
-                    width: 160,
-                    height: 160,
-                    colorDark: "#0D4F4C",
+                    width: 240,
+                    height: 240,
+                    colorDark: "#0F172A",
                     colorLight: "#ffffff",
                     correctLevel: QRCode.CorrectLevel.H
                 });
@@ -258,7 +247,7 @@
 
             } catch (err) {
                 console.error(err);
-                showError("Error de Conexión", "No se pudo conectar con el servidor de boletos. Por favor intenta refrescar la página.");
+                showError("Error de Conexión", "No se pudo conectar con el servidor de boletos.");
             }
         });
 
@@ -267,6 +256,23 @@
             document.getElementById('error-title').innerText = title;
             document.getElementById('error-desc').innerText = desc;
             document.getElementById('ticket-error').classList.remove('hidden');
+        }
+
+        async function shareTicket() {
+            if (navigator.share) {
+                try {
+                    await navigator.share({
+                        title: 'Pase de Abordaje Móvil | Odisea Challenge',
+                        text: 'Mi pase de abordaje oficial con código QR para Odisea Challenge.',
+                        url: window.location.href
+                    });
+                } catch (err) {
+                    console.log('Share canceled');
+                }
+            } else {
+                navigator.clipboard.writeText(window.location.href);
+                alert("¡Enlace del Pase Móvil copiado al portapapeles! Puedes enviarlo por WhatsApp.");
+            }
         }
     </script>
 </body>
