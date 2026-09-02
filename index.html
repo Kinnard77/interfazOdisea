@@ -328,7 +328,16 @@
         /* Mobile Optimizations */
         @media (max-width: 768px) {
             .hero-bg {
-                background-attachment: scroll;
+                background-attachment: scroll !important;
+                background-size: cover !important;
+                background-position: 68% center !important;
+            }
+
+            .hero-description {
+                margin-top: 7rem !important;
+                font-size: 1.05rem !important;
+                padding-left: 1rem;
+                padding-right: 1rem;
             }
 
             .booking-widget {
@@ -339,9 +348,6 @@
             .destination-card {
                 margin: 0 0.5rem;
             }
-
-            /* Este enlace de Splide está mal ubicado y debe estar en el head, pero lo dejo por ahora */
-            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css">
         }
     </style>
 </head>
@@ -385,7 +391,7 @@
                 <span class="gradient-text-white">Descubre tu</span><br>
                 <span class="text-white">próxima Odisea</span>
             </h1>
-            <p class="text-xl md:text-0.7xl mb-12 max-w-xl mx-auto opacity-90 mt-64">
+            <p class="hero-description text-xl md:text-0.7xl mb-12 max-w-xl mx-auto opacity-90 mt-64">
                 Vive una aventura épica en un solo día en la CDMX con destinos increíbles y un juego interactivo donde
                 puedes ganar y hacer que tu odisea tenga coste 0.
             </p>
