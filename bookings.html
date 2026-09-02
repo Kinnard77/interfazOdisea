@@ -314,20 +314,18 @@
 
             // Determine Filter
             let filteredTrips = [];
-            let destinationName = "Selecciona una aventura";
+            let destinationName = "Odisea Challenge Tour";
 
             // If param is a mapped ID (1,2,3,4) -> Filter by Name
             if (mapIdToName[destParam]) {
                 const nameKey = mapIdToName[destParam].toLowerCase();
-                filteredTrips = allTrips.filter(t => t.city.toLowerCase().includes(nameKey)); // Fuzzy match "city" field which holds title
-                destinationName = mapIdToName[destParam];
+                filteredTrips = allTrips.filter(t => t.city.toLowerCase().includes(nameKey));
             }
             // If param looks like UUID -> Find specific trip
             else if (destParam && destParam.length > 20) {
                 filteredTrips = allTrips.filter(t => t.id === destParam);
-                if (filteredTrips.length > 0) destinationName = filteredTrips[0].city;
             }
-            // Else fallback -> Show all? Or generic list? let's show all active
+            // Else fallback -> Show all active
             else {
                 filteredTrips = allTrips;
             }
@@ -465,7 +463,7 @@
                 btn.style.background = '#00a650';
 
                 setTimeout(() => {
-                    window.location.href = prefData.init_point || prefData.sandbox_init_point;
+                    window.location.href = prefData.sandbox_init_point || prefData.init_point;
                 }, 800);
 
             } catch (err) {
