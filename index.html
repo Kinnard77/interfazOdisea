@@ -697,10 +697,13 @@
                 }
             });
             splide.mount();
+        });
 
-        function toggleMobileMenu() {
+        window.toggleMobileMenu = function() {
             const drawer = document.getElementById('mobile-menu-drawer');
             const overlay = document.getElementById('mobile-menu-overlay');
+            if (!drawer || !overlay) return;
+            
             const isHidden = drawer.classList.contains('-translate-x-full');
             if (isHidden) {
                 drawer.classList.remove('-translate-x-full');
@@ -709,7 +712,7 @@
                 drawer.classList.add('-translate-x-full');
                 overlay.classList.add('hidden');
             }
-        }
+        };
     </script>
 </body>
 </html>
