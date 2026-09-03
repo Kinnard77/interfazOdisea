@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trazo Studio | Editor vectorial e impresión PDF</title>
+    <meta name="description" content="Editor de trazos vectoriales: dibuja, corta, une, transforma y exporta a SVG o PDF vectorial listo para imprimir.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="vector-studio.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="app">
+        <!-- ======================= BARRA SUPERIOR ======================= -->
+        <header class="vs-top">
+            <div class="vs-brand">
+                <span class="dot">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 20c6 0 5-16 11-16" />
+                    </svg>
+                </span>
+                <span>Trazo Studio <small id="docName">— sin título</small></span>
+            </div>
+
+            <div class="vs-sep"></div>
+
+            <div class="vs-group">
+                <button class="vs-btn ghost" id="btnNew" title="Nuevo documento (Ctrl+N)">Nuevo</button>
+                <button class="vs-btn ghost" id="btnOpen" title="Abrir proyecto .trazo (Ctrl+O)">Abrir</button>
+                <button class="vs-btn ghost" id="btnSave" title="Guardar proyecto .trazo (Ctrl+S)">Guardar</button>
+                <input type="file" id="fileInput" accept=".trazo,.json,application/json" hidden>
+            </div>
+
+            <div class="vs-sep"></div>
+
+            <div class="vs-group">
+                <button class="vs-btn ghost" id="btnUndo" title="Deshacer (Ctrl+Z)">
+                    <svg viewBox="0 0 24 24"><path d="M9 14L4 9l5-5" /><path d="M4 9h11a5 5 0 0 1 0 10h-3" /></svg>
+                </button>
+                <button class="vs-btn ghost" id="btnRedo" title="Rehacer (Ctrl+Y)">
+                    <svg viewBox="0 0 24 24"><path d="M15 14l5-5-5-5" /><path d="M20 9H9a5 5 0 0 0 0 10h3" /></svg>
+                </button>
+            </div>
+
+            <div class="vs-spacer"></div>
+
+            <div class="vs-group">
+                <label style="color:var(--vs-muted)">Página</label>
+                <select class="vs-input" id="pagePreset">
+                    <option value="A4">A4 · 210×297</option>
+                    <option value="A3">A3 · 297×420</option>
+                    <option value="A5">A5 · 148×210</option>
+                    <option value="Carta">Carta · 216×279</option>
+                    <option value="Oficio">Oficio · 216×356</option>
+                    <option value="Tabloide">Tabloide · 279×432</option>
+                    <option value="custom">Personalizado…</option>
+                </select>
+                <button class="vs-btn ghost" id="btnOrient" title="Girar orientación">⇄</button>
+            </div>
+
+            <div class="vs-sep"></div>
+
+            <div class="vs-group">
+                <button class="vs-btn ghost" id="btnSvg" title="Exportar SVG vectorial">SVG</button>
+                <button class="vs-btn ghost" id="btnHelp" title="Atajos de teclado (F1)">?</button>
+                <button class="vs-btn primary" id="btnPdf" title="Descargar PDF vectorial (Ctrl+E)">
+                    <svg viewBox="0 0 24 24"><path d="M12 3v12" /><path d="M7 10l5 5 5-5" /><path d="M4 21h16" /></svg>
+                    PDF
+                </button>
+                <button class="vs-btn primary" id="btnPrint" title="Imprimir (Ctrl+P)">
+                    <svg viewBox="0 0 24 24"><path d="M6 9V3h12v6" /><path d="M6 18H4a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-2" /><path d="M6 14h12v7H6z" /></svg>
+                    Imprimir
+                </button>
+            </div>
+        </header>
+
+        <!-- ======================= CUERPO ======================= -->
+        <div class="vs-body">
+            <!-- Herramientas -->
+            <aside class="vs-tools" id="tools">
+                <button class="vs-tool active" data-tool="select" title="Seleccionar y mover (V)">
+                    <svg viewBox="0 0 24 24"><path d="M4 3l7 17 2.5-6.5L20 11z" /></svg>
+                </button>
+                <button class="vs-tool" data-tool="node" title="Editar nodos y manijas (A)">
+                    <svg viewBox="0 0 24 24"><path d="M4 18c8 0 8-12 16-12" /><rect x="2" y="16" width="4" height="4" /><rect x="18" y="4" width="4" height="4" /></svg>
+                </button>
+                <div class="divider"></div>
+                <button class="vs-tool" data-tool="pen" title="Pluma: trazos con curvas Bézier (P)">
+                    <svg viewBox="0 0 24 24"><path d="M12 19l7-7-4-4-7 7-1 5z" /><path d="M15 8l-9 9" /></svg>
+                </button>
+                <button class="vs-tool" data-tool="line" title="Línea recta / polilínea (L)">
+                    <svg viewBox="0 0 24 24"><path d="M4 20L20 4" /><circle cx="4" cy="20" r="1.8" /><circle cx="20" cy="4" r="1.8" /></svg>
+                </button>
+                <button class="vs-tool" data-tool="pencil" title="Lápiz a mano alzada (B)">
+                    <svg viewBox="0 0 24 24"><path d="M3 17c4 2 5-8 9-8s3 6 6 5" /></svg>
+                </button>
+                <button class="vs-tool" data-tool="rect" title="Rectángulo (R)">
+                    <svg viewBox="0 0 24 24"><rect x="4" y="6" width="16" height="12" rx="1" /></svg>
+                </button>
+                <button class="vs-tool" data-tool="ellipse" title="Elipse (E)">
+                    <svg viewBox="0 0 24 24"><ellipse cx="12" cy="12" rx="8" ry="6" /></svg>
+                </button>
+                <button class="vs-tool" data-tool="text" title="Texto (T)">
+                    <svg viewBox="0 0 24 24"><path d="M5 6h14" /><path d="M12 6v13" /><path d="M9 19h6" /></svg>
+                </button>
+                <div class="divider"></div>
+                <button class="vs-tool" data-tool="knife" title="Cuchilla: cortar trazos (K)">
+                    <svg viewBox="0 0 24 24"><path d="M4 4l10 10-3 3-3-3" /><path d="M14 14l6 6" /></svg>
+                </button>
+                <button class="vs-tool" data-tool="measure" title="Medir distancia (M)">
+                    <svg viewBox="0 0 24 24"><path d="M3 13l10-10 8 8-10 10z" /><path d="M7 11l2 2" /><path d="M10 8l2 2" /><path d="M13 5l2 2" /></svg>
+                </button>
+                <div class="divider"></div>
+                <button class="vs-tool" data-tool="pan" title="Encuadre / mover vista (H o barra espaciadora)">
+                    <svg viewBox="0 0 24 24"><path d="M9 11V5.5a1.5 1.5 0 0 1 3 0V11" /><path d="M12 11V4.5a1.5 1.5 0 0 1 3 0V11" /><path d="M15 11V6.5a1.5 1.5 0 0 1 3 0V13c0 4-2.5 8-6.5 8S6 18 6 15v-3.5a1.5 1.5 0 0 1 3 0" /></svg>
+                </button>
+            </aside>
+
+            <!-- Lienzo -->
+            <section class="vs-stage" id="stage">
+                <canvas id="cv"></canvas>
+                <div class="vs-hint" id="hint"></div>
+                <div class="vs-zoombox">
+                    <button class="vs-btn ghost" id="btnZoomOut" title="Alejar (-)">−</button>
+                    <button class="vs-btn ghost" id="btnZoom100" title="Zoom 100% (Ctrl+1)">100%</button>
+                    <button class="vs-btn ghost" id="btnZoomIn" title="Acercar (+)">+</button>
+                    <button class="vs-btn ghost" id="btnFit" title="Ajustar página (Ctrl+0)">Ajustar</button>
+                </div>
+            </section>
+
+            <!-- Panel -->
+            <aside class="vs-panel" id="panel">
+                <div class="vs-tabs">
+                    <button class="vs-tab active" data-page="style">Estilo</button>
+                    <button class="vs-tab" data-page="transform">Geometría</button>
+                    <button class="vs-tab" data-page="ops">Operar</button>
+                    <button class="vs-tab" data-page="layers">Capas</button>
+                </div>
+
+                <div class="vs-pages">
+                    <!-- ---------- ESTILO ---------- -->
+                    <div class="vs-page active" data-page="style">
+                        <div class="vs-block">
+                            <h4>Trazo</h4>
+                            <div class="vs-row">
+                                <label>Color</label>
+                                <input type="color" id="stStroke" value="#111827">
+                                <input class="vs-input" type="number" id="stWidth" min="0" max="50" step="0.05" value="0.35" title="Grosor en mm">
+                                <span style="color:var(--vs-muted)">mm</span>
+                            </div>
+                            <div class="vs-row">
+                                <label>Guiones</label>
+                                <select class="vs-input" id="stDash" style="flex:1">
+                                    <option value="">Continuo</option>
+                                    <option value="3,1.5">Discontinuo</option>
+                                    <option value="1,1.2">Punteado</option>
+                                    <option value="6,1.5,1,1.5">Eje (centro)</option>
+                                    <option value="0.1,1.6">Fino punteado</option>
+                                </select>
+                            </div>
+                            <div class="vs-row">
+                                <label>Remates</label>
+                                <select class="vs-input" id="stCap" style="flex:1">
+                                    <option value="butt">Recto</option>
+                                    <option value="round" selected>Redondo</option>
+                                    <option value="square">Cuadrado</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="vs-block">
+                            <h4>Relleno</h4>
+                            <div class="vs-row">
+                                <label class="vs-check"><input type="checkbox" id="stFillOn"> Activo</label>
+                                <input type="color" id="stFill" value="#f59e0b">
+                                <select class="vs-input" id="stFillRule" style="flex:1" title="Regla de relleno">
+                                    <option value="nonzero">No cero</option>
+                                    <option value="evenodd">Par-impar</option>
+                                </select>
+                            </div>
+                            <div class="vs-row">
+                                <label>Opacidad</label>
+                                <input class="vs-input" type="number" id="stOpacity" min="0" max="100" step="5" value="100">
+                                <span style="color:var(--vs-muted)">%</span>
+                            </div>
+                        </div>
+
+                        <div class="vs-block">
+                            <h4>Texto</h4>
+                            <div class="vs-row">
+                                <label>Tamaño</label>
+                                <input class="vs-input" type="number" id="stTextSize" min="1" max="200" step="0.5" value="6">
+                                <span style="color:var(--vs-muted)">mm</span>
+                            </div>
+                            <div class="vs-row">
+                                <label>Contenido</label>
+                                <input class="vs-input" type="text" id="stTextValue" style="flex:1" placeholder="Texto…">
+                            </div>
+                            <div class="vs-grid3">
+                                <button class="vs-btn" data-align-text="left">Izq.</button>
+                                <button class="vs-btn" data-align-text="center">Centro</button>
+                                <button class="vs-btn" data-align-text="right">Der.</button>
+                            </div>
+                        </div>
+
+                        <div class="vs-block">
+                            <h4>Lienzo</h4>
+                            <label class="vs-check"><input type="checkbox" id="optGrid" checked> Rejilla</label>
+                            <div class="vs-row" style="margin-top:6px">
+                                <label>Paso</label>
+                                <input class="vs-input" type="number" id="optGridStep" min="0.5" max="50" step="0.5" value="10">
+                                <span style="color:var(--vs-muted)">mm</span>
+                            </div>
+                            <label class="vs-check"><input type="checkbox" id="optSnapGrid" checked> Ajustar a rejilla</label>
+                            <label class="vs-check" style="margin-top:5px"><input type="checkbox" id="optSnapNode" checked> Ajustar a nodos</label>
+                            <label class="vs-check" style="margin-top:5px"><input type="checkbox" id="optOutline"> Ver sólo contornos</label>
+                        </div>
+                    </div>
+
+                    <!-- ---------- GEOMETRÍA ---------- -->
+                    <div class="vs-page" data-page="transform">
+                        <div class="vs-block">
+                            <h4>Posición y tamaño (mm)</h4>
+                            <div class="vs-grid2">
+                                <div class="vs-row tight"><label>X</label><input class="vs-input" type="number" step="0.1" id="trX" style="flex:1"></div>
+                                <div class="vs-row tight"><label>Y</label><input class="vs-input" type="number" step="0.1" id="trY" style="flex:1"></div>
+                                <div class="vs-row tight"><label>An</label><input class="vs-input" type="number" step="0.1" min="0.01" id="trW" style="flex:1"></div>
+                                <div class="vs-row tight"><label>Al</label><input class="vs-input" type="number" step="0.1" min="0.01" id="trH" style="flex:1"></div>
+                            </div>
+                            <label class="vs-check" style="margin-top:4px"><input type="checkbox" id="trLock" checked> Conservar proporción</label>
+                        </div>
+
+                        <div class="vs-block">
+                            <h4>Rotar y reflejar</h4>
+                            <div class="vs-row">
+                                <input class="vs-input" type="number" id="trAngle" value="90" step="1" style="width:64px">
+                                <span style="color:var(--vs-muted)">°</span>
+                                <button class="vs-btn" id="btnRotL" title="Girar a la izquierda">⟲</button>
+                                <button class="vs-btn" id="btnRotR" title="Girar a la derecha">⟳</button>
+                            </div>
+                            <div class="vs-grid2">
+                                <button class="vs-btn" id="btnFlipH">Reflejar ↔</button>
+                                <button class="vs-btn" id="btnFlipV">Reflejar ↕</button>
+                            </div>
+                        </div>
+
+                        <div class="vs-block">
+                            <h4>Alinear a la página / selección</h4>
+                            <div class="vs-grid3">
+                                <button class="vs-btn" data-align="left" title="Izquierda">⇤</button>
+                                <button class="vs-btn" data-align="hcenter" title="Centro horizontal">⇔</button>
+                                <button class="vs-btn" data-align="right" title="Derecha">⇥</button>
+                                <button class="vs-btn" data-align="top" title="Arriba">⤒</button>
+                                <button class="vs-btn" data-align="vcenter" title="Centro vertical">⇕</button>
+                                <button class="vs-btn" data-align="bottom" title="Abajo">⤓</button>
+                            </div>
+                            <label class="vs-check" style="margin-top:6px"><input type="checkbox" id="alignPage"> Respecto a la página</label>
+                            <div class="vs-grid2" style="margin-top:6px">
+                                <button class="vs-btn" data-distribute="h">Distribuir ↔</button>
+                                <button class="vs-btn" data-distribute="v">Distribuir ↕</button>
+                            </div>
+                        </div>
+
+                        <div class="vs-block">
+                            <h4>Orden</h4>
+                            <div class="vs-grid2">
+                                <button class="vs-btn" id="btnFront">Al frente</button>
+                                <button class="vs-btn" id="btnBack">Al fondo</button>
+                            </div>
+                        </div>
+
+                        <div class="vs-block">
+                            <h4>Página personalizada (mm)</h4>
+                            <div class="vs-grid2">
+                                <div class="vs-row tight"><label>An</label><input class="vs-input" type="number" min="10" max="2000" step="1" id="pgW" style="flex:1"></div>
+                                <div class="vs-row tight"><label>Al</label><input class="vs-input" type="number" min="10" max="2000" step="1" id="pgH" style="flex:1"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ---------- OPERACIONES ---------- -->
+                    <div class="vs-page" data-page="ops">
+                        <div class="vs-block">
+                            <h4>Edición</h4>
+                            <div class="vs-grid2">
+                                <button class="vs-btn" id="opCopy">Copiar</button>
+                                <button class="vs-btn" id="opPaste">Pegar</button>
+                                <button class="vs-btn" id="opDup">Duplicar</button>
+                                <button class="vs-btn" id="opDelete">Eliminar</button>
+                            </div>
+                        </div>
+
+                        <div class="vs-block">
+                            <h4>Trazos</h4>
+                            <div class="vs-grid2">
+                                <button class="vs-btn" id="opJoin" title="Suelda extremos cercanos y encadena trazos abiertos (Ctrl+J)">Unir / soldar</button>
+                                <button class="vs-btn" id="opBreak" title="Separa cada subtrazo en un objeto (Ctrl+Shift+J)">Separar</button>
+                                <button class="vs-btn" id="opClose">Cerrar trazo</button>
+                                <button class="vs-btn" id="opOpen">Abrir trazo</button>
+                                <button class="vs-btn" id="opReverse">Invertir sentido</button>
+                                <button class="vs-btn" id="opSmooth">Suavizar</button>
+                                <button class="vs-btn" id="opSimplify">Simplificar</button>
+                                <button class="vs-btn" id="opFlatten">Curvas → rectas</button>
+                            </div>
+                            <div class="vs-row" style="margin-top:8px">
+                                <label>Tolerancia</label>
+                                <input class="vs-input" type="number" id="opTol" min="0.05" max="10" step="0.05" value="0.6">
+                                <span style="color:var(--vs-muted)">mm</span>
+                            </div>
+                        </div>
+
+                        <div class="vs-block">
+                            <h4>Booleanas (formas cerradas)</h4>
+                            <div class="vs-grid2">
+                                <button class="vs-btn" id="opUnion">Suma (unión)</button>
+                                <button class="vs-btn" id="opDiff">Resta</button>
+                                <button class="vs-btn" id="opInter">Intersección</button>
+                                <button class="vs-btn" id="opXor">Exclusión</button>
+                            </div>
+                            <p style="color:var(--vs-muted);margin:8px 0 0;line-height:1.45">
+                                Opera sobre el contorno aplanado del primer objeto seleccionado contra los demás.
+                            </p>
+                        </div>
+
+                        <div class="vs-block">
+                            <h4>Nodos (herramienta A)</h4>
+                            <div class="vs-grid2">
+                                <button class="vs-btn" id="opNodeAdd">Insertar nodo</button>
+                                <button class="vs-btn" id="opNodeDel">Borrar nodo</button>
+                                <button class="vs-btn" id="opNodeCorner">Vértice</button>
+                                <button class="vs-btn" id="opNodeSmooth">Curvo</button>
+                                <button class="vs-btn wide" id="opNodeSplit" style="grid-column:1/-1">Cortar en el nodo</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ---------- CAPAS ---------- -->
+                    <div class="vs-page" data-page="layers">
+                        <div class="vs-block">
+                            <h4>Capas</h4>
+                            <div id="layerList"></div>
+                            <div class="vs-grid2" style="margin-top:8px">
+                                <button class="vs-btn" id="btnAddLayer">+ Capa</button>
+                                <button class="vs-btn" id="btnDelLayer">Eliminar</button>
+                                <button class="vs-btn" id="btnRenameLayer">Renombrar</button>
+                                <button class="vs-btn" id="btnMoveToLayer">Mover aquí</button>
+                            </div>
+                        </div>
+                        <div class="vs-block">
+                            <h4>Objetos</h4>
+                            <div id="objInfo" style="color:var(--vs-muted);line-height:1.6"></div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+
+        <!-- ======================= ESTADO ======================= -->
+        <footer class="vs-status">
+            <span>x <b id="stX">0.0</b> · y <b id="stY">0.0</b> mm</span>
+            <span>Zoom <b id="stZoom">100%</b></span>
+            <span>Sel. <b id="stSel">0</b></span>
+            <span id="stMsg" class="ok"></span>
+            <span class="vs-spacer"></span>
+            <span id="stTool">Seleccionar</span>
+        </footer>
+    </div>
+
+    <div id="printArea"></div>
+    <div class="vs-toast" id="toast"></div>
+
+    <div class="vs-modal" id="help" hidden>
+        <div class="card">
+            <h3>Atajos de teclado</h3>
+            <div class="vs-keys">
+                <div><span>Seleccionar / Nodos</span><b><kbd>V</kbd> <kbd>A</kbd></b></div>
+                <div><span>Pluma / Línea / Lápiz</span><b><kbd>P</kbd> <kbd>L</kbd> <kbd>B</kbd></b></div>
+                <div><span>Rectángulo / Elipse / Texto</span><b><kbd>R</kbd> <kbd>E</kbd> <kbd>T</kbd></b></div>
+                <div><span>Cuchilla / Medir / Encuadre</span><b><kbd>K</kbd> <kbd>M</kbd> <kbd>H</kbd></b></div>
+                <div><span>Encuadrar temporalmente</span><b><kbd>Espacio</kbd> + arrastrar</b></div>
+                <div><span>Zoom</span><b><kbd>Rueda</kbd> / <kbd>+</kbd> <kbd>−</kbd></b></div>
+                <div><span>Ajustar página / 100%</span><b><kbd>Ctrl</kbd>+<kbd>0</kbd> / <kbd>1</kbd></b></div>
+                <div><span>Deshacer / Rehacer</span><b><kbd>Ctrl</kbd>+<kbd>Z</kbd> / <kbd>Y</kbd></b></div>
+                <div><span>Copiar / Pegar / Duplicar</span><b><kbd>Ctrl</kbd>+<kbd>C</kbd> <kbd>V</kbd> <kbd>D</kbd></b></div>
+                <div><span>Cortar objeto</span><b><kbd>Ctrl</kbd>+<kbd>X</kbd></b></div>
+                <div><span>Seleccionar todo / nada</span><b><kbd>Ctrl</kbd>+<kbd>A</kbd> / <kbd>Esc</kbd></b></div>
+                <div><span>Eliminar</span><b><kbd>Supr</kbd></b></div>
+                <div><span>Unir / Separar</span><b><kbd>Ctrl</kbd>+<kbd>J</kbd> / <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>J</kbd></b></div>
+                <div><span>Mover fino / rápido</span><b><kbd>Flechas</kbd> / <kbd>Shift</kbd>+<kbd>Flechas</kbd></b></div>
+                <div><span>Restringir ángulo o proporción</span><b><kbd>Shift</kbd> al arrastrar</b></div>
+                <div><span>Terminar trazo (pluma)</span><b><kbd>Enter</kbd> o <kbd>Esc</kbd></b></div>
+                <div><span>Cerrar trazo (pluma)</span><b>clic en el primer nodo</b></div>
+                <div><span>Al frente / al fondo</span><b><kbd>Ctrl</kbd>+<kbd>↑</kbd> / <kbd>↓</kbd></b></div>
+                <div><span>Guardar / Abrir</span><b><kbd>Ctrl</kbd>+<kbd>S</kbd> / <kbd>O</kbd></b></div>
+                <div><span>PDF / Imprimir</span><b><kbd>Ctrl</kbd>+<kbd>E</kbd> / <kbd>Ctrl</kbd>+<kbd>P</kbd></b></div>
+            </div>
+            <div style="margin-top:18px;text-align:right">
+                <button class="vs-btn primary" id="btnHelpClose">Entendido</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="vector-export.js"></script>
+    <script src="vector-studio.js"></script>
+</body>
+
+</html>
