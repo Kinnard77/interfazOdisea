@@ -254,133 +254,178 @@
                 </button>
             </div>
 
+            <!-- Inclusive Tour Clarification Banner -->
+            <div class="max-w-4xl mx-auto mb-10 bg-emerald-50 border border-emerald-300 p-4 md:p-5 rounded-2xl flex items-center gap-4 text-emerald-900 shadow-sm">
+                <span class="text-3xl shrink-0">🎟️</span>
+                <div class="text-xs md:text-sm">
+                    <strong class="font-bold text-emerald-950 text-sm md:text-base">¡Todas las entradas están 100% Incluidas!</strong><br>
+                    Tu paquete <span class="font-extrabold text-orange-600">Odisea Challenge Tour</span> ya incluye el acceso completo y reservado a estas 4 atracciones en la CDMX. No necesitas comprar boletos por separado. Los enlaces a continuación son únicamente con fines informativos.
+                </div>
+            </div>
+
             <!-- Destinations Grid -->
             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8" id="destinations-grid">
                 <!-- Acuario Inbursa -->
                 <div
-                    class="destination-card rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 animate-fade-in">
-                    <div class="relative overflow-hidden">
-                        <img src="resources/destination-acuario.jpg" alt="Acuario Inbursa"
-                            class="w-full h-48 object-cover transition-transform duration-500 hover:scale-110">
-                        <div
-                            class="absolute top-4 left-4 bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-bold transition-all duration-300 hover:scale-105">
-                            Acuario
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="font-display text-xl font-bold mb-2">Acuario Inbursa</h3>
-                        <p class="text-gray-600 text-sm mb-4">El acuario más grande de México con más de 5,000 especies
-                            marinas</p>
-                        <div class="flex items-center justify-between mb-4">
-                            <div class="flex items-center text-sm text-gray-500">
-                                <span class="mr-2">⭐ 4.8</span>
-                                <span>CDMX - Polanco</span>
+                    class="destination-card rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 animate-fade-in flex flex-col justify-between">
+                    <div>
+                        <div class="relative overflow-hidden">
+                            <img src="resources/destination-acuario.jpg" alt="Acuario Inbursa"
+                                class="w-full h-48 object-cover transition-transform duration-500 hover:scale-110">
+                            <div
+                                class="absolute top-4 left-4 bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-bold transition-all duration-300 hover:scale-105">
+                                Acuario
                             </div>
                         </div>
-                        <div class="flex flex-wrap gap-2 mb-4">
-                            <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Acuario Temático</span>
-                            <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Túnel submarino</span>
+                        <div class="p-6">
+                            <h3 class="font-display text-xl font-bold mb-2">Acuario Inbursa</h3>
+                            <p class="text-gray-600 text-sm mb-4">El acuario más grande de México con más de 5,000 especies marinas</p>
+
+                            <div class="mb-4 bg-emerald-50 border border-emerald-200 p-2.5 rounded-xl text-emerald-800 text-[11px] font-bold flex items-center gap-1.5">
+                                <span>✨</span> Entrada Incluida en Odisea Challenge Tour
+                            </div>
+
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center text-sm text-gray-500">
+                                    <span class="mr-2">⭐ 4.8</span>
+                                    <span>CDMX - Polanco</span>
+                                </div>
+                            </div>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Acuario Temático</span>
+                                <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Túnel submarino</span>
+                            </div>
                         </div>
-                        <button class="w-full btn-primary py-3 rounded-lg font-medium"
+                    </div>
+                    <div class="px-6 pb-6">
+                        <button class="w-full btn-primary py-3 rounded-xl font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2"
                             onclick="viewDestination('acuario-inbursa')">
-                            Ver Detalles
+                            <span>🌐</span> Sitio Oficial (Informativo) ➔
                         </button>
+                        <div class="text-[10px] text-center text-slate-500 mt-2 font-medium">✓ Entrada ya incluida en tu paquete</div>
                     </div>
                 </div>
 
                 <!-- Acuario Interactivo -->
-                <div class="destination-card rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 animate-fade-in"
+                <div class="destination-card rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 animate-fade-in flex flex-col justify-between"
                     style="animation-delay: 0.1s;">
-                    <div class="relative overflow-hidden">
-                        <img src="resources/background-interactivo.jpg" alt="Acuario Interactivo"
-                            class="w-full h-48 object-cover transition-transform duration-500 hover:scale-110">
-                        <div
-                            class="absolute top-4 left-4 bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-bold transition-all duration-300 hover:scale-105">
-                            Interactivo
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="font-display text-xl font-bold mb-2">Acuario Interactivo</h3>
-                        <p class="text-gray-600 text-sm mb-4">Experiencia interactiva para toda la familias con tocar
-                            rayas y alimentar tiburones</p>
-                        <div class="flex items-center justify-between mb-4">
-                            <div class="flex items-center text-sm text-gray-500">
-                                <span class="mr-2">⭐ 4.7</span>
-                                <span>CDMX - Polanco</span>
+                    <div>
+                        <div class="relative overflow-hidden">
+                            <img src="resources/background-interactivo.jpg" alt="Acuario Interactivo"
+                                class="w-full h-48 object-cover transition-transform duration-500 hover:scale-110">
+                            <div
+                                class="absolute top-4 left-4 bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-bold transition-all duration-300 hover:scale-105">
+                                Interactivo
                             </div>
                         </div>
-                        <div class="flex flex-wrap gap-2 mb-4">
-                            <span class="bg-orange-100 text-orange-800 text-xs px-2 py-1 rounded">Toca
-                                mantarrayas</span>
-                            <span class="bg-orange-100 text-orange-800 text-xs px-2 py-1 rounded">Experiencia VR</span>
+                        <div class="p-6">
+                            <h3 class="font-display text-xl font-bold mb-2">Acuario Interactivo</h3>
+                            <p class="text-gray-600 text-sm mb-4">Experiencia interactiva para toda la familia con tocar rayas y alimentar tiburones</p>
+
+                            <div class="mb-4 bg-emerald-50 border border-emerald-200 p-2.5 rounded-xl text-emerald-800 text-[11px] font-bold flex items-center gap-1.5">
+                                <span>✨</span> Entrada Incluida en Odisea Challenge Tour
+                            </div>
+
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center text-sm text-gray-500">
+                                    <span class="mr-2">⭐ 4.7</span>
+                                    <span>CDMX - Polanco</span>
+                                </div>
+                            </div>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="bg-orange-100 text-orange-800 text-xs px-2 py-1 rounded">Toca mantarrayas</span>
+                                <span class="bg-orange-100 text-orange-800 text-xs px-2 py-1 rounded">Experiencia VR</span>
+                            </div>
                         </div>
-                        <button class="w-full btn-primary py-3 rounded-lg font-medium"
+                    </div>
+                    <div class="px-6 pb-6">
+                        <button class="w-full btn-primary py-3 rounded-xl font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2"
                             onclick="viewDestination('acuario-interactivo')">
-                            Ver Detalles
+                            <span>🌐</span> Sitio Oficial (Informativo) ➔
                         </button>
+                        <div class="text-[10px] text-center text-slate-500 mt-2 font-medium">✓ Entrada ya incluida en tu paquete</div>
                     </div>
                 </div>
 
                 <!-- Museo Soumaya -->
-                <div class="destination-card rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 animate-fade-in"
+                <div class="destination-card rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 animate-fade-in flex flex-col justify-between"
                     style="animation-delay: 0.2s;">
-                    <div class="relative overflow-hidden">
-                        <img src="resources/hero-main.jpg" alt="Museo Soumaya"
-                            class="w-full h-48 object-cover transition-transform duration-500 hover:scale-110">
-                        <div
-                            class="absolute top-4 left-4 bg-purple-500 text-white px-3 py-1 rounded-full text-sm font-bold transition-all duration-300 hover:scale-105">
-                            Museo
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="font-display text-xl font-bold mb-2">Museo Soumaya</h3>
-                        <p class="text-gray-600 text-sm mb-4">Museo cultural con la colección privada más importante de
-                            arte europeo y mexicano</p>
-                        <div class="flex items-center justify-between mb-4">
-                            <div class="flex items-center text-sm text-gray-500">
-                                <span class="mr-2">⭐ 4.9</span>
-                                <span>CDMX - Polanco</span>
+                    <div>
+                        <div class="relative overflow-hidden">
+                            <img src="resources/hero-main.jpg" alt="Museo Soumaya"
+                                class="w-full h-48 object-cover transition-transform duration-500 hover:scale-110">
+                            <div
+                                class="absolute top-4 left-4 bg-purple-500 text-white px-3 py-1 rounded-full text-sm font-bold transition-all duration-300 hover:scale-105">
+                                Museo
                             </div>
                         </div>
-                        <div class="flex flex-wrap gap-2 mb-4">
-                            <span class="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded">Arte europeo</span>
-                            <span class="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded">Esculturas</span>
+                        <div class="p-6">
+                            <h3 class="font-display text-xl font-bold mb-2">Museo Soumaya</h3>
+                            <p class="text-gray-600 text-sm mb-4">Museo cultural con la colección privada más importante de arte europeo y mexicano</p>
+
+                            <div class="mb-4 bg-emerald-50 border border-emerald-200 p-2.5 rounded-xl text-emerald-800 text-[11px] font-bold flex items-center gap-1.5">
+                                <span>✨</span> Entrada Incluida en Odisea Challenge Tour
+                            </div>
+
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center text-sm text-gray-500">
+                                    <span class="mr-2">⭐ 4.9</span>
+                                    <span>CDMX - Polanco</span>
+                                </div>
+                            </div>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded">Arte europeo</span>
+                                <span class="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded">Esculturas</span>
+                            </div>
                         </div>
-                        <button class="w-full btn-primary py-3 rounded-lg font-medium"
+                    </div>
+                    <div class="px-6 pb-6">
+                        <button class="w-full btn-primary py-3 rounded-xl font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2"
                             onclick="viewDestination('museo-soumaya')">
-                            Ver Detalles
+                            <span>🌐</span> Sitio Oficial (Informativo) ➔
                         </button>
+                        <div class="text-[10px] text-center text-slate-500 mt-2 font-medium">✓ Entrada ya incluida en tu paquete</div>
                     </div>
                 </div>
 
                 <!-- FlyOver México -->
-                <div class="destination-card rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 animate-fade-in"
+                <div class="destination-card rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 animate-fade-in flex flex-col justify-between"
                     style="animation-delay: 0.3s;">
-                    <div class="relative overflow-hidden">
-                        <img src="resources/destination-odisea.jpg" alt="FlyOver México"
-                            class="w-full h-48 object-cover transition-transform duration-500 hover:scale-110">
-                        <div
-                            class="absolute top-4 left-4 bg-green-500 text-white px-3 py-1 rounded-full text-sm font-bold transition-all duration-300 hover:scale-105">
-                            Experiencia
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="font-display text-xl font-bold mb-2">FlyOver México</h3>
-                        <p class="text-gray-600 text-sm mb-4">Experiencia de vuelo inmersivo volando sobre los paisajes más espectaculares de México</p>
-                        <div class="flex items-center justify-between mb-4">
-                            <div class="flex items-center text-sm text-gray-500">
-                                <span class="mr-2">⭐ 4.9</span>
-                                <span>CDMX - Polanco</span>
+                    <div>
+                        <div class="relative overflow-hidden">
+                            <img src="resources/destination-odisea.jpg" alt="FlyOver México"
+                                class="w-full h-48 object-cover transition-transform duration-500 hover:scale-110">
+                            <div
+                                class="absolute top-4 left-4 bg-green-500 text-white px-3 py-1 rounded-full text-sm font-bold transition-all duration-300 hover:scale-105">
+                                Experiencia
                             </div>
                         </div>
-                        <div class="flex flex-wrap gap-2 mb-4">
-                            <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">Simulador de Vuelo</span>
-                            <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">Vuelo Inmersivo</span>
+                        <div class="p-6">
+                            <h3 class="font-display text-xl font-bold mb-2">FlyOver México</h3>
+                            <p class="text-gray-600 text-sm mb-4">Experiencia de vuelo inmersivo volando sobre los paisajes más espectaculares de México</p>
+
+                            <div class="mb-4 bg-emerald-50 border border-emerald-200 p-2.5 rounded-xl text-emerald-800 text-[11px] font-bold flex items-center gap-1.5">
+                                <span>✨</span> Entrada Incluida en Odisea Challenge Tour
+                            </div>
+
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center text-sm text-gray-500">
+                                    <span class="mr-2">⭐ 4.9</span>
+                                    <span>CDMX - Polanco</span>
+                                </div>
+                            </div>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">Simulador de Vuelo</span>
+                                <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">Vuelo Inmersivo</span>
+                            </div>
                         </div>
-                        <button class="w-full btn-primary py-3 rounded-lg font-medium"
+                    </div>
+                    <div class="px-6 pb-6">
+                        <button class="w-full btn-primary py-3 rounded-xl font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2"
                             onclick="viewDestination('flyover-mexico')">
-                            Ver Detalles
+                            <span>🌐</span> Sitio Oficial (Informativo) ➔
                         </button>
+                        <div class="text-[10px] text-center text-slate-500 mt-2 font-medium">✓ Entrada ya incluida en tu paquete</div>
                     </div>
                 </div>
             </div>
@@ -535,6 +580,8 @@
                 'odisea-mexico': 'https://flyovermexico.com.mx/'
             };
             const targetUrl = officialUrls[destinationId] || 'https://flyovermexico.com.mx/';
+            
+            alert('🎟️ RECUERDA: Tu boleto del Odisea Challenge Tour YA INCLUYE el acceso completo a esta atracción.\n\nTe redirigiremos al sitio web oficial del recinto únicamente con fines informativos. No necesitas comprar boletos adicionales.');
             window.open(targetUrl, '_blank');
         }
 
