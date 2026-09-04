@@ -176,6 +176,34 @@
 
             </div>
 
+            <!-- Review Submission Section -->
+            <div id="review-section" class="hidden mt-6 bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-2xl text-center space-y-4">
+                <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-orange-500/20 text-orange-400 text-[11px] font-bold uppercase tracking-wider">
+                    ⭐ Tu Opinión Cuenta
+                </div>
+                <h3 class="font-display text-lg font-bold text-white">¿Qué te pareció tu viaje?</h3>
+                <p class="text-slate-400 text-xs">Déjanos tu reseña para compartir tu experiencia con la comunidad Odisea.</p>
+                
+                <div id="review-form" class="space-y-3 pt-2">
+                    <div class="flex justify-center items-center gap-2 text-2xl" id="star-rating-picker">
+                        <button type="button" onclick="setRating(1)" class="star-btn text-amber-400 transition-transform hover:scale-125">★</button>
+                        <button type="button" onclick="setRating(2)" class="star-btn text-amber-400 transition-transform hover:scale-125">★</button>
+                        <button type="button" onclick="setRating(3)" class="star-btn text-amber-400 transition-transform hover:scale-125">★</button>
+                        <button type="button" onclick="setRating(4)" class="star-btn text-amber-400 transition-transform hover:scale-125">★</button>
+                        <button type="button" onclick="setRating(5)" class="star-btn text-amber-400 transition-transform hover:scale-125">★</button>
+                    </div>
+                    <textarea id="review-comment" rows="3" placeholder="Escribe tu opinión sobre la experiencia, transporte o atención..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-white placeholder-slate-500 focus:border-orange-500 outline-none transition-colors resize-none"></textarea>
+                    <button onclick="submitReview()" id="submit-review-btn" class="w-full bg-gradient-to-r from-orange-500 to-amber-500 hover:brightness-110 text-white font-bold py-3 rounded-xl text-xs shadow-lg transition-all flex items-center justify-center gap-2">
+                        <span>🚀</span> Publicar Reseña Real
+                    </button>
+                </div>
+
+                <div id="review-success" class="hidden bg-emerald-500/10 border border-emerald-500/30 p-4 rounded-2xl text-center space-y-1">
+                    <div class="text-emerald-400 font-bold text-sm">¡Reseña Publicada con Éxito! 🎉</div>
+                    <p class="text-slate-300 text-xs">Gracias por ayudarnos a hacer Odisea Challenge la mejor experiencia de viaje.</p>
+                </div>
+            </div>
+
         </div>
     </main>
 
@@ -183,6 +211,7 @@
     <script>
         const API_BASE = 'https://api.odiseachallenge.com';
         let currentTicketToken = '';
+        let selectedRating = 5;
 
         document.addEventListener('DOMContentLoaded', async () => {
             const params = new URLSearchParams(window.location.search);
@@ -239,11 +268,14 @@
                     correctLevel: QRCode.CorrectLevel.H
                 });
 
-                // Show ticket container
+                // Show ticket container & review section
                 document.getElementById('ticket-loading').classList.add('hidden');
                 const container = document.getElementById('ticket-container');
+                const reviewSec = document.getElementById('review-section');
                 container.classList.remove('hidden');
+                reviewSec.classList.remove('hidden');
                 anime({ targets: container, opacity: [0, 1], translateY: [20, 0], easing: 'easeOutExpo', duration: 600 });
+                anime({ targets: reviewSec, opacity: [0, 1], translateY: [20, 0], easing: 'easeOutExpo', duration: 600, delay: 200 });
 
             } catch (err) {
                 console.error(err);
@@ -256,6 +288,59 @@
             document.getElementById('error-title').innerText = title;
             document.getElementById('error-desc').innerText = desc;
             document.getElementById('ticket-error').classList.remove('hidden');
+        }
+
+        function setRating(val) {
+            selectedRating = val;
+            const buttons = document.querySelectorAll('#star-rating-picker .star-btn');
+            buttons.forEach((btn, idx) => {
+                if (idx < val) {
+                    btn.classList.remove('text-slate-600');
+                    btn.classList.add('text-amber-400');
+                } else {
+                    btn.classList.remove('text-amber-400');
+                    btn.classList.add('text-slate-600');
+                }
+            });
+        }
+
+        async function submitReview() {
+            const comment = document.getElementById('review-comment').value.trim();
+            if (!comment) {
+                alert("Por favor escribe un breve comentario sobre tu experiencia.");
+                return;
+            }
+
+            const btn = document.getElementById('submit-review-btn');
+            btn.disabled = true;
+            btn.innerText = "Enviando...";
+
+            try {
+                const res = await fetch(`${API_BASE}/reviews`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        reservation_token: currentTicketToken,
+                        rating: selectedRating,
+                        comment: comment
+                    })
+                });
+                const data = await res.json();
+
+                if (res.ok && data.status === 'ok') {
+                    document.getElementById('review-form').classList.add('hidden');
+                    document.getElementById('review-success').classList.remove('hidden');
+                } else {
+                    alert(data.message || "No se pudo publicar la reseña.");
+                    btn.disabled = false;
+                    btn.innerText = "🚀 Publicar Reseña Real";
+                }
+            } catch (err) {
+                console.error(err);
+                alert("Error de conexión al enviar la reseña.");
+                btn.disabled = false;
+                btn.innerText = "🚀 Publicar Reseña Real";
+            }
         }
 
         async function shareTicket() {

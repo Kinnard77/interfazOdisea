@@ -737,7 +737,47 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', async function () {
+            // Carga dinámica de reseñas desde el Backend / Supabase
+            const sliderList = document.querySelector('#testimonials-slider .splide__list');
+            try {
+                const res = await fetch('https://api.odiseachallenge.com/reviews');
+                const data = await res.json();
+                if (data && data.status === 'ok' && data.reviews && data.reviews.length > 0) {
+                    sliderList.innerHTML = data.reviews.map(r => {
+                        const name = r.passenger_name || 'Viajero Odisea';
+                        const initial = name.charAt(0).toUpperCase();
+                        const stars = '⭐'.repeat(Math.min(Math.max(r.rating || 5, 1), 5));
+                        const city = r.city || 'México';
+                        return `
+                            <li class="splide__slide">
+                                <div class="testimonial-card p-8 mx-4 bg-white/90 backdrop-blur rounded-2xl shadow-lg border border-slate-100 h-full flex flex-col justify-between">
+                                    <div>
+                                        <div class="flex items-center mb-4">
+                                            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-teal-600 to-orange-500 text-white font-bold flex items-center justify-center text-lg mr-3 shadow shrink-0">
+                                                ${initial}
+                                            </div>
+                                            <div>
+                                                <h4 class="font-semibold text-slate-900 text-base leading-snug">${name}</h4>
+                                                <p class="text-xs text-slate-500 font-medium">${city}</p>
+                                            </div>
+                                        </div>
+                                        <p class="text-slate-700 text-sm leading-relaxed italic">
+                                            "${r.comment}"
+                                        </p>
+                                    </div>
+                                    <div class="flex text-amber-400 text-sm mt-4">
+                                        ${stars}
+                                    </div>
+                                </div>
+                            </li>
+                        `;
+                    }).join('');
+                }
+            } catch (err) {
+                console.warn('Usando reseñas locales por defecto:', err);
+            }
+
             // Inicialización del slider de testimonios
             var splide = new Splide('#testimonials-slider', {
                 type: 'loop',      // Carrusel infinito
