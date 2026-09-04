@@ -89,36 +89,55 @@
                 <div class="glass-panel p-8 rounded-3xl">
                     <form id="booking-form" class="space-y-6">
 
-                        <!-- 1. Trip Selection (Date) -->
+                        <!-- 1. Confirmed Trip Info (Locked & Read-only) -->
                         <div class="space-y-4 border-b border-gray-200 pb-6">
-                            <h3 class="font-display text-xl font-bold text-teal-900 flex items-center gap-2">
-                                <span
-                                    class="w-6 h-6 rounded-full bg-teal-100 text-teal-700 flex items-center justify-center text-xs">1</span>
-                                Elige tu Fecha
-                            </h3>
+                            <div class="flex items-center justify-between">
+                                <h3 class="font-display text-xl font-bold text-teal-900 flex items-center gap-2">
+                                    <span
+                                        class="w-6 h-6 rounded-full bg-teal-100 text-teal-700 flex items-center justify-center text-xs">1</span>
+                                    Salida Seleccionada
+                                </h3>
+                                <span class="bg-emerald-100 text-emerald-800 text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-full border border-emerald-300 flex items-center gap-1">
+                                    <span>🔒</span> Confirmada por Agente Operativo
+                                </span>
+                            </div>
 
-                            <div id="trip-loading" class="text-sm text-gray-500 animate-pulse">Buscando salidas
-                                disponibles...</div>
+                            <div id="trip-loading" class="text-sm text-gray-500 animate-pulse">Cargando datos de tu salida...</div>
 
-                            <div id="trip-selection-container" class="hidden space-y-4">
-                                <div>
-                                    <label
-                                        class="text-xs font-bold text-gray-400 uppercase tracking-wide">Experiencia</label>
-                                    <div class="text-lg font-bold text-teal-900" id="experience-name">Cargando...</div>
+                            <!-- Locked Trip Details Card -->
+                            <div id="confirmed-trip-card" class="hidden bg-slate-900 text-white rounded-2xl p-5 border border-slate-800 shadow-xl space-y-3">
+                                <div class="flex items-start justify-between border-b border-slate-800 pb-3">
+                                    <div>
+                                        <div class="text-[9px] uppercase font-extrabold text-orange-400 tracking-wider">📍 Origen de Salida</div>
+                                        <div id="trip-origin-display" class="text-xl font-black text-white font-display">--</div>
+                                    </div>
+                                    <span id="trip-ref-display" class="text-[10px] font-mono text-slate-400 font-semibold bg-slate-950 px-2 py-1 rounded border border-slate-800">Ref: --</span>
                                 </div>
 
-                                <div>
-                                    <label class="text-xs font-bold text-gray-400 uppercase tracking-wide">Fecha de
-                                        Salida</label>
-                                    <select id="trip-selector"
-                                        class="input-field w-full px-4 py-3 rounded-xl text-gray-800 font-medium cursor-pointer appearance-none bg-white">
-                                        <option value="">Selecciona una fecha...</option>
-                                    </select>
+                                <div class="grid grid-cols-2 gap-3 text-xs pt-1">
+                                    <div class="bg-slate-950 p-2.5 rounded-xl border border-slate-800">
+                                        <div class="text-[9px] uppercase font-extrabold text-amber-400 tracking-wider">📅 Fecha del Viaje</div>
+                                        <div id="trip-date-display" class="font-bold text-white capitalize mt-0.5">--</div>
+                                    </div>
+                                    <div class="bg-slate-950 p-2.5 rounded-xl border border-slate-800">
+                                        <div class="text-[9px] uppercase font-extrabold text-slate-400 tracking-wider">⏰ Hora de Abordaje</div>
+                                        <div id="trip-time-display" class="font-bold text-white mt-0.5">--</div>
+                                    </div>
+                                </div>
+
+                                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 text-xs">
+                                    <div class="text-[9px] uppercase font-extrabold text-slate-400 tracking-wider mb-0.5">📍 Punto Exacto de Encuentro</div>
+                                    <div id="trip-meeting-display" class="font-bold text-slate-200">--</div>
+                                </div>
+
+                                <div class="flex items-center justify-between pt-1 border-t border-slate-800 text-xs">
+                                    <span class="text-slate-400">Precio por Persona:</span>
+                                    <span class="text-lg font-black text-orange-400" id="trip-price-display">$0 MXN</span>
                                 </div>
                             </div>
 
-                            <div id="no-trips-msg" class="hidden text-red-500 text-sm font-medium">
-                                No encontramos fechas disponibles para esta experiencia por el momento.
+                            <div id="no-trips-msg" class="hidden text-red-500 text-sm font-medium p-4 bg-red-50 rounded-xl border border-red-200">
+                                No encontramos una salida válida seleccionada. Por favor regresa a la lista de salidas.
                             </div>
                         </div>
 
@@ -303,73 +322,45 @@
 
         function initSelection() {
             const params = new URLSearchParams(window.location.search);
-            const destParam = params.get('destination') || params.get('trip_id');
+            const tripParam = params.get('trip_id') || params.get('destination');
 
-            // --- REDIRECT IF NO ID ---
-            if (!destParam) {
-                // User requested: "Sin ID no hay reserva... redirígelo de vuelta a salidas"
+            // --- REDIRECT TO SALIDAS IF NO TRIP ID IS PRESENT ---
+            if (!tripParam) {
                 window.location.href = 'salidas.html';
                 return;
             }
 
             document.getElementById('trip-loading').classList.add('hidden');
 
-            // Determine Filter
-            let filteredTrips = [];
-            let destinationName = "Odisea Challenge Tour";
+            // Find specific trip in allTrips by exact ID, or fallback by city name match
+            selectedTrip = allTrips.find(t => t.id === tripParam) ||
+                           allTrips.find(t => t.city.toLowerCase().includes(tripParam.toLowerCase()));
 
-            // If param is a mapped ID (1,2,3,4) -> Filter by Name
-            if (mapIdToName[destParam]) {
-                const nameKey = mapIdToName[destParam].toLowerCase();
-                filteredTrips = allTrips.filter(t => t.city.toLowerCase().includes(nameKey));
-            }
-            // If param looks like UUID -> Find specific trip
-            else if (destParam && destParam.length > 20) {
-                filteredTrips = allTrips.filter(t => t.id === destParam);
-            }
-            // Else fallback -> Show all active
-            else {
-                filteredTrips = allTrips;
-            }
-
-            if (filteredTrips.length === 0) {
+            if (!selectedTrip) {
+                // If trip ID is invalid or not found, show message and redirect back to departures
                 document.getElementById('no-trips-msg').classList.remove('hidden');
-                document.getElementById('experience-name').innerText = "Lo sentimos";
+                setTimeout(() => { window.location.href = 'salidas.html'; }, 2500);
                 return;
             }
 
-            // Populate UI
-            document.getElementById('trip-selection-container').classList.remove('hidden');
-            document.getElementById('experience-name').innerText = destinationName;
-            document.getElementById('summary-destination').innerText = destinationName;
+            // --- POPULATE LOCKED CONFIRMED TRIP CARD ---
+            document.getElementById('confirmed-trip-card').classList.remove('hidden');
+            document.getElementById('trip-origin-display').innerText = selectedTrip.city;
+            document.getElementById('trip-ref-display').innerText = `Ref: ${selectedTrip.id}`;
 
-            const selector = document.getElementById('trip-selector');
-            filteredTrips.forEach(t => {
-                const date = new Date(t.departure_at);
-                const dateStr = date.toLocaleDateString('es-MX', { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
-                const option = document.createElement('option');
-                option.value = t.id;
-                option.text = `${dateStr} - $${t.price}`;
-                selector.appendChild(option);
-            });
+            const dateObj = new Date(selectedTrip.departure_at);
+            const dateStr = dateObj.toLocaleDateString('es-MX', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+            const timeStr = dateObj.toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit', hour12: true });
 
-            // Auto-select first if only one
-            if (filteredTrips.length === 1) {
-                selector.value = filteredTrips[0].id;
-                onTripSelected(filteredTrips[0].id);
-            }
+            document.getElementById('trip-date-display').innerText = dateStr;
+            document.getElementById('trip-time-display').innerText = timeStr;
+            document.getElementById('trip-meeting-display').innerText = selectedTrip.punto_encuentro || `Estación Principal, ${selectedTrip.city}`;
+            document.getElementById('trip-price-display').innerText = `$${Number(selectedTrip.price).toLocaleString()} MXN`;
 
-            selector.addEventListener('change', (e) => onTripSelected(e.target.value));
-        }
-
-        function onTripSelected(tripId) {
-            selectedTrip = allTrips.find(t => t.id === tripId);
-            if (!selectedTrip) return;
-
-            // Update UI
+            // --- UPDATE SUMMARY COLUMN ON THE RIGHT ---
+            document.getElementById('summary-destination').innerText = selectedTrip.city;
+            document.getElementById('summary-date').innerText = dateStr;
             document.getElementById('unit-price').innerText = Number(selectedTrip.price).toLocaleString();
-            const date = new Date(selectedTrip.departure_at).toLocaleDateString('es-MX', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
-            document.getElementById('summary-date').innerText = date;
 
             calculateTotal();
         }
