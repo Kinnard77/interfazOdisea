@@ -271,17 +271,25 @@ Si necesitas apoyo especial o resolver alguna duda específica, contáctanos dir
             gap: 4px;
         }
 
-        .support-btn-tg {
-            background: #0088cc;
-            color: #ffffff;
-            padding: 8px 12px;
-            border-radius: 10px;
-            font-size: 11px;
-            font-weight: bold;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
+        @media (max-width: 640px) {
+            #odisea-chat-btn {
+                bottom: 20px !important;
+                right: 16px !important;
+                width: 56px !important;
+                height: 56px !important;
+                z-index: 999999 !important;
+            }
+            #odisea-chat-window {
+                bottom: 85px !important;
+                right: 12px !important;
+                left: 12px !important;
+                width: auto !important;
+                max-width: none !important;
+                height: calc(100vh - 110px) !important;
+                max-height: 540px !important;
+                border-radius: 20px !important;
+                z-index: 999999 !important;
+            }
         }
     `;
 
@@ -352,8 +360,23 @@ Si necesitas apoyo especial o resolver alguna duda específica, contáctanos dir
         },
 
         bindEvents() {
-            document.getElementById('odisea-chat-btn').addEventListener('click', () => this.toggle());
-            document.getElementById('odisea-chat-close').addEventListener('click', () => this.toggle());
+            const btn = document.getElementById('odisea-chat-btn');
+            const closeBtn = document.getElementById('odisea-chat-close');
+
+            const handleToggle = (e) => {
+                if (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+                this.toggle();
+            };
+
+            if (btn) {
+                btn.addEventListener('click', handleToggle);
+            }
+            if (closeBtn) {
+                closeBtn.addEventListener('click', handleToggle);
+            }
         },
 
         toggle() {
@@ -473,4 +496,10 @@ Si necesitas apoyo especial o resolver alguna duda específica, contáctanos dir
     } else {
         OdiseaBot.init();
     }
+    // Global helper / fallback alias
+    window.toggleChat = function () {
+        if (window.OdiseaBot) {
+            window.OdiseaBot.toggle();
+        }
+    };
 })();
