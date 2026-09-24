@@ -340,12 +340,12 @@
             }
 
             .hero-description {
-                margin-top: auto !important;
-                font-size: 0.9rem !important;
-                line-height: 1.4 !important;
+                margin-top: 16rem !important;
+                font-size: 0.72rem !important;
+                line-height: 1.35 !important;
                 padding-left: 1.25rem;
                 padding-right: 1.25rem;
-                color: rgba(255, 255, 255, 0.92) !important;
+                color: rgba(215, 195, 160, 0.75) !important;
             }
 
             .booking-widget {
@@ -436,22 +436,22 @@
     </div>
 
     <!-- Hero Section -->
-    <section id="home" class="hero-bg min-h-screen flex flex-col justify-between pt-20 md:pt-28 pb-8 md:pb-12 relative overflow-hidden"
+    <section id="home" class="hero-bg min-h-screen flex flex-col justify-start pt-20 md:pt-28 relative overflow-hidden"
         style="background-image: url('resources/coverfinal.webp');">
         <div id="particle-container" class="particle-bg"></div>
-        <div class="content-layer container mx-auto px-6 text-center text-white flex flex-col justify-between items-center flex-1 py-4 relative z-20">
+        <div class="content-layer container mx-auto px-6 text-center text-white relative z-20">
             <!-- Hero Logo -->
             <div class="my-4 animate-float flex flex-col items-center justify-center">
                 <img src="resources/LogoOdiseaChallengeTour.webp" alt="Odisea Challenge Tour" class="max-w-[280px] md:max-w-[650px] h-auto drop-shadow-2xl">
             </div>
-            <p class="hero-description text-sm md:text-base leading-relaxed mb-6 md:mb-8 max-w-xl mx-auto text-amber-100/90 font-normal drop-shadow-lg bg-slate-950/40 backdrop-blur-sm px-6 py-3.5 rounded-2xl border border-white/10 mt-auto">
+            <p class="hero-description text-[11px] md:text-sm leading-relaxed mb-6 md:mb-8 max-w-lg mx-auto text-amber-200/70 font-normal drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
                 Vive una aventura épica en un solo día en la CDMX con destinos increíbles y un juego interactivo donde
                 puedes ganar y hacer que tu odisea tenga coste 0.
             </p>
         </div>
 
-        <!-- Personajes Odisea (Baja Izquierda - Interactivo / Draggable - Crece 250% en Escritorio) -->
-        <div id="odisea-characters-container" class="absolute bottom-0 left-[-15px] sm:left-2 md:left-8 lg:left-12 z-30 flex items-end pointer-events-auto cursor-grab active:cursor-grabbing select-none translate-y-[40px] md:translate-y-0 touch-none">
+        <!-- Personajes Odisea (Baja Izquierda - Interactivo / Draggable) -->
+        <div id="odisea-characters-container" class="absolute bottom-[18%] md:bottom-0 left-[-15px] sm:left-2 md:left-8 lg:left-12 z-30 flex items-end pointer-events-auto cursor-grab active:cursor-grabbing select-none translate-y-[40px] md:translate-y-0 touch-none">
             <!-- Chica (Visible en pantallas medianas y grandes, escalada a ~600px/750px) -->
             <img src="resources/chicaconlogofinal.webp" alt="Personaje Odisea Chica" class="hidden md:block md:h-[440px] lg:h-[600px] xl:h-[720px] object-contain drop-shadow-[0_15px_30px_rgba(0,0,0,0.7)] -mr-16 lg:-mr-24 xl:-mr-28 relative z-10 pointer-events-none">
             <!-- Chico (Ajustado a 300px en móvil, recorrido 100px a la izquierda en escritorio) -->
