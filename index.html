@@ -340,12 +340,12 @@
             }
 
             .hero-description {
-                margin-top: 16rem !important;
-                font-size: 0.85rem !important;
-                line-height: 1.35 !important;
+                margin-top: auto !important;
+                font-size: 0.9rem !important;
+                line-height: 1.4 !important;
                 padding-left: 1.25rem;
                 padding-right: 1.25rem;
-                color: rgba(215, 195, 160, 0.60) !important;
+                color: rgba(255, 255, 255, 0.92) !important;
             }
 
             .booking-widget {
@@ -437,10 +437,10 @@
     </div>
 
     <!-- Hero Section -->
-    <section id="home" class="hero-bg min-h-screen flex flex-col justify-start pt-20 md:pt-28 relative"
+    <section id="home" class="hero-bg min-h-screen flex flex-col justify-between pt-20 md:pt-28 pb-8 md:pb-12 relative overflow-hidden"
         style="background-image: url('resources/coverfinal.webp');">
         <div id="particle-container" class="particle-bg"></div>
-        <div class="content-layer container mx-auto px-6 text-center text-white">
+        <div class="content-layer container mx-auto px-6 text-center text-white flex flex-col justify-between items-center flex-1 py-4 relative z-20">
             <!-- Hero Logo & Tagline -->
             <div class="my-4 animate-float flex flex-col items-center justify-center">
                 <img src="resources/LogoOdiseaChallengeTour.webp" alt="Odisea Challenge Tour" class="max-w-[280px] md:max-w-md h-auto drop-shadow-2xl">
@@ -448,20 +448,20 @@
                     Una Odisea por México
                 </div>
             </div>
-            <p class="hero-description text-sm md:text-base leading-snug mb-8 max-w-lg mx-auto text-amber-200/60 mt-80 font-normal">
+            <p class="hero-description text-sm md:text-base leading-relaxed mb-6 md:mb-8 max-w-xl mx-auto text-amber-100/90 font-normal drop-shadow-lg bg-slate-950/40 backdrop-blur-sm px-6 py-3.5 rounded-2xl border border-white/10 mt-auto">
                 Vive una aventura épica en un solo día en la CDMX con destinos increíbles y un juego interactivo donde
                 puedes ganar y hacer que tu odisea tenga coste 0.
             </p>
         </div>
 
-        <!-- Personajes Odisea (Baja Izquierda - Interactivo / Draggable) -->
-        <div id="odisea-characters-container" class="absolute bottom-[18%] md:bottom-0 left-[-15px] sm:left-2 md:left-8 z-30 flex items-end pointer-events-auto cursor-grab active:cursor-grabbing select-none translate-y-[40px] md:translate-y-0 touch-none">
-            <!-- Chica (Visible solo en pantallas medianas y grandes) -->
-            <img src="resources/chicaconlogofinal.webp" alt="Personaje Odisea Chica" class="hidden md:block h-44 lg:h-60 xl:h-72 object-contain drop-shadow-[0_10px_20px_rgba(0,0,0,0.6)] -mr-8 lg:-mr-12 relative z-10 pointer-events-none">
-            <!-- Chico (Ajustado a 300px en móvil) -->
-            <img src="resources/chicoconlogofinal.webp" alt="Personaje Odisea Chico" class="h-[300px] sm:h-[360px] md:h-48 lg:h-64 xl:h-76 object-contain drop-shadow-[0_12px_24px_rgba(0,0,0,0.7)] relative z-20 pointer-events-none">
+        <!-- Personajes Odisea (Baja Izquierda - Interactivo / Draggable - Crece 250% en Escritorio) -->
+        <div id="odisea-characters-container" class="absolute bottom-0 left-[-15px] sm:left-2 md:left-8 lg:left-12 z-30 flex items-end pointer-events-auto cursor-grab active:cursor-grabbing select-none translate-y-[40px] md:translate-y-0 touch-none">
+            <!-- Chica (Visible en pantallas medianas y grandes, escalada a ~600px/750px) -->
+            <img src="resources/chicaconlogofinal.webp" alt="Personaje Odisea Chica" class="hidden md:block md:h-[440px] lg:h-[600px] xl:h-[720px] object-contain drop-shadow-[0_15px_30px_rgba(0,0,0,0.7)] -mr-16 lg:-mr-24 xl:-mr-28 relative z-10 pointer-events-none">
+            <!-- Chico (Ajustado a 300px en móvil, 250% más grande en escritorio: ~480px-800px) -->
+            <img src="resources/chicoconlogofinal.webp" alt="Personaje Odisea Chico" class="h-[300px] sm:h-[360px] md:h-[480px] lg:h-[640px] xl:h-[780px] object-contain drop-shadow-[0_18px_36px_rgba(0,0,0,0.8)] relative z-20 pointer-events-none">
             <!-- Pista/Hint flotante abajo del personaje -->
-            <div id="odisea-drag-hint" class="absolute -bottom-[22px] left-6 bg-slate-900/90 border border-amber-400/40 text-amber-200 text-[10px] font-bold px-2.5 py-1 rounded-full shadow-lg opacity-90 animate-pulse pointer-events-none whitespace-nowrap z-30">
+            <div id="odisea-drag-hint" class="absolute -bottom-[22px] left-6 md:left-16 bg-slate-900/90 border border-amber-400/40 text-amber-200 text-[10px] md:text-xs font-bold px-2.5 py-1 rounded-full shadow-lg opacity-90 animate-pulse pointer-events-none whitespace-nowrap z-30">
                 ¡Arrástrame! 👆
             </div>
         </div>
