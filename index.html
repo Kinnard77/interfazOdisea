@@ -550,67 +550,66 @@
     <!-- Testimonials -->
     <section class="py-20 bg-gradient-to-b from-white to-neutral">
         <div class="container mx-auto px-6">
-            <div class="text-center mb-16">
+            <div class="text-center mb-12">
                 <h2 class="font-display text-5xl font-bold mb-6 gradient-text">Historias de Odisea</h2>
-                <p class="text-xl text-gray-600">Escucha de nuestros viajeros que han ganado viajes gratis</p>
             </div>
 
             <div class="splide" id="testimonials-slider">
                 <div class="splide__track">
                     <ul class="splide__list">
                         <li class="splide__slide">
-                            <div class="testimonial-card p-8 mx-4">
-                                <div class="flex items-center mb-6">
+                            <div class="testimonial-card p-5 md:p-6 mx-4">
+                                <div class="flex items-center mb-4">
                                     <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face"
-                                        alt="María" class="w-16 h-16 rounded-full mr-4">
+                                        alt="María" class="w-10 h-10 rounded-full mr-3">
                                     <div>
-                                        <h4 class="font-semibold text-lg">Claudia Casillas</h4>
-                                        <p class="text-gray-600">Ejecutiva</p>
+                                        <h4 class="font-semibold text-sm">Claudia Casillas</h4>
+                                        <p class="text-slate-500 text-[10px]">Ejecutiva</p>
                                     </div>
                                 </div>
-                                <p class="text-gray-700 text-lg leading-relaxed">
+                                <p class="text-slate-700 text-xs md:text-sm leading-normal">
                                     "¡Gané el juego interactivo y mi viaje fue gratis! La experiencia fue increíble,
                                     desde el transporte hasta las actividades."
                                 </p>
-                                <div class="flex text-yellow-400 mt-4">
+                                <div class="flex text-yellow-400 text-xs mt-3">
                                     ⭐⭐⭐⭐⭐
                                 </div>
                             </div>
                         </li>
                         <li class="splide__slide">
-                            <div class="testimonial-card p-8 mx-4">
-                                <div class="flex items-center mb-6">
+                            <div class="testimonial-card p-5 md:p-6 mx-4">
+                                <div class="flex items-center mb-4">
                                     <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face"
-                                        alt="Carlos" class="w-16 h-16 rounded-full mr-4">
+                                        alt="Carlos" class="w-10 h-10 rounded-full mr-3">
                                     <div>
-                                        <h4 class="font-semibold text-lg">Carlos Mendoza</h4>
-                                        <p class="text-gray-600">Trabajador</p>
+                                        <h4 class="font-semibold text-sm">Carlos Mendoza</h4>
+                                        <p class="text-slate-500 text-[10px]">Trabajador</p>
                                     </div>
                                 </div>
-                                <p class="text-gray-700 text-lg leading-relaxed">
+                                <p class="text-slate-700 text-xs md:text-sm leading-normal">
                                     "El viaje organizado a Odisea México fue perfecto. Todo incluido, sin
                                     preocupaciones. Mi familia lo disfrutó muchísimo."
                                 </p>
-                                <div class="flex text-yellow-400 mt-4">
+                                <div class="flex text-yellow-400 text-xs mt-3">
                                     ⭐⭐⭐⭐⭐
                                 </div>
                             </div>
                         </li>
                         <li class="splide__slide">
-                            <div class="testimonial-card p-8 mx-4">
-                                <div class="flex items-center mb-6">
+                            <div class="testimonial-card p-5 md:p-6 mx-4">
+                                <div class="flex items-center mb-4">
                                     <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face"
-                                        alt="Ana" class="w-16 h-16 rounded-full mr-4">
+                                        alt="Ana" class="w-10 h-10 rounded-full mr-3">
                                     <div>
-                                        <h4 class="font-semibold text-lg">Ana López</h4>
-                                        <p class="text-gray-600">Maestra</p>
+                                        <h4 class="font-semibold text-sm">Ana López</h4>
+                                        <p class="text-slate-500 text-[10px]">Maestra</p>
                                     </div>
                                 </div>
-                                <p class="text-gray-700 text-lg leading-relaxed">
+                                <p class="text-slate-700 text-xs md:text-sm leading-normal">
                                     "El Museo Soumaya fue fascinante. Aprendí mucho, hay obras fascinantes. El
                                     transporte fue muy cómodo."
                                 </p>
-                                <div class="flex text-yellow-400 mt-4">
+                                <div class="flex text-yellow-400 text-xs mt-3">
                                     ⭐⭐⭐⭐⭐
                                 </div>
                             </div>
@@ -752,22 +751,22 @@
                         const city = r.city || 'México';
                         return `
                             <li class="splide__slide">
-                                <div class="testimonial-card p-8 mx-4 bg-white/90 backdrop-blur rounded-2xl shadow-lg border border-slate-100 h-full flex flex-col justify-between">
+                                <div class="testimonial-card p-5 md:p-6 mx-4 bg-white/90 backdrop-blur rounded-2xl shadow-lg border border-slate-100 h-full flex flex-col justify-between">
                                     <div>
-                                        <div class="flex items-center mb-4">
-                                            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-teal-600 to-orange-500 text-white font-bold flex items-center justify-center text-lg mr-3 shadow shrink-0">
+                                        <div class="flex items-center mb-3">
+                                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-teal-600 to-orange-500 text-white font-bold flex items-center justify-center text-sm mr-3 shadow shrink-0">
                                                 ${initial}
                                             </div>
                                             <div>
-                                                <h4 class="font-semibold text-slate-900 text-base leading-snug">${name}</h4>
-                                                <p class="text-xs text-slate-500 font-medium">${city}</p>
+                                                <h4 class="font-semibold text-slate-900 text-sm leading-snug">${name}</h4>
+                                                <p class="text-[10px] text-slate-500 font-medium">${city}</p>
                                             </div>
                                         </div>
-                                        <p class="text-slate-700 text-sm leading-relaxed italic">
+                                        <p class="text-slate-700 text-xs leading-normal italic">
                                             "${r.comment}"
                                         </p>
                                     </div>
-                                    <div class="flex text-amber-400 text-sm mt-4">
+                                    <div class="flex text-amber-400 text-xs mt-3">
                                         ${stars}
                                     </div>
                                 </div>
