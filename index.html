@@ -456,14 +456,14 @@
 
         <!-- Personajes Odisea (Baja Izquierda - Interactivo / Draggable) -->
         <div id="odisea-characters-container" class="absolute bottom-[18%] md:bottom-0 left-[-15px] sm:left-2 md:left-8 z-30 flex items-end pointer-events-auto cursor-grab active:cursor-grabbing select-none translate-y-[40px] md:translate-y-0 touch-none">
-            <!-- Pista/Hint flotante suave -->
-            <div id="odisea-drag-hint" class="absolute -top-7 left-4 bg-slate-900/90 border border-amber-400/40 text-amber-200 text-[10px] font-bold px-2.5 py-1 rounded-full shadow-lg opacity-90 animate-pulse pointer-events-none whitespace-nowrap">
-                👈 ¡Arrástrame!
-            </div>
             <!-- Chica (Visible solo en pantallas medianas y grandes) -->
             <img src="resources/chicaconlogofinal.webp" alt="Personaje Odisea Chica" class="hidden md:block h-44 lg:h-60 xl:h-72 object-contain drop-shadow-[0_10px_20px_rgba(0,0,0,0.6)] -mr-8 lg:-mr-12 relative z-10 pointer-events-none">
             <!-- Chico (Ajustado a 300px en móvil) -->
             <img src="resources/chicoconlogofinal.webp" alt="Personaje Odisea Chico" class="h-[300px] sm:h-[360px] md:h-48 lg:h-64 xl:h-76 object-contain drop-shadow-[0_12px_24px_rgba(0,0,0,0.7)] relative z-20 pointer-events-none">
+            <!-- Pista/Hint flotante abajo del personaje -->
+            <div id="odisea-drag-hint" class="absolute -bottom-8 left-6 bg-slate-900/90 border border-amber-400/40 text-amber-200 text-[10px] font-bold px-2.5 py-1 rounded-full shadow-lg opacity-90 animate-pulse pointer-events-none whitespace-nowrap z-30">
+                👈 ¡Arrástrame!
+            </div>
         </div>
     </section>
 
@@ -535,10 +535,10 @@
                     <p class="text-purple-100/70 text-sm leading-relaxed">Descubre increíbles obras de arte e historia viva.</p>
                 </div>
 
-                <!-- Parques Temáticos / Atracción 4D -->
+                <!-- Parques Temáticos / Avioneta -->
                 <div class="travel-type-card text-center p-8 rounded-3xl bg-slate-900/90 backdrop-blur-xl border border-amber-500/30 hover:border-amber-400 hover:shadow-[0_0_35px_rgba(245,158,11,0.3)] hover:-translate-y-2 transition-all duration-300 cursor-pointer group" data-type="parque">
                     <div class="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-amber-400 to-emerald-500 rounded-2xl flex items-center justify-center shadow-lg shadow-amber-500/30 group-hover:scale-110 transition-transform duration-300">
-                        <span class="text-4xl filter drop-shadow">🕶️</span>
+                        <span class="text-4xl filter drop-shadow">🛩️</span>
                     </div>
                     <h3 class="font-display text-2xl font-bold mb-3 text-white group-hover:text-amber-300 transition-colors">Parques Temáticos</h3>
                     <p class="text-emerald-100/70 text-sm leading-relaxed">Experiencia 4D e inmersiva única que combina cultura, historia y diversión interactiva.</p>
