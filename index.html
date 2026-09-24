@@ -454,12 +454,16 @@
             </p>
         </div>
 
-        <!-- Personajes Odisea (Baja Izquierda) -->
-        <div class="absolute bottom-[18%] md:bottom-0 left-[-15px] sm:left-2 md:left-8 z-20 flex items-end pointer-events-none select-none translate-y-[40px] md:translate-y-0">
+        <!-- Personajes Odisea (Baja Izquierda - Interactivo / Draggable) -->
+        <div id="odisea-characters-container" class="absolute bottom-[18%] md:bottom-0 left-[-15px] sm:left-2 md:left-8 z-30 flex items-end pointer-events-auto cursor-grab active:cursor-grabbing select-none translate-y-[40px] md:translate-y-0 touch-none">
+            <!-- Pista/Hint flotante suave -->
+            <div id="odisea-drag-hint" class="absolute -top-7 left-4 bg-slate-900/90 border border-amber-400/40 text-amber-200 text-[10px] font-bold px-2.5 py-1 rounded-full shadow-lg opacity-90 animate-pulse pointer-events-none whitespace-nowrap">
+                👈 ¡Arrástrame para leer!
+            </div>
             <!-- Chica (Visible solo en pantallas medianas y grandes) -->
-            <img src="resources/chicaconlogofinal.webp" alt="Personaje Odisea Chica" class="hidden md:block h-44 lg:h-60 xl:h-72 object-contain drop-shadow-[0_10px_20px_rgba(0,0,0,0.6)] -mr-8 lg:-mr-12 relative z-10">
+            <img src="resources/chicaconlogofinal.webp" alt="Personaje Odisea Chica" class="hidden md:block h-44 lg:h-60 xl:h-72 object-contain drop-shadow-[0_10px_20px_rgba(0,0,0,0.6)] -mr-8 lg:-mr-12 relative z-10 pointer-events-none">
             <!-- Chico (Ajustado a 300px en móvil) -->
-            <img src="resources/chicoconlogofinal.webp" alt="Personaje Odisea Chico" class="h-[300px] sm:h-[360px] md:h-48 lg:h-64 xl:h-76 object-contain drop-shadow-[0_12px_24px_rgba(0,0,0,0.7)] relative z-20">
+            <img src="resources/chicoconlogofinal.webp" alt="Personaje Odisea Chico" class="h-[300px] sm:h-[360px] md:h-48 lg:h-64 xl:h-76 object-contain drop-shadow-[0_12px_24px_rgba(0,0,0,0.7)] relative z-20 pointer-events-none">
         </div>
     </section>
 
@@ -887,6 +891,68 @@
             alert("Acceso concedido al Agente Operativo.");
             window.location.href = 'salidas.html';
         };
+    </script>
+    <!-- Interactive Draggable Character Script -->
+    <script>
+        (function() {
+            document.addEventListener('DOMContentLoaded', function() {
+                const el = document.getElementById('odisea-characters-container');
+                const hint = document.getElementById('odisea-drag-hint');
+                if (!el) return;
+
+                let isDragging = false;
+                let startX = 0, startY = 0;
+                let currentX = 0, currentY = 0;
+
+                function getPoint(e) {
+                    return e.touches && e.touches.length > 0 ? e.touches[0] : e;
+                }
+
+                function onStart(e) {
+                    isDragging = true;
+                    const p = getPoint(e);
+                    startX = p.clientX - currentX;
+                    startY = p.clientY - currentY;
+                    el.style.transition = 'none';
+                    if (hint) hint.style.opacity = '0';
+                }
+
+                function onMove(e) {
+                    if (!isDragging) return;
+                    const p = getPoint(e);
+                    currentX = p.clientX - startX;
+                    currentY = p.clientY - startY;
+
+                    // Apply translation during drag
+                    el.style.transform = `translate3d(${currentX}px, ${currentY}px, 0)`;
+                }
+
+                function onEnd() {
+                    if (!isDragging) return;
+                    isDragging = false;
+                    currentX = 0;
+                    currentY = 0;
+
+                    // Spring back with elastic cubic-bezier animation
+                    el.style.transition = 'transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+                    el.style.transform = '';
+                    if (hint) {
+                        setTimeout(function() { hint.style.opacity = '0.9'; }, 600);
+                    }
+                }
+
+                // Mouse events
+                el.addEventListener('mousedown', onStart);
+                window.addEventListener('mousemove', onMove);
+                window.addEventListener('mouseup', onEnd);
+
+                // Touch events
+                el.addEventListener('touchstart', onStart, { passive: true });
+                window.addEventListener('touchmove', onMove, { passive: true });
+                window.addEventListener('touchend', onEnd);
+                window.addEventListener('touchcancel', onEnd);
+            });
+        })();
     </script>
     <script src="chatbot.js"></script>
 </body>
