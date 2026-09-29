@@ -666,20 +666,15 @@
                         </div>
                     </div>
 
-                    <!-- Columna Derecha: Imagen del Stand de Realidad Aumentada (Formato Vertical Nativo) -->
+                    <!-- Columna Derecha: Imagen del Stand de Realidad Aumentada (Formato Vertical Limpio) -->
                     <div class="lg:col-span-5 relative flex justify-center items-center">
                         <div class="relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl group w-full max-w-sm mx-auto">
                             <img src="resources/StandPlazas.webp" alt="Stand de Realidad Aumentada en Centros Comerciales Odisea Challenge" class="w-full h-auto object-contain group-hover:scale-105 transition-transform duration-500">
-                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent pointer-events-none"></div>
                             
-                            <!-- Badges flotantes en la imagen -->
-                            <div class="absolute top-4 left-4 bg-slate-950/80 backdrop-blur-md border border-amber-400/30 text-amber-200 text-[10px] font-bold px-3 py-1.5 rounded-full shadow-lg flex items-center gap-1.5">
-                                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span> Stands Interactivos 2025
-                            </div>
-                            
-                            <div class="absolute bottom-4 left-4 right-4 text-left">
-                                <div class="text-xs font-bold text-white mb-1">Stand de Realidad Aumentada</div>
-                                <div class="text-[10px] text-slate-300">Vive la experiencia inmersiva y conoce las próximas salidas.</div>
+                            <!-- Punto verde parpadeante 3x en esquina superior derecha (sin textos ni sombras) -->
+                            <div class="absolute top-4 right-4 flex items-center justify-center pointer-events-none z-20">
+                                <span class="absolute inline-flex h-6 w-6 rounded-full bg-emerald-400 opacity-75 animate-ping"></span>
+                                <span class="relative inline-flex rounded-full h-5 w-5 bg-emerald-500 shadow-[0_0_15px_rgba(16,185,129,0.9)]"></span>
                             </div>
                         </div>
                     </div>
