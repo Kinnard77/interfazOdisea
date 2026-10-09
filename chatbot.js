@@ -7,7 +7,7 @@
     const CONFIG = {
         botName: 'OdiseaBot 🤖',
         welcomeMessage: '¡Hola! Soy **OdiseaBot**, tu asistente oficial de **Odisea Challenge**. ¿En qué te puedo orientar hoy?',
-        whatsappUrl: 'https://wa.me/5214151234567?text=Hola,%20requiero%20atenci%C3%B3n%20personalizada%20para%20Odisea%20Challenge',
+        whatsappUrl: 'https://wa.me/525642411173?text=Hola,%20requiero%20atenci%C3%B3n%20personalizada%20para%20Odisea%20Challenge',
         telegramUrl: 'https://t.me/OdiseaChallengeBot',
         apiBase: 'https://api.odiseachallenge.com'
     };
