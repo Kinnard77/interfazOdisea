@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Términos del Servicio - Odisea Challenge</title>
+    <link rel="icon" type="image/png" href="resources/favicon.png">
+    <link rel="shortcut icon" type="image/png" href="resources/favicon.png">
+    <link rel="apple-touch-icon" href="resources/favicon.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="enhanced-styles.css" rel="stylesheet">
+    <link href="odisea-styles.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --primary: #fac657;
+            --secondary: #e06919;
+            --accent: #F2CC8F;
+            --neutral: #F7F3E9;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #020617;
+            color: #f8fafc;
+            overflow-x: hidden;
+        }
+
+        .font-display {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .glass-nav {
+            backdrop-filter: blur(20px);
+            background: rgba(15, 23, 42, 0.9);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #ffffff;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(224, 105, 25, 0.4);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="glass-nav fixed top-0 left-0 right-0 z-50 py-3">
+        <div class="container mx-auto px-4 md:px-6 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <button id="mobile-menu-btn" onclick="toggleMobileMenu()" class="md:hidden text-white p-1.5 rounded-lg bg-white/10 hover:bg-white/20 focus:outline-none flex items-center justify-center">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                </button>
+                <a href="index.html" class="flex flex-col">
+                    <div class="font-display text-xl font-bold gradient-text leading-none">Odisea Challenge</div>
+                    <span class="text-[9px] text-slate-400 font-medium uppercase tracking-wider hidden sm:inline">Una Odisea por México</span>
+                </a>
+            </div>
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="index.html" class="text-gray-400 hover:text-white transition-colors">Inicio</a>
+                <a href="destinations.html" class="text-gray-400 hover:text-white transition-colors">Destinos</a>
+                <a href="salidas.html" class="text-gray-400 hover:text-white transition-colors">Salidas</a>
+                <a href="escuelas.html" class="text-amber-400 hover:text-amber-300 font-semibold transition-colors flex items-center gap-1.5">
+                    <span>🎓</span> Viajes Escolares
+                </a>
+            </div>
+            <div class="flex items-center">
+                <a href="salidas.html" class="btn-primary px-4 py-1.5 rounded-full text-xs font-semibold tracking-wide shadow-sm">Reservar</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Left Drawer Overlay -->
+    <div id="mobile-menu-overlay" onclick="toggleMobileMenu()" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden transition-opacity duration-300"></div>
+
+    <!-- Mobile Slide-out Left Drawer -->
+    <div id="mobile-menu-drawer" class="fixed inset-y-0 left-0 w-72 bg-slate-900/95 backdrop-blur-2xl border-r border-slate-800 text-white z-50 transform -translate-x-full transition-transform duration-300 ease-in-out p-6 shadow-2xl flex flex-col justify-between">
+        <div class="space-y-6">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+                <div class="flex flex-col">
+                    <span class="font-display text-xl font-bold gradient-text">Odisea Challenge</span>
+                    <span class="text-[9px] text-slate-400 font-medium uppercase tracking-wider">Menú Principal</span>
+                </div>
+                <button onclick="toggleMobileMenu()" class="text-slate-400 hover:text-white p-1 rounded-lg bg-slate-800/80">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+
+            <nav class="space-y-3 pt-2">
+                <a href="index.html" class="flex items-center gap-3 text-slate-200 hover:text-orange-400 font-semibold text-sm px-3 py-2.5 rounded-xl hover:bg-white/5 transition-all">
+                    <span>🏠</span> Inicio
+                </a>
+                <a href="destinations.html" class="flex items-center gap-3 text-slate-200 hover:text-orange-400 font-semibold text-sm px-3 py-2.5 rounded-xl hover:bg-white/5 transition-all">
+                    <span>🗺️</span> Destinos
+                </a>
+                <a href="salidas.html" class="flex items-center gap-3 text-slate-200 hover:text-orange-400 font-semibold text-sm px-3 py-2.5 rounded-xl hover:bg-white/5 transition-all">
+                    <span>🚌</span> Salidas
+                </a>
+                <a href="escuelas.html" class="flex items-center gap-3 text-amber-400 hover:text-orange-400 font-semibold text-sm px-3 py-2.5 rounded-xl hover:bg-white/5 transition-all">
+                    <span>🎓</span> Viajes Escolares
+                </a>
+            </nav>
+        </div>
+        <div class="border-t border-slate-800 pt-4">
+            <div class="text-[10px] text-slate-500 text-center">www.odiseachallenge.com</div>
+        </div>
+    </div>
+
+    <!-- Main Content: Términos del Servicio -->
+    <main class="pt-28 pb-20 px-4 md:px-6">
+        <div class="container mx-auto max-w-4xl">
+            <div class="text-center mb-12">
+                <span class="bg-amber-500/15 text-amber-400 border border-amber-500/30 text-xs font-bold px-3.5 py-1 rounded-full uppercase tracking-wider">
+                    Marco Legal y Condiciones Operativas
+                </span>
+                <h1 class="font-display text-4xl md:text-5xl font-bold mt-4 gradient-text">Términos del Servicio</h1>
+                <p class="text-sm text-slate-400 mt-2">Última actualización: 2026 · Odisea Challenge (IF&IF Studio)</p>
+            </div>
+
+            <div class="bg-slate-900/90 border border-slate-800 rounded-3xl p-6 md:p-10 shadow-2xl space-y-8 text-sm text-slate-300 leading-relaxed">
+                
+                <section class="space-y-2">
+                    <h2 class="font-display text-xl font-bold text-white flex items-center gap-2">
+                        <span class="text-amber-400">1.</span> Objeto del Servicio
+                    </h2>
+                    <p>
+                        <strong>Odisea Challenge</strong> organiza y opera excursiones turísticas, culturales y educativas de un solo día hacia la zona de Polanco en la Ciudad de México (incluyendo el circuito de Acuario Inbursa, Acuario Interactivo, Museo Soumaya y FlyOver México), así como viajes escolares especializados en alianza con FlyOver México.
+                    </p>
+                </section>
+
+                <section class="space-y-2">
+                    <h2 class="font-display text-xl font-bold text-white flex items-center gap-2">
+                        <span class="text-amber-400">2.</span> Qué Incluye Tu Boleto
+                    </h2>
+                    <ul class="list-disc list-inside space-y-1.5 text-slate-300 pl-2">
+                        <li>Transporte redondo en unidad turística ejecutiva desde la ciudad de origen seleccionada.</li>
+                        <li>Accesos y entradas a los recintos especificados en el paquete contratado.</li>
+                        <li>Comida incluida de acuerdo con el itinerario del viaje.</li>
+                        <li>Participación en el juego interactivo durante el trayecto con oportunidad de ganar premios.</li>
+                        <li>Coordinador de grupo durante el recorrido.</li>
+                    </ul>
+                </section>
+
+                <section class="space-y-2">
+                    <h2 class="font-display text-xl font-bold text-white flex items-center gap-2">
+                        <span class="text-amber-400">3.</span> Reservaciones, Pagos y Boletos QR
+                    </h2>
+                    <p>
+                        Toda reservación se considera confirmada una vez acreditado el pago correspondiente a través de nuestra plataforma oficial o canales autorizados. Al confirmarse, el pasajero recibe su Pase de Abordaje Móvil con código QR único, el cual deberá presentar al abordar la unidad.
+                    </p>
+                </section>
+
+                <section class="space-y-2">
+                    <h2 class="font-display text-xl font-bold text-white flex items-center gap-2">
+                        <span class="text-amber-400">4.</span> Puntualidad e Itinerario
+                    </h2>
+                    <p>
+                        Por respeto a todos los viajeros y a los horarios reservados en los recintos de Polanco CDMX, es indispensable presentarse en el punto de encuentro al menos <strong>15 minutos antes</strong> de la hora de salida. Las unidades parten puntualmente conforme al itinerario establecido.
+                    </p>
+                </section>
+
+                <section class="space-y-2">
+                    <h2 class="font-display text-xl font-bold text-white flex items-center gap-2">
+                        <span class="text-amber-400">5.</span> Cambios, Cancelaciones y Reprogramaciones
+                    </h2>
+                    <p>
+                        Los boletos adquiridos para una fecha confirmada son transferibles a otra persona notificándolo con al menos 48 horas de anticipación. En caso de causas de fuerza mayor o ajustes operativos de los recintos, Odisea Challenge notificará oportunamente a los pasajeros registrados para brindarles la reprogramación o solución correspondiente.
+                    </p>
+                </section>
+
+                <section class="space-y-2">
+                    <h2 class="font-display text-xl font-bold text-white flex items-center gap-2">
+                        <span class="text-amber-400">6.</span> Conducta y Seguridad durante el Viaje
+                    </h2>
+                    <p>
+                        Los participantes se comprometen a mantener una convivencia respetuosa, atender las indicaciones de los coordinadores de grupo y respetar los reglamentos internos de cada museo, acuario y simulador visitado.
+                    </p>
+                </section>
+
+                <section class="space-y-2 border-t border-slate-800 pt-6">
+                    <h2 class="font-display text-xl font-bold text-white flex items-center gap-2">
+                        <span class="text-amber-400">7.</span> Contacto Oficial y Atención al Viajero
+                    </h2>
+                    <p>
+                        Para cualquier duda, aclaración o atención a grupos y escuelas, estamos a tu disposición en nuestros canales oficiales:
+                    </p>
+                    <div class="flex flex-wrap gap-6 pt-2 text-xs font-semibold">
+                        <a href="mailto:odiseachallenge@gmail.com" class="text-amber-400 hover:underline flex items-center gap-1.5">
+                            <span>✉️</span> odiseachallenge@gmail.com
+                        </a>
+                        <a href="https://wa.me/525642411173" target="_blank" class="text-emerald-400 hover:underline flex items-center gap-1.5">
+                            <span>📲</span> WhatsApp: 56 4241 1173
+                        </a>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer (Pie de Página) -->
+    <footer class="bg-gray-900 text-white py-12 border-t border-gray-800">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <div class="font-display text-2xl font-bold mb-4 gradient-text">Odisea Challenge</div>
+                    <p class="text-gray-400 leading-relaxed text-sm">
+                        Vive una aventura épica de un solo día en la CDMX con destinos increíbles, transporte ejecutivo y nuestro juego interactivo donde puedes ganar premios.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Destinos en Polanco CDMX</h4>
+                    <ul class="space-y-2 text-gray-400 text-sm">
+                        <li><a href="destinations.html" class="hover:text-white transition-colors">Acuario Inbursa</a></li>
+                        <li><a href="destinations.html" class="hover:text-white transition-colors">Acuario Interactivo</a></li>
+                        <li><a href="destinations.html" class="hover:text-white transition-colors">Museo Soumaya</a></li>
+                        <li><a href="destinations.html" class="hover:text-white transition-colors">FlyOver México</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Tipos de Viaje</h4>
+                    <ul class="space-y-2 text-gray-400 text-sm">
+                        <li><a href="destinations.html" class="hover:text-white transition-colors">Acuarios</a></li>
+                        <li><a href="destinations.html" class="hover:text-white transition-colors">Interactivos</a></li>
+                        <li><a href="destinations.html" class="hover:text-white transition-colors">Museos</a></li>
+                        <li><a href="destinations.html" class="hover:text-white transition-colors">Parques Temáticos</a></li>
+                        <li><a href="escuelas.html" class="text-amber-400 hover:text-amber-300 transition-colors">Viajes Escolares</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Soporte</h4>
+                    <ul class="space-y-2 text-gray-400 text-sm">
+                        <li><a href="javascript:void(0)" onclick="if(window.toggleChat) toggleChat();" class="hover:text-white transition-colors">Chat en Vivo</a></li>
+                        <li><a href="terminos.html" class="text-amber-400 hover:text-white transition-colors">Términos del Servicio</a></li>
+                        <li class="pt-2">
+                            <span class="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-2">Redes Sociales</span>
+                            <div class="flex items-center gap-3">
+                                <a href="https://wa.me/525642411173" target="_blank" aria-label="WhatsApp" class="text-gray-400 hover:text-white transition-colors">WhatsApp</a>
+                                <span>·</span>
+                                <a href="https://instagram.com/odiseachallenge" target="_blank" aria-label="Instagram" class="text-gray-400 hover:text-white transition-colors">Instagram</a>
+                                <span>·</span>
+                                <a href="https://facebook.com/odiseachallenge" target="_blank" aria-label="Facebook" class="text-gray-400 hover:text-white transition-colors">Facebook</a>
+                                <span>·</span>
+                                <a href="https://tiktok.com/@odiseachallenge" target="_blank" aria-label="TikTok" class="text-gray-400 hover:text-white transition-colors">TikTok</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400 text-sm">
+                <p>&copy; 2025 Odisea Challenge. Todos los derechos reservados. Creado con pasión para Odiseas Extraordinarias de IF&amp;IF Studio.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating Vertical Social Media Bar -->
+    <div id="odisea-floating-socials" class="fixed bottom-[152px] right-[32px] sm:bottom-[160px] sm:right-[30px] z-40 flex flex-col gap-[18px] sm:gap-[22px] items-center pointer-events-auto">
+        <!-- WhatsApp -->
+        <a href="https://wa.me/525642411173?text=Hola,%20requiero%20atenci%C3%B3n%20personalizada%20para%20Odisea%20Challenge" target="_blank" aria-label="WhatsApp" class="w-6 h-6 sm:w-12 sm:h-12 rounded-full bg-slate-900/60 backdrop-blur-md hover:bg-slate-800/80 border border-white/30 text-white flex items-center justify-center transition-all duration-200 hover:scale-110 shadow-md">
+            <svg class="w-3.5 h-3.5 sm:w-7 sm:h-7 fill-white" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+        </a>
+        <!-- Instagram -->
+        <a href="https://instagram.com/odiseachallenge" target="_blank" aria-label="Instagram" class="w-6 h-6 sm:w-12 sm:h-12 rounded-full bg-slate-900/60 backdrop-blur-md hover:bg-slate-800/80 border border-white/30 text-white flex items-center justify-center transition-all duration-200 hover:scale-110 shadow-md">
+            <svg class="w-3.5 h-3.5 sm:w-7 sm:h-7 fill-white" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        </a>
+        <!-- Facebook -->
+        <a href="https://facebook.com/odiseachallenge" target="_blank" aria-label="Facebook" class="w-6 h-6 sm:w-12 sm:h-12 rounded-full bg-slate-900/60 backdrop-blur-md hover:bg-slate-800/80 border border-white/30 text-white flex items-center justify-center transition-all duration-200 hover:scale-110 shadow-md">
+            <svg class="w-3.5 h-3.5 sm:w-7 sm:h-7 fill-white" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        </a>
+        <!-- TikTok -->
+        <a href="https://tiktok.com/@odiseachallenge" target="_blank" aria-label="TikTok" class="w-6 h-6 sm:w-12 sm:h-12 rounded-full bg-slate-900/60 backdrop-blur-md hover:bg-slate-800/80 border border-white/30 text-white flex items-center justify-center transition-all duration-200 hover:scale-110 shadow-md">
+            <svg class="w-3.5 h-3.5 sm:w-7 sm:h-7 fill-white" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>
+        </a>
+    </div>
+
+    <script>
+        window.toggleMobileMenu = function() {
+            const drawer = document.getElementById('mobile-menu-drawer');
+            const overlay = document.getElementById('mobile-menu-overlay');
+            if (!drawer || !overlay) return;
+            const isHidden = drawer.classList.contains('-translate-x-full');
+            if (isHidden) {
+                drawer.classList.remove('-translate-x-full');
+                overlay.classList.remove('hidden');
+            } else {
+                drawer.classList.add('-translate-x-full');
+                overlay.classList.add('hidden');
+            }
+        };
+    </script>
+    <script src="chatbot.js"></script>
+</body>
+
+</html>
