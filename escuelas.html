@@ -191,24 +191,103 @@
     <section class="py-14 bg-slate-950 border-t border-slate-900 relative">
         <div class="container mx-auto max-w-6xl px-4 md:px-6">
             
-            <!-- Banner AEF México -->
-            <div class="bg-gradient-to-r from-emerald-950/60 via-slate-900 to-teal-950/60 border border-emerald-500/30 rounded-3xl p-6 md:p-8 mb-14 shadow-2xl flex flex-col md:flex-row items-center justify-between gap-6">
-                <div class="flex items-start gap-4">
-                    <div class="w-14 h-14 rounded-2xl bg-emerald-500/20 border border-emerald-400/40 flex items-center justify-center text-3xl shrink-0">
-                        📜
+            <!-- Banner AEF México + Documentos Oficiales + Video -->
+            <div class="bg-gradient-to-br from-emerald-950/60 via-slate-900 to-teal-950/60 border border-emerald-500/30 rounded-3xl p-6 md:p-10 mb-14 shadow-2xl space-y-8">
+                
+                <!-- Encabezado AEF -->
+                <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 border-b border-slate-800/80 pb-6">
+                    <div class="flex items-start gap-4">
+                        <div class="w-14 h-14 rounded-2xl bg-emerald-500/20 border border-emerald-400/40 flex items-center justify-center text-3xl shrink-0">
+                            📜
+                        </div>
+                        <div>
+                            <span class="text-[11px] font-extrabold uppercase tracking-widest text-emerald-400 block mb-1">Respaldo Pedagógico Oficial · Nueva Escuela Mexicana</span>
+                            <h2 class="font-display text-2xl md:text-3xl font-bold text-white">Avalado por la AEF Ciudad de México (AEFCM 2026)</h2>
+                            <p class="text-sm text-slate-300 mt-1 max-w-3xl leading-relaxed">
+                                El programa educativo de <strong>Fly Over México</strong> cuenta con la vinculación curricular y respaldo de la <strong>Autoridad Educativa Federal en la Ciudad de México (AEFCM)</strong>, integrando los ejes articuladores de la Nueva Escuela Mexicana para Preescolar, Primaria, Secundaria, Educación Media/Superior y Educación Especial.
+                            </p>
+                        </div>
                     </div>
-                    <div>
-                        <span class="text-[11px] font-extrabold uppercase tracking-widest text-emerald-400 block mb-1">Respaldo Pedagógico Oficial</span>
-                        <h2 class="font-display text-2xl md:text-3xl font-bold text-white">Avalado por la AEF Ciudad de México</h2>
-                        <p class="text-sm text-slate-300 mt-1 max-w-2xl leading-relaxed">
-                            El programa educativo de <strong>Fly Over México</strong> cuenta con la documentación y respaldo de la <strong>Autoridad Educativa Federal en la Ciudad de México (AEF México)</strong> como una actividad pedagógica complementaria para instituciones educativas.
-                        </p>
+                    <div class="shrink-0">
+                        <a href="#cotizador-escolar" class="inline-flex items-center gap-2 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-xs uppercase tracking-wider px-5 py-3 rounded-xl transition-all shadow-lg">
+                            Cotizar Grupo Escolar ➔
+                        </a>
                     </div>
                 </div>
-                <div class="shrink-0">
-                    <a href="#cotizador-escolar" class="inline-flex items-center gap-2 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-xs uppercase tracking-wider px-5 py-3 rounded-xl transition-all shadow-lg">
-                        Solicitar Información Escolar ➔
-                    </a>
+
+                <!-- Grid: Video Oficial + 2 Documentos PDF Descargables -->
+                <div class="grid lg:grid-cols-12 gap-8 items-center">
+                    
+                    <!-- Columna Izquierda: Video Oficial Fly Over Escuelas -->
+                    <div class="lg:col-span-7">
+                        <div class="bg-slate-950 border border-slate-800 rounded-2xl overflow-hidden shadow-2xl relative group">
+                            <div class="px-4 py-2.5 bg-slate-900/90 border-b border-slate-800 flex items-center justify-between">
+                                <span class="text-xs font-bold text-amber-400 flex items-center gap-2">
+                                    <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+                                    🎬 Video Oficial: Experiencia Educativa Fly Over México
+                                </span>
+                                <span class="text-[10px] text-slate-400 uppercase tracking-wider">Audio disponible</span>
+                            </div>
+                            <video controls preload="metadata" playsinline class="w-full h-auto max-h-[420px] object-contain bg-black">
+                                <source src="resources/flyover_escuelas.mp4" type="video/mp4">
+                                Tu navegador no soporta la reproducción de video.
+                            </video>
+                        </div>
+                    </div>
+
+                    <!-- Columna Derecha: Descarga de Documentos Oficiales PDF -->
+                    <div class="lg:col-span-5 space-y-4">
+                        <div class="mb-2">
+                            <span class="text-[11px] font-extrabold uppercase tracking-widest text-amber-400">Material para Directivos y Docentes</span>
+                            <h3 class="font-display text-xl md:text-2xl font-bold text-white mt-0.5">Documentación Oficial Descargable</h3>
+                            <p class="text-xs text-slate-400 mt-1">Consulta o descarga los documentos pedagógicos oficiales para presentar en tu institución o consejo técnico escolar:</p>
+                        </div>
+
+                        <!-- Documento 1: Proyecto Educativo AEFCM 2026 -->
+                        <div class="bg-slate-950/90 border border-emerald-500/30 hover:border-emerald-400/60 rounded-2xl p-4 transition-all shadow-lg flex flex-col justify-between gap-3">
+                            <div class="flex items-start gap-3.5">
+                                <div class="w-11 h-11 rounded-xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-2xl shrink-0">
+                                    🏛️
+                                </div>
+                                <div>
+                                    <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-400">Presentación Oficial AEFCM 2026</span>
+                                    <h4 class="font-bold text-white text-sm leading-snug">Proyecto Educativo Fly Over México</h4>
+                                    <p class="text-xs text-slate-400 mt-1">Propuesta pedagógica, alineación con la Nueva Escuela Mexicana y aprendizajes esperados por grado y asignatura.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2 pt-1">
+                                <a href="resources/docs/Proyecto_Educativo_FlyOver_Mexico_AEFCM_2026.pdf" target="_blank" class="flex-1 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 text-xs font-bold py-2.5 px-3 rounded-xl text-center transition-all flex items-center justify-center gap-1.5">
+                                    <span>👁️</span> Ver Documento PDF
+                                </a>
+                                <a href="resources/docs/Proyecto_Educativo_FlyOver_Mexico_AEFCM_2026.pdf" download="Proyecto Educativo Fly Over México - Presentación AEFCM 2026.pdf" class="bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 text-xs font-bold py-2.5 px-3.5 rounded-xl transition-all flex items-center justify-center gap-1" title="Descargar PDF">
+                                    <span>📥</span> Descargar
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Documento 2: Guía de Apoyo para el Maestro -->
+                        <div class="bg-slate-950/90 border border-amber-500/30 hover:border-amber-400/60 rounded-2xl p-4 transition-all shadow-lg flex flex-col justify-between gap-3">
+                            <div class="flex items-start gap-3.5">
+                                <div class="w-11 h-11 rounded-xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-2xl shrink-0">
+                                    📘
+                                </div>
+                                <div>
+                                    <span class="text-[10px] font-bold uppercase tracking-wider text-amber-400">Recurso Didáctico Docente</span>
+                                    <h4 class="font-bold text-white text-sm leading-snug">Guía de Apoyo para el Maestro</h4>
+                                    <p class="text-xs text-slate-400 mt-1">Guía educativa completa con actividades y material de apoyo para antes, durante y después de la visita escolar.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2 pt-1">
+                                <a href="resources/docs/Guia_de_Apoyo_para_el_Maestro_FlyOver_Mexico.pdf" target="_blank" class="flex-1 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 text-xs font-bold py-2.5 px-3 rounded-xl text-center transition-all flex items-center justify-center gap-1.5">
+                                    <span>👁️</span> Ver Guía PDF
+                                </a>
+                                <a href="resources/docs/Guia_de_Apoyo_para_el_Maestro_FlyOver_Mexico.pdf" download="Guía de apoyo para el maestro - Fly Over México.pdf" class="bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 text-xs font-bold py-2.5 px-3.5 rounded-xl transition-all flex items-center justify-center gap-1" title="Descargar PDF">
+                                    <span>📥</span> Descargar
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
             </div>
 
